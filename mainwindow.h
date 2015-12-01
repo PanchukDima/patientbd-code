@@ -10,6 +10,7 @@
 #include <QSettings>
 #include <QMessageBox>
 #include <QContextMenuEvent>
+#include <QThread>
 //
 #include "dialog_patient.h"
 #include "dialog_settings_user.h"
@@ -19,7 +20,9 @@
 #include "dialog_add_dynamic_view.h"
 #include "dialog_add_visits.h"
 #include "dialog_preview_print.h"
-//
+//threads
+#include "new_changes_thread.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -70,6 +73,11 @@ public slots:
     void gen_report_1();
     void print_medcard();
     void set_status_arhive();
+    void changes_new(int status);
+
+    //threads
+    void thread_new_changes();
+
 
 };
 

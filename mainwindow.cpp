@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
     timer=new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(find_patients()));
     timer->start(500);
+    thread_new_changes();
     }
     connect(ui->action_report_1,SIGNAL(triggered()),SLOT(gen_report_1()));
     connect(ui->tableWidget,SIGNAL(cellClicked(int,int)),SLOT(load_all_info()));
@@ -79,6 +80,30 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+void MainWindow::thread_new_changes()
+{
+    qDebug()<<"thread start";
+        QThread* thread = new QThread;
+        new_changes_thread * changes_new = new new_changes_thread;
+        changes_new->moveToThread(thread);
+        connect(thread,SIGNAL(started()),changes_new,SLOT(check_new_changes_blanks()));
+
+        connect(changes_new, SIGNAL(finished()), thread, SLOT(quit()));
+        connect(changes_new, SIGNAL(finished()), changes_new, SLOT(deleteLater()));
+        connect(changes_new,SIGNAL(status(int)),SLOT(changes_new(int)));
+
+        connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+
+        thread->start();
+}
+
+void MainWindow::changes_new(int status)
+{
+    qDebug()<<status;
+}
+
 void MainWindow::load_main_table()
 {
     clear_main_table();

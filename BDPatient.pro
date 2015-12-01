@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = base
 TEMPLATE = app
-#CONFIG += CONSOLE
+CONFIG += CONSOLE
 
 
 SOURCES += main.cpp\
@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     dialog_reports.cpp \
     dialog_add_dynamic_view.cpp \
     dialog_add_visits.cpp \
-    dialog_preview_print.cpp
+    dialog_preview_print.cpp \
+    new_changes_thread.cpp
 
 HEADERS  += mainwindow.h \
     dialog_patient.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
     dialog_reports.h \
     dialog_add_dynamic_view.h \
     dialog_add_visits.h \
-    dialog_preview_print.h
+    dialog_preview_print.h \
+    new_changes_thread.h
 
 FORMS    += mainwindow.ui \
     dialog_patient.ui \
