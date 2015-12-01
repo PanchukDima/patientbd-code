@@ -73,7 +73,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tableWidget_control_pos,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_visits_control(QPoint)));
     connect(ui->tableWidget,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_main_table(QPoint)));
 
-
 }
 
 MainWindow::~MainWindow()
