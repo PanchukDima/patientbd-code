@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = base
 TEMPLATE = app
-
+#CONFIG += CONSOLE
 
 
 SOURCES += main.cpp\
