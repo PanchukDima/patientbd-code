@@ -29,7 +29,7 @@ void Dialog_preview_print::setParam(int param, QString id, QString staff_id)
         break;
     }
 
-    ui->webView->setHtml("hello, Medcard!");
+    ui->webView->setHtml("hello, Medcard! html");
 }
 void Dialog_preview_print::print()
 {
