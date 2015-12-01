@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/icon/png">
+        <file>images/add_icon.png</file>
+        <file>images/edit_icon.png</file>
+        <file>images/NZT.png</file>
+        <file>images/ok.png</file>
+        <file>images/error.png</file>
+        <file>images/Warning.png</file>
+        <file>images/sortIndicatorDown.png</file>
+        <file>images/sortIndicatorUp.png</file>
+    </qresource>
+</RCC>

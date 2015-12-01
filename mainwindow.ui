@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1019</width>
+    <height>746</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
+  <property name="windowTitle">
+   <string>Главное окно</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/icon/png/images/NZT.png</normaloff>:/icon/png/images/NZT.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+        <kerning>true</kerning>
+       </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::CustomContextMenu</enum>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Это главная таблица, здесь выводяться результаты поиска&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QHeaderView::down-arrow {
+image: url(:/icon/png/images/sortIndicatorDown.png); 
+}
+QHeaderView::up-arrow {
+image: url(:/icon/png/images/sortIndicatorUp.png); 
+}</string>
+      </property>
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+      <property name="tabKeyNavigation">
+       <bool>true</bool>
+      </property>
+      <property name="showDropIndicator" stdset="0">
+       <bool>false</bool>
+      </property>
+      <property name="dragDropOverwriteMode">
+       <bool>false</bool>
+      </property>
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="gridStyle">
+       <enum>Qt::SolidLine</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget_invalid_psi">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="documentMode">
+       <bool>false</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="tab_view">
+       <attribute name="title">
+        <string>Наблюдения</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="title">
+           <string>Динамика наблюдения</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QTableWidget" name="tableWidget_dynamic_view">
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="alternatingRowColors">
+              <bool>false</bool>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_2">
+          <property name="title">
+           <string>Контроль посещений</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QTableWidget" name="tableWidget_control_pos">
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_hospitalization">
+       <attribute name="title">
+        <string>Госпитализация</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QGroupBox" name="groupBox_5">
+          <property name="title">
+           <string>Сведения о госпитализации</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QTableWidget" name="tableWidget_sved_gospital">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_6">
+          <property name="title">
+           <string>Отметки о случаях временной нетрудоспособности</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_7">
+           <item>
+            <widget class="QTableWidget" name="tableWidget_point_time_notwork">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_invalid">
+       <attribute name="title">
+        <string>Инвалидность</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QGroupBox" name="groupBox_7">
+          <property name="title">
+           <string>Инвалидность по психическому заболеванию</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QTableWidget" name="tableWidget_8">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_medicaments">
+       <attribute name="title">
+        <string>Препараты</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QGroupBox" name="groupBox_8">
+          <property name="title">
+           <string>Получаемые пациентом препараты</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QTableWidget" name="tableWidget_preparat_patient">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_additional">
+       <attribute name="title">
+        <string>Дополнительно</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QGroupBox" name="groupBox_3">
+          <property name="title">
+           <string>Суицидальные попытки</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QTableWidget" name="tableWidget_suicid">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox_4">
+          <property name="title">
+           <string>Принудительное лечение</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QTableWidget" name="tableWidget_fuke">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="sortingEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QProgressBar" name="progressBar">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QProgressBar::chunk {
+background-color:cyan;
+border: 2px solid black;
+border-radius: 5px;
+}
+QProgressBar{
+text-align: center;
+border-radius: 5px;
+}</string>
+      </property>
+      <property name="value">
+       <number>0</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="invertedAppearance">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1019</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>false</bool>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="tearOffEnabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Меню</string>
+    </property>
+    <property name="separatorsCollapsible">
+     <bool>false</bool>
+    </property>
+    <addaction name="action_settings_program"/>
+    <addaction name="action"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>Картотека</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>Справочники</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="title">
+     <string>Отчеты</string>
+    </property>
+    <addaction name="action_report_1"/>
+    <addaction name="action_report_2"/>
+    <addaction name="separator"/>
+    <addaction name="action_report_3"/>
+    <addaction name="action_report_4"/>
+    <addaction name="action_report_5"/>
+    <addaction name="action_report_6"/>
+    <addaction name="separator"/>
+    <addaction name="action_report_7"/>
+    <addaction name="action_report_8"/>
+    <addaction name="action_report_9"/>
+    <addaction name="action_report_10"/>
+    <addaction name="separator"/>
+    <addaction name="action_report_11"/>
+    <addaction name="action_report_12"/>
+    <addaction name="separator"/>
+    <addaction name="action_report_13"/>
+    <addaction name="action_report_14"/>
+    <addaction name="action_report_15"/>
+    <addaction name="separator"/>
+    <addaction name="action_report_16"/>
+    <addaction name="action_report_17"/>
+    <addaction name="separator"/>
+    <addaction name="action_report_18"/>
+    <addaction name="action_report_19"/>
+    <addaction name="action_report_20"/>
+    <addaction name="action_report_21"/>
+    <addaction name="action_report_22"/>
+    <addaction name="action_report_23"/>
+    <addaction name="action_report_24"/>
+   </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="title">
+     <string>Фильтр</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_6">
+    <property name="title">
+     <string>Льготный список</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_7">
+    <property name="title">
+     <string>Перс. учет</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_9">
+    <property name="title">
+     <string>О программе</string>
+    </property>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
+   <addaction name="menu_4"/>
+   <addaction name="menu_5"/>
+   <addaction name="menu_6"/>
+   <addaction name="menu_7"/>
+   <addaction name="menu_9"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="action">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
+  <action name="action_report_1">
+   <property name="text">
+    <string>Госпитализация по нозологии</string>
+   </property>
+  </action>
+  <action name="action_report_2">
+   <property name="text">
+    <string>Госпитализация по нозологии и направлениям</string>
+   </property>
+  </action>
+  <action name="action_report_3">
+   <property name="text">
+    <string>Взятые на учет за период</string>
+   </property>
+  </action>
+  <action name="action_report_4">
+   <property name="text">
+    <string>Взятые на учет по участкам и причинам постановки</string>
+   </property>
+  </action>
+  <action name="action_report_5">
+   <property name="text">
+    <string>Снятые с учета за период</string>
+   </property>
+  </action>
+  <action name="action_report_6">
+   <property name="text">
+    <string>Снятые с учета по причинам снятия</string>
+   </property>
+  </action>
+  <action name="action_report_7">
+   <property name="text">
+    <string>Госпитализация по участкам</string>
+   </property>
+  </action>
+  <action name="action_report_8">
+   <property name="text">
+    <string>Инвалидность по нозологии</string>
+   </property>
+  </action>
+  <action name="action_report_9">
+   <property name="text">
+    <string>Динамика инвалидности</string>
+   </property>
+  </action>
+  <action name="action_report_10">
+   <property name="text">
+    <string>Инвалидность по участкам за год</string>
+   </property>
+  </action>
+  <action name="action_report_11">
+   <property name="text">
+    <string>Состав пациентов по нозологии и ДК учету</string>
+   </property>
+  </action>
+  <action name="action_report_12">
+   <property name="text">
+    <string>Состав пациентов по нозологии</string>
+   </property>
+  </action>
+  <action name="action_report_13">
+   <property name="text">
+    <string>Пациенты на АДН</string>
+   </property>
+  </action>
+  <action name="action_report_14">
+   <property name="text">
+    <string>Пациенты на принудительном лечении</string>
+   </property>
+  </action>
+  <action name="action_report_15">
+   <property name="text">
+    <string>Суицидальные попытки</string>
+   </property>
+  </action>
+  <action name="action_report_16">
+   <property name="text">
+    <string>Больничные листы</string>
+   </property>
+  </action>
+  <action name="action_report_17">
+   <property name="text">
+    <string>Больничные листы по возрастам</string>
+   </property>
+  </action>
+  <action name="action_report_18">
+   <property name="text">
+    <string>Призывной возраст</string>
+   </property>
+  </action>
+  <action name="action_report_19">
+   <property name="text">
+    <string>Форма №10 (годовая)</string>
+   </property>
+  </action>
+  <action name="action_report_20">
+   <property name="text">
+    <string>Форма №36 (годовая)</string>
+   </property>
+  </action>
+  <action name="action_report_21">
+   <property name="text">
+    <string>Форма №36 (годовая) II часть</string>
+   </property>
+  </action>
+  <action name="action_report_22">
+   <property name="text">
+    <string>Состав пациентов для ОргМедОтдела</string>
+   </property>
+  </action>
+  <action name="action_report_23">
+   <property name="text">
+    <string>Диагнозы в ф10</string>
+   </property>
+  </action>
+  <action name="action_report_24">
+   <property name="text">
+    <string>Ф10 по диагнозам</string>
+   </property>
+  </action>
+  <action name="action_settings_program">
+   <property name="text">
+    <string>Настройка программы</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>
