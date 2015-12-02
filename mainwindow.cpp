@@ -849,6 +849,7 @@ void MainWindow::edit_dynamic_view()
     else
     {
         QMessageBox::warning(this,"Ошибка","Нельзя изменить того чего нет)");
+
     }
 
 }
