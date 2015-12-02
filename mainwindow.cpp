@@ -691,7 +691,7 @@ void MainWindow::context_menu_visits_control(QPoint pos) //Контекстно�
     menu->addAction("Удалить", this, SLOT(del_visit()))->setEnabled(set4);
     menu->exec(ui->tableWidget_control_pos->mapToGlobal(pos));
 }
-void MainWindow::context_menu_main_table(QPoint pos)
+void MainWindow::context_menu_main_table(QPoint pos) //Контекстное меню главной таблицы
 {
     int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
     if (selected_tables == 1)
