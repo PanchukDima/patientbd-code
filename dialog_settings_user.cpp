@@ -11,6 +11,7 @@ Dialog_settings_user::Dialog_settings_user(QWidget *parent) :
     connect(ui->pushButton_default_settings_font,SIGNAL(clicked()),SLOT(default_settings()));
     connect(ui->pushButton_cancel,SIGNAL(clicked()),SLOT(close()));
     connect(ui->pushButton_ok,SIGNAL(clicked()),SLOT(push_ok()));
+    connect(ui->pushButton_set_path_blanks,SIGNAL(clicked(bool)),SLOT(set_path_blanks_func()));
 }
 
 Dialog_settings_user::~Dialog_settings_user()
@@ -24,10 +25,12 @@ void Dialog_settings_user::load_settings()
     QString port = settings->value("portdatabase").toString();
     QString sizefonttable = settings->value("sizefonttexttable").toString();
     QString version = settings->value("CurrentVersion").toString();
+    QString path_blanks = settings->value("path_blanks").toString();
     ui->lineEdit_ip_addr->setText(ip_addr);
     ui->lineEdit_port->setText(port);
     ui->lineEdit_size_font_text_setting->setText(sizefonttable);
     ui->label_CurrentVersion->setText(version);
+    ui->lineEdit_path_blanks->setText(path_blanks);
 
 }
 
@@ -37,6 +40,7 @@ void Dialog_settings_user::apply_settings()
     settings->setValue("ipdatabase", ui->lineEdit_ip_addr->text());
     settings->setValue("portdatabase", ui->lineEdit_port->text());
     settings->setValue("sizefonttexttable", ui->lineEdit_size_font_text_setting->text());
+    settings->setValue("path_blanks" ,ui->lineEdit_path_blanks->text());
 }
 void Dialog_settings_user::default_settings()
 {
@@ -46,4 +50,10 @@ void Dialog_settings_user::push_ok()
 {
     apply_settings();
     Dialog_settings_user::accept();
+}
+void Dialog_settings_user::set_path_blanks_func()
+{
+    QString file_name;
+    file_name = QFileDialog::getExistingDirectory(this, tr("Путь к бланкам"), "%HOME%", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    ui->lineEdit_path_blanks->setText(file_name);
 }

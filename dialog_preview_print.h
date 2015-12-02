@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QPrintDialog>
 #include <QPrinter>
-
+#include <QSettings>
 namespace Ui {
 class Dialog_preview_print;
 }

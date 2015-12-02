@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QFileDialog>
+#include <QFile>
 
 namespace Ui {
 class Dialog_settings_user;
@@ -23,6 +25,7 @@ public slots:
     void load_settings();
     void default_settings();
     void push_ok();
+    void set_path_blanks_func();
 };
 
 #endif // DIALOG_SETTINGS_USER_H

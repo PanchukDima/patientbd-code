@@ -16,20 +16,24 @@ Dialog_preview_print::~Dialog_preview_print()
 }
 void Dialog_preview_print::setParam(int param, QString id, QString staff_id)
 {
+    QSettings *settings = new QSettings("settings_user.ini",QSettings::IniFormat);
     global_id = id;
     global_staff_id=staff_id;
     global_param = param;
+    QString path_blanks;
+    path_blanks.append("file:///").append(settings->value("path_blanks").toString()).append("/");;
     QUrl url_blank;
     switch (param) {
     case 0:
-        url_blank.setUrl("file:///blanks/medcard.html");
+        path_blanks.append("medcard.html");
+        qDebug()<<path_blanks;
+        url_blank.setUrl(path_blanks);
         break;
     case 1:
         //preview alow
         break;
     }
-
-    ui->webView->setHtml("hello, Medcard! html");
+    ui->webView->setUrl(url_blank);
 }
 void Dialog_preview_print::print()
 {
