@@ -11,6 +11,8 @@
 #include <QMessageBox>
 #include <QContextMenuEvent>
 #include <QThread>
+#include <QFileInfo>
+#include <QFileSystemWatcher>
 //
 #include "dialog_patient.h"
 #include "dialog_settings_user.h"
@@ -73,7 +75,7 @@ public slots:
     void gen_report_1();
     void print_medcard();
     void set_status_arhive();
-    void changes_new(int status);
+    void changes_new(QString status);
 
     //threads
     void thread_new_changes();

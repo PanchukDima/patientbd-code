@@ -92,14 +92,15 @@ void MainWindow::thread_new_changes()
 
         connect(changes_new, SIGNAL(finished()), thread, SLOT(quit()));
         connect(changes_new, SIGNAL(finished()), changes_new, SLOT(deleteLater()));
-        connect(changes_new,SIGNAL(status(int)),SLOT(changes_new(int)));
+        connect(changes_new,SIGNAL(status(QString)),SLOT(changes_new(QString)));
 
         connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
         thread->start();
 }
 
-void MainWindow::changes_new(int status)
+
+void MainWindow::changes_new(QString status)
 {
     qDebug()<<status;
 }

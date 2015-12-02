@@ -21,7 +21,15 @@ void Dialog_preview_print::setParam(int param, QString id, QString staff_id)
     global_staff_id=staff_id;
     global_param = param;
     QString path_blanks;
-    path_blanks.append("file:///").append(settings->value("path_blanks").toString()).append("/");;
+    QString control_char = path_blanks.at(0);
+    if(control_char=="/")
+    {
+    path_blanks.append("file://").append(settings->value("path_blanks").toString()).append("/");
+    }
+    else
+    {
+      path_blanks.append("file:///").append(settings->value("path_blanks").toString()).append("/");
+    }
     QUrl url_blank;
     switch (param) {
     case 0:

@@ -3,6 +3,13 @@
 
 #include <QObject>
 #include "windows.h" //Unix not Work
+#include <QFileInfo>
+#include <QDateTime>
+#include <QSettings>
+#include <QDebug>
+#include <QFileSystemWatcher>
+#include <QFile>
+
 
 class new_changes_thread : public QObject
 {
@@ -13,9 +20,11 @@ public:
 
 signals:
     void finished();
-    void status(int st);
+    void status(QString st);
 public slots:
     void check_new_changes_blanks();
+
+
 };
 
 #endif // NEW_CHANGES_THREAD_H

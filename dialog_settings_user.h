@@ -26,6 +26,7 @@ public slots:
     void default_settings();
     void push_ok();
     void set_path_blanks_func();
+    void set_updServ_path_blanks_func();
 };
 
 #endif // DIALOG_SETTINGS_USER_H
