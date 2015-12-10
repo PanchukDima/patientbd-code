@@ -201,7 +201,7 @@ void Dialog_patient::get_data_sql(int id)
 //            QString street_value = query.value(0).toString();
 //            ui->comboBox_street->setCurrentIndex(ui->comboBox_street->findData(street_value));
 //        }
-        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday, address_patient.telefon FROM test.address_patient, test.patient, test.medcard WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = "+id_str);
+        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday, address_patient.telefon,diagnos_patient.diagnos_id  FROM test.address_patient, test.patient, test.medcard, test.diagnos_patient WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = diagnos_patient.medcard_id AND medcard.id = "+id_str);
         while (query.next())
         {
             QString street_value = query.value(0).toString();
@@ -216,6 +216,7 @@ void Dialog_patient::get_data_sql(int id)
             QString number_passport = query.value(9).toString();
             QDate date_birthday = query.value(10).toDate();
             QString telefon_value = query.value(11).toString();
+            QString diagnos_id_value = query.value(12).toString();
 
 
             ui->comboBox_street->setCurrentIndex(ui->comboBox_street->findData(street_value));
@@ -230,6 +231,7 @@ void Dialog_patient::get_data_sql(int id)
             ui->lineEdit_number_passport->setText(number_passport);
             ui->dateEdit_date_birthday->setDate(date_birthday);
             ui->lineEdit_telefon->setText(telefon_value);
+            ui->comboBox_diagnosis->setCurrentIndex(ui->comboBox_diagnosis->findData(diagnos_id_value));
         }
     }
 
@@ -255,6 +257,7 @@ void Dialog_patient::apply_send_data_sql()
     QString telefon_value = ui->lineEdit_telefon->text();
     QString id_patient;
     QString id_medcard;
+    QString diagnos_id = ui->comboBox_diagnosis->currentData().toString();
     int control_lineedit=0;
     QPixmap error_pix(":/icon/png/images/Warning.png");
     if(ui->lineEdit_house->text()=="")

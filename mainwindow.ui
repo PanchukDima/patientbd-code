@@ -105,6 +105,29 @@ image: url(:/icon/png/images/sortIndicatorUp.png);
       <property name="movable">
        <bool>true</bool>
       </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Диагнозы</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_10">
+        <item>
+         <widget class="QTableWidget" name="tableWidget_2">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="tab_view">
        <attribute name="title">
         <string>Наблюдения</string>
