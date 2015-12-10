@@ -111,7 +111,7 @@ image: url(:/icon/png/images/sortIndicatorUp.png);
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
-         <widget class="QTableWidget" name="tableWidget_2">
+         <widget class="QTableWidget" name="tableWidget_diagnos_patient">
           <property name="contextMenuPolicy">
            <enum>Qt::CustomContextMenu</enum>
           </property>
