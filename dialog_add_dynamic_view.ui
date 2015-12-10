@@ -46,13 +46,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QRadioButton" name="radioButton_no">
-        <property name="text">
-         <string>Нет согласия</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>

@@ -27,7 +27,7 @@ Dialog_patient::Dialog_patient(QWidget *parent) :
     ui->comboBox_area_street->setEnabled(false);
     ui->checkBox_custody->setEnabled(false);
     ui->comboBox_accommodations->setEnabled(false);
-    ui->comboBox_diagnosis->setEnabled(false);
+    //ui->comboBox_diagnosis->setEnabled(false);
     ui->comboBox_direction->setEnabled(false);
     ui->lineEdit_work_or_education->setEnabled(false);
     ui->comboBox_work_post->setEnabled(false);
@@ -36,7 +36,7 @@ Dialog_patient::Dialog_patient(QWidget *parent) :
     ui->comboBox_benefit->setEnabled(false);
     ui->comboBox_reason_dont_see->setEnabled(false);
     //ui->pushButton_add_street->setEnabled(true);
-    ui->lineEdit_telefon->setEnabled(false);
+    //ui->lineEdit_telefon->setEnabled(false);
 }
 
 Dialog_patient::~Dialog_patient()
@@ -134,7 +134,7 @@ void Dialog_patient::put_all_settings()
                    street.name\
                    FROM \
                    test.street;");
-                while (query.next())
+        while (query.next())
         {
             QString street = query.value(1).toString();
             QString code_street = query.value(0).toString();
@@ -143,7 +143,22 @@ void Dialog_patient::put_all_settings()
         }
         ui->comboBox_sex->addItem("Ж","false");
         ui->comboBox_sex->addItem("М","true");
+        query.exec("SELECT \
+                   diagnos.id,\
+                   diagnos.name,\
+                   diagnos.code\
+                 FROM\
+                   test.diagnos;");
+        while (query.next())
+        {
+            QString id_diagnos = query.value(0).toString();
+            QString diagnos = query.value(2).toString();
+            diagnos.append(":  :").append(query.value(1).toString());
+            ui->comboBox_diagnosis->addItem(diagnos, id_diagnos);
+
+        }
     }
+
 }
 void Dialog_patient::check_data()
 {
@@ -154,6 +169,7 @@ void Dialog_patient::setParam(int param,int id, QString staff_id)
 {
     global_param = param;
     global_staff_id = staff_id;
+    qDebug()<<id;
     switch(param)
     {
     case 0:
@@ -179,13 +195,13 @@ void Dialog_patient::get_data_sql(int id)
         QSqlQuery query;
         QString id_str;
         id_str.setNum(id);
-        query.exec("SELECT address_patient.street_id FROM test.address_patient WHERE  address_patient.medcard_id = "+id_str);
-        while (query.next())
-        {
-            QString street_value = query.value(0).toString();
-            ui->comboBox_street->setCurrentIndex(ui->comboBox_street->findData(street_value));
-        }
-        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday FROM test.address_patient, test.patient, test.medcard WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = "+id_str);
+//        query.exec("SELECT address_patient.street_id FROM test.address_patient WHERE  address_patient.medcard_id = "+id_str);
+//        while (query.next())
+//        {
+//            QString street_value = query.value(0).toString();
+//            ui->comboBox_street->setCurrentIndex(ui->comboBox_street->findData(street_value));
+//        }
+        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday, address_patient.telefon FROM test.address_patient, test.patient, test.medcard WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = "+id_str);
         while (query.next())
         {
             QString street_value = query.value(0).toString();
@@ -199,7 +215,7 @@ void Dialog_patient::get_data_sql(int id)
             QString serial_passport = query.value(8).toString();
             QString number_passport = query.value(9).toString();
             QDate date_birthday = query.value(10).toDate();
-
+            QString telefon_value = query.value(11).toString();
 
 
             ui->comboBox_street->setCurrentIndex(ui->comboBox_street->findData(street_value));
@@ -213,6 +229,7 @@ void Dialog_patient::get_data_sql(int id)
             ui->lineEdit_serial_passport->setText(serial_passport);
             ui->lineEdit_number_passport->setText(number_passport);
             ui->dateEdit_date_birthday->setDate(date_birthday);
+            ui->lineEdit_telefon->setText(telefon_value);
         }
     }
 
@@ -235,6 +252,7 @@ void Dialog_patient::apply_send_data_sql()
     QString flat = ui->lineEdit_room->text();
     QString street_id = ui->comboBox_street->currentData().toString();
     QString date_birthday = ui->dateEdit_date_birthday->date().toString("MM.dd.yyyy");
+    QString telefon_value = ui->lineEdit_telefon->text();
     QString id_patient;
     QString id_medcard;
     int control_lineedit=0;
@@ -351,7 +369,7 @@ void Dialog_patient::apply_send_data_sql()
 
                 }
 
-                query.exec("INSERT INTO test.address_patient(medcard_id, street_id, home, building, flat, staff_add_id) VALUES ('"+id_medcard+"', '"+street_id+"', '"+home+"', '"+building+"', '"+flat+"', '"+global_staff_id+"');");
+                query.exec("INSERT INTO test.address_patient(medcard_id, street_id, home, building, flat, staff_add_id, telefon) VALUES ('"+id_medcard+"', '"+street_id+"', '"+home+"', '"+building+"', '"+flat+"', '"+global_staff_id+"', '"+telefon_value+"');");
                 query.exec("INSERT INTO test.logs(staff_add_id, date_add, text) VALUES ('"+global_staff_id+"', '"+QDate::currentDate().toString("MM.dd.yyyy")+"', 'Добавлена медкарта №"+id_medcard+"')");
                 ui->lineEdit_fname->setText("");
                 ui->lineEdit_name->setText("");

@@ -74,17 +74,17 @@ void Dialog_add_dynamic_view::getData()
          case 1:
              ui->radioButton_d->setChecked(true);
              ui->radioButton_lp->setChecked(false);
-             ui->radioButton_no->setChecked(false);
+
              break;
          case 2:
              ui->radioButton_d->setChecked(false);
              ui->radioButton_lp->setChecked(true);
-             ui->radioButton_no->setChecked(false);
+
              break;
          case 3:
              ui->radioButton_d->setChecked(false);
              ui->radioButton_lp->setChecked(false);
-             ui->radioButton_no->setChecked(true);
+
              break;
          }
          switch (type_to_help) {
@@ -119,10 +119,7 @@ void Dialog_add_dynamic_view::send_data()
     {
         dynamic_type="2";
     }
-    if(ui->radioButton_no->isChecked())
-    {
-        dynamic_type="3";
-    }
+
     if(ui->radioButton_adn->isChecked())
     {
         help_type="1";
