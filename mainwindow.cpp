@@ -353,6 +353,17 @@ void MainWindow::clear_visiting_control_table()
         ui->tableWidget_control_pos->removeRow(c);
     }
 }
+void MainWindow::clear_diagnos_table()
+{
+    int c;
+    ui->tableWidget_diagnos_patient->clear();
+    ui->mainToolBar->clear();
+    for (c = ui->tableWidget_diagnos_patient->rowCount()-1; c >= 0; c--)
+    {
+        ui->tableWidget_diagnos_patient->removeRow(c);
+    }
+}
+
 void MainWindow::find_patients()
 {
     first_start=1;
@@ -509,6 +520,7 @@ void MainWindow::load_all_info()
 {
     clear_dynamic_view_table();
     clear_visiting_control_table();
+    clear_diagnos_table();
     settings_ui();
     QSqlDatabase db = QSqlDatabase::database();
     int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
@@ -585,6 +597,7 @@ void MainWindow::load_all_info()
 
             }
             sqlquery.clear();
+
             sqlquery.append("SELECT \
                             visits_control.id, \
                             visits_control.date_assigned, \
@@ -650,6 +663,70 @@ void MainWindow::load_all_info()
                 ui->tableWidget_control_pos->setItem(last_row_control,3,presence);
 
             }
+
+            sqlquery.clear();
+            sqlquery.append("SELECT\
+                            diagnos_patient.id,\
+                            diagnos_patient.medcard_id,\
+                            diagnos.code, \
+                            diagnos.name,\
+                            diagnos_patient.fixing_diagnos_date\
+                          FROM \
+                            test.diagnos_patient, \
+                            test.diagnos\
+                          WHERE \
+                            diagnos_patient.diagnos_id = diagnos.id AND\
+                            diagnos_patient.medcard_id =").append(id);
+            query.exec(sqlquery);
+            int last_row_control = ui->tableWidget_diagnos_patient->rowCount();
+
+            while (query.next()) {
+                QString id_value = query.value(0).toString();
+
+                QString presence_value = query.value(2).toDate().toString("dd.MM.yyyy");
+
+                QTableWidgetItem * id = new QTableWidgetItem();
+                QTableWidgetItem * assign = new QTableWidgetItem();
+                QTableWidgetItem * who = new QTableWidgetItem();
+                QTableWidgetItem * presence = new QTableWidgetItem();
+
+                assign->setText(assign_value);
+                who->setText(who_value);
+                presence->setText(presence_value);
+                id->setText(id_value);
+
+                QFont font_text;
+                font_text.setPointSize(font_size);
+
+                assign->setFont(font_text);
+                who->setFont(font_text);
+                presence->setFont(font_text);
+                id->setFont(font_text);
+                if(query.value(2).toString()=="")
+                {
+
+                    if (QDate::fromString(current_date, "MM.dd.yyyy")>query.value(1).toDate())
+                    {
+                        assign->setBackground(Qt::red);
+                        who->setBackground(Qt::red);
+                        presence->setBackground(Qt::red);
+                    }
+                    if (QDate::fromString(current_date, "MM.dd.yyyy")==query.value(1).toDate())
+                    {
+                        assign->setBackground(Qt::cyan);
+                        who->setBackground(Qt::cyan);
+                        presence->setBackground(Qt::cyan);
+                    }
+                }
+                ui->tableWidget_control_pos->insertRow(last_row_control);
+
+                ui->tableWidget_control_pos->setItem(last_row_control,0,id);
+                ui->tableWidget_control_pos->setItem(last_row_control,1,assign);
+                ui->tableWidget_control_pos->setItem(last_row_control,2,who);
+                ui->tableWidget_control_pos->setItem(last_row_control,3,presence);
+
+    }
+
         }
 
     }
@@ -708,6 +785,15 @@ void MainWindow::context_menu_main_table(QPoint pos) //Контекстное м
         menu->exec(ui->tableWidget->mapToGlobal(pos));
     }
 }
+void MainWindow::context_menu_diagnos_table(QPoint pos)
+{
+    QMenu *menu = new QMenu;
+    menu->addAction("Добавить", this, SLOT(add_diagnos_patient()));
+    menu->addAction("Изменить", this, SLOT(edit_diagnos_patient())); // это можно использовать для прав->setEnabled(false);
+    menu->addAction("Удалить", this, SLOT(del_diagnos_patient()));
+    menu->exec(ui->tableWidget_diagnos_patient->mapToGlobal(pos));
+}
+
 void MainWindow::add_visit()
 {
     Dialog_add_visits dialog;
@@ -854,6 +940,19 @@ void MainWindow::edit_dynamic_view()
     }
 
 }
+void MainWindow::add_diagnos_patient()
+{
+
+}
+void MainWindow::edit_diagnos_patient()
+{
+
+}
+void MainWindow::del_diagnos_patient()
+{
+
+}
+
 void MainWindow::print_medcard()
 {
     Dialog_preview_print dialog;

@@ -60,11 +60,13 @@ public slots:
     void clear_main_table();
     void clear_dynamic_view_table();
     void clear_visiting_control_table();
+    void clear_diagnos_table();
     void find_patients();
     void load_all_info();
     void context_menu_dynamic_view(QPoint);
     void context_menu_visits_control(QPoint);
     void context_menu_main_table(QPoint);
+    void context_menu_diagnos_table(QPoint);
     void add_dynamic_view();
     void del_dynamic_view();
     void edit_dynamic_view();
@@ -72,6 +74,9 @@ public slots:
     void add_today_visit();
     void edit_visit();
     void del_visit();
+    void add_diagnos_patient();
+    void edit_diagnos_patient();
+    void del_diagnos_patient();
     void gen_report_1();
     void print_medcard();
     void set_status_arhive();

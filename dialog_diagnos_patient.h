@@ -2,6 +2,9 @@
 #define DIALOG_DIAGNOS_PATIENT_H
 
 #include <QDialog>
+#include <QtSql>
+#include <QMessageBox>
+#include <QIcon>
 
 namespace Ui {
 class Dialog_diagnos_patient;
@@ -24,6 +27,7 @@ public slots:
     void setParam(int param, QString id, QString staff_id);
     void get_data();
     void send_data();
+    void load_allow_date();
 };
 
 
