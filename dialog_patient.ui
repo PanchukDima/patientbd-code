@@ -341,37 +341,6 @@
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>Диагноз</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="comboBox_diagnosis">
-           <property name="editable">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_6">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <widget class="QLabel" name="label_12">
@@ -757,7 +726,6 @@
   <tabstop>comboBox_area</tabstop>
   <tabstop>dateEdit_date_end</tabstop>
   <tabstop>comboBox_direction</tabstop>
-  <tabstop>comboBox_diagnosis</tabstop>
   <tabstop>lineEdit_work_or_education</tabstop>
   <tabstop>comboBox_work_post</tabstop>
   <tabstop>checkBox_custody</tabstop>
