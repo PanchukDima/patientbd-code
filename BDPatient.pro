@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     dialog_add_dynamic_view.cpp \
     dialog_add_visits.cpp \
     dialog_preview_print.cpp \
-    new_changes_thread.cpp
+    new_changes_thread.cpp \
+    dialog_diagnos_patient.cpp
 
 HEADERS  += mainwindow.h \
     dialog_patient.h \
@@ -34,7 +35,8 @@ HEADERS  += mainwindow.h \
     dialog_add_dynamic_view.h \
     dialog_add_visits.h \
     dialog_preview_print.h \
-    new_changes_thread.h
+    new_changes_thread.h \
+    dialog_diagnos_patient.h
 
 FORMS    += mainwindow.ui \
     dialog_patient.ui \
@@ -44,7 +46,8 @@ FORMS    += mainwindow.ui \
     dialog_reports.ui \
     dialog_add_dynamic_view.ui \
     dialog_add_visits.ui \
-    dialog_preview_print.ui
+    dialog_preview_print.ui \
+    dialog_diagnos_patient.ui
 
 RESOURCES += \
     images.qrc
