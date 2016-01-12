@@ -68,11 +68,14 @@ MainWindow::MainWindow(QWidget *parent) :
     timer->start(500);
     thread_new_changes();
     }
+
     connect(ui->action_report_1,SIGNAL(triggered()),SLOT(gen_report_1()));
-    connect(ui->tableWidget,SIGNAL(cellClicked(int,int)),SLOT(load_all_info()));
+    //connect(ui->tableWidget,SIGNAL(cellClicked(int,int)),SLOT(load_all_info()));  //то что снизу работает лучше, но для примера оставлю это здесь
+    connect(ui->tableWidget,SIGNAL(itemSelectionChanged()),SLOT(load_all_info()));
     connect(ui->tableWidget_dynamic_view,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_dynamic_view(QPoint)));
     connect(ui->tableWidget_control_pos,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_visits_control(QPoint)));
     connect(ui->tableWidget,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_main_table(QPoint)));
+    connect(ui->tableWidget_diagnos_patient,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_diagnos_table(QPoint)));
 
 }
 
@@ -131,24 +134,51 @@ void MainWindow::settings_ui()
     QTableWidget * patientTable = ui->tableWidget; //Основная таблица
     QTableWidget * dynamicView = ui->tableWidget_dynamic_view;// Динамика наблюдения
     QTableWidget * controlpos = ui->tableWidget_control_pos; //Контроль посещений
+    QTableWidget * diagnos_table = ui->tableWidget_diagnos_patient; //Диагнозы пациентов
+    QTableWidget * gospit_table = ui->tableWidget_sved_gospital;
+    QTableWidget * list_not_work_table = ui->tableWidget_point_time_notwork;
+    QTableWidget * invalid_table = ui->tabWidget_invalid_psi;
+    QTableWidget * suicid_table = ui->tableWidget_suicid;
 
+
+    //Итемы главной таблицы
     //    QTableWidgetItem * name_1_collumn_main = new QTableWidgetItem();
     //    QTableWidgetItem * name_2_collumn_main = new QTableWidgetItem();
     QTableWidgetItem * name_3_collumn_main = new QTableWidgetItem();
     QTableWidgetItem * name_4_collumn_main = new QTableWidgetItem();
     QTableWidgetItem * name_5_collumn_main = new QTableWidgetItem();
-
+    //Итемы таблицы динамики наблюдения
     QTableWidgetItem * name_1_collumn_dynamic_view = new QTableWidgetItem();
     QTableWidgetItem * name_2_collumn_dynamic_view = new QTableWidgetItem();
-    QTableWidgetItem * name_3_collumn_dynamic_view = new QTableWidgetItem();
-
+    //Итемы таблицы контроль посешщений
     QTableWidgetItem * name_1_collumn_control_pos = new QTableWidgetItem();
     QTableWidgetItem * name_2_collumn_control_pos = new QTableWidgetItem();
     QTableWidgetItem * name_3_collumn_control_pos = new QTableWidgetItem();
+    //Итемы таблицы диагнозов
+    QTableWidgetItem * name_1_collumn_diagnos_table = new QTableWidgetItem();
+    QTableWidgetItem * name_2_collumn_diagnos_table = new QTableWidgetItem();
+    QTableWidgetItem * name_3_collumn_diagnos_table = new QTableWidgetItem();
+    QTableWidgetItem * name_4_collumn_diagnos_table = new QTableWidgetItem();
+    QTableWidgetItem * name_5_collumn_diagnos_table = new QTableWidgetItem();
+    //Итемы таблицы госпитализация
+    QTableWidgetItem * name_1_collumn_gospit = new QTableWidgetItem();
+    QTableWidgetItem * name_2_collumn_gospit = new QTableWidgetItem();
+    QTableWidgetItem * name_3_collumn_gospit = new QTableWidgetItem();
+    QTableWidgetItem * name_4_collumn_gospit = new QTableWidgetItem();
+    QTableWidgetItem * name_5_collumn_gospit = new QTableWidgetItem();
+    //Итемы таблицы нетрудоспособности
+    QTableWidgetItem * name_1_collumn_list_not_work = new QTableWidgetItem();
+    QTableWidgetItem * name_2_collumn_list_not_work = new QTableWidgetItem();
+    QTableWidgetItem * name_3_collumn_list_not_work = new QTableWidgetItem();
+    //Итемы таблицы нетрудоспособности
+    QTableWidgetItem * name_1_collumn_invalid = new QTableWidgetItem();
+    QTableWidgetItem * name_2_collumn_invalid = new QTableWidgetItem();
+    QTableWidgetItem * name_3_collumn_invalid = new QTableWidgetItem();
+    QTableWidgetItem * name_4_collumn_invalid = new QTableWidgetItem();
+    //Итемы таблицы суицид
+    QTableWidgetItem * name_1_collumn_suicid = new QTableWidgetItem();
 
-    
     //Настраиваем объекты
-    
     str_find_patient->setMaximumWidth(100);
     str_find_patient->setToolTip("Для поиска по карте \nвведите только номер,\n фамилия и имя должны быть разделены\n одним пробелом");
     valid_info->setText("<-Введите номер карты или Фамилию");
@@ -158,65 +188,162 @@ void MainWindow::settings_ui()
     edit_patient->setText("Редактировать");
     edit_patient->setIcon(icon_edit);
     del_patient->setText("Удалить");
+
+    //Настройка таблиц Рястягивание заголовка
     //patientTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch); //Рястягивает все по ширине таблицы
     dynamicView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     controlpos->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    patientTable->setColumnCount(5);
-    dynamicView->setColumnCount(4);
-    controlpos->setColumnCount(4);
+    diagnos_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+    gospit_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    list_not_work_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    invalid_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    suicid_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    //Количество столбцов
+    patientTable->setColumnCount(5);
+    dynamicView->setColumnCount(3);
+    controlpos->setColumnCount(4);
+    diagnos_table->setColumnCount(6);
+    gospit_table->setColumnCount(6);
+    list_not_work_table->setColumnCount(4);
+    invalid_table->setColumnCount(5);
+    suicid_table->setColumnCount(2);
+    //Скрытие столбцов
     patientTable->hideColumn(0);
     patientTable->hideColumn(1);
     dynamicView->hideColumn(0);
     controlpos->hideColumn(0);
+    diagnos_table->hideColumn(0);
+    gospit_table->hideColumn(0);
+    list_not_work_table->hideColumn(0);
+    invalid_table->hideColumn(0);
+    suicid_table->hideColumn(0);
+
+
     //    patientTable->setColumnWidth(0,50);
     //    patientTable->setColumnWidth(3,30);
     //    patientTable->setColumnWidth(4,50);
     //    patientTable->setColumnWidth(5,50);
     //    patientTable->setColumnWidth(8,70);
     //    patientTable->setColumnWidth(9,70);
-    //name_2_collumn_main->setText("");
+    //    name_2_collumn_main->setText("");
+
     QFont font_table_header;
+    // Выставляем размер шрифта заголовков
     font_table_header.setPointSize(11);
+    //текст заголовка таблицы вывода пациентов
     name_3_collumn_main->setText("ФИО");
     name_4_collumn_main->setText("Серия\n паспорта");
     name_5_collumn_main->setText("Номер\n паспорта");
+    //текст заголовка таблицы динамика наблюдения
     name_1_collumn_dynamic_view->setText("Помощь\n оказывается с:");
     name_2_collumn_dynamic_view->setText("Группа диспансерного\n наблюдения:");
-    name_3_collumn_dynamic_view->setText("Вид \nамбулаторной\n помощи:");
+    //текст заголовка таблицы контроль посещений
+    name_1_collumn_control_pos->setText("Назначено:\n");
+    name_2_collumn_control_pos->setText("Назначил:\n");
+    name_3_collumn_control_pos->setText("Дата явки:\n");
+    //текст заголовка таблицы диагнозы
+    name_1_collumn_diagnos_table->setText("Код по МКБ-10");
+    name_2_collumn_diagnos_table->setText("Наименование\nпо МКБ-10");
+    name_3_collumn_diagnos_table->setText("Дата постановки диагноза");
+    name_4_collumn_diagnos_table->setText("Код врача");
+    name_5_collumn_diagnos_table->setText("ФИО врача");
+    //текст заголовка таблицы госпитализация
+    name_1_collumn_gospit->setText("Цель\nГоспитализации");
+    name_2_collumn_gospit->setText("Дата\nПоступления");
+    name_3_collumn_gospit->setText("Дата выбытия");
+    name_4_collumn_gospit->setText("Код в\nсоответствии\nс V классом\nМКБ-10");
+    name_5_collumn_gospit->setText("Код\nосновного\nзаболевания");
+    //текст заголовка таблицы лист нетрудоспособности
+    name_1_collumn_list_not_work->setText("Дата открытия\nбольничного листа");
+    name_2_collumn_list_not_work->setText("Дата закрытия\nбольничного листа");
+    name_3_collumn_list_not_work->setText("Число дней ВН");
+    //текст заголовка таблицы инвалидность по псих. заболеваниям
+    name_1_collumn_invalid->setText("Дата\nустановления\nили\nпересмотра");
+    name_2_collumn_invalid->setText("Группа\nинвалидности");
+    name_3_collumn_invalid->setText("Срок очередного\nпереосвидетельствования");
+    name_4_collumn_invalid->setText("Для работающих\n- место работы");
+    //текст заголовка таблицы суицид
+    name_1_collumn_suicid->setText("Дата совершения");
 
-    name_1_collumn_control_pos->setText("Назначено:");
-    name_2_collumn_control_pos->setText("Назначил:");
-    name_3_collumn_control_pos->setText("Дата явки:");
-
+    // Выставляем размер шрифта заголовков "Главной таблицы"
     name_3_collumn_main->setFont(font_table_header);
     name_4_collumn_main->setFont(font_table_header);
     name_5_collumn_main->setFont(font_table_header);
+    // Выставляем размер шрифта заголовков таблицы "Динамика наблюдения"
     name_1_collumn_dynamic_view->setFont(font_table_header);
     name_2_collumn_dynamic_view->setFont(font_table_header);
-    name_3_collumn_dynamic_view->setFont(font_table_header);
+    // Выставляем размер шрифта заголовков таблицы "Контроль посещений"
     name_1_collumn_control_pos->setFont(font_table_header);
     name_2_collumn_control_pos->setFont(font_table_header);
     name_3_collumn_control_pos->setFont(font_table_header);
+    // Выставляем размер шрифта заголовков таблицы "Диагноз"
+    name_1_collumn_diagnos_table->setFont(font_table_header);
+    name_2_collumn_diagnos_table->setFont(font_table_header);
+    name_3_collumn_diagnos_table->setFont(font_table_header);
+    name_4_collumn_diagnos_table->setFont(font_table_header);
+    name_5_collumn_diagnos_table->setFont(font_table_header);
+    // Выставляем размер шрифта заголовков таблицы "Госпитализация"
+    name_1_collumn_gospit->setFont(font_table_header);
+    name_2_collumn_gospit->setFont(font_table_header);
+    name_3_collumn_gospit->setFont(font_table_header);
+    name_4_collumn_gospit->setFont(font_table_header);
+    name_5_collumn_gospit->setFont(font_table_header);
+    // Выставляем размер шрифта заголовков таблицы "Лист нетрудоспособности"
+    name_1_collumn_list_not_work->setFont(font_table_header);
+    name_2_collumn_list_not_work->setFont(font_table_header);
+    name_3_collumn_list_not_work->setFont(font_table_header);
+    // Выставляем размер шрифта заголовков таблицы "инвалидность по псих. заболеваниям"
+    name_1_collumn_invalid->setFont(font_table_header);
+    name_2_collumn_invalid->setFont(font_table_header);
+    name_3_collumn_invalid->setFont(font_table_header);
+    name_4_collumn_invalid->setFont(font_table_header);
+    // Выставляем размер шрифта заголовков таблицы "суицид"
+    name_1_collumn_suicid->setFont(font_table_header);
+
+    //Добавляем итемы на "Главную таблицу"
     //patientTable->setHorizontalHeaderItem(0,name_1_collumn_main);
     //patientTable->setHorizontalHeaderItem(1,name_2_collumn_main);
     //patientTable->setHorizontalHeaderItem(2,name_2_collumn_main);
     patientTable->setHorizontalHeaderItem(2,name_3_collumn_main);
     patientTable->setHorizontalHeaderItem(3,name_4_collumn_main);
     patientTable->setHorizontalHeaderItem(4,name_5_collumn_main);
-
+    //Добавляем итемы на таблицу "Динамика наблюдения"
     dynamicView->setHorizontalHeaderItem(1,name_1_collumn_dynamic_view);
     dynamicView->setHorizontalHeaderItem(2,name_2_collumn_dynamic_view);
-    dynamicView->setHorizontalHeaderItem(3,name_3_collumn_dynamic_view);
-
-
+    //Добавляем итемы на таблицу "Контроль посещений"
     controlpos->setHorizontalHeaderItem(1,name_1_collumn_control_pos);
     controlpos->setHorizontalHeaderItem(2,name_2_collumn_control_pos);
     controlpos->setHorizontalHeaderItem(3,name_3_collumn_control_pos);
-    
-    
+    //Добавляем итемы на таблицу "Диагноз"
+    diagnos_table->setHorizontalHeaderItem(1,name_1_collumn_diagnos_table);
+    diagnos_table->setHorizontalHeaderItem(2,name_2_collumn_diagnos_table);
+    diagnos_table->setHorizontalHeaderItem(3,name_3_collumn_diagnos_table);
+    diagnos_table->setHorizontalHeaderItem(4,name_4_collumn_diagnos_table);
+    diagnos_table->setHorizontalHeaderItem(5,name_5_collumn_diagnos_table);
+    //Добавляем итемы на таблицу "Динамика наблюдения"
+    gospit_table->setHorizontalHeaderItem(1,name_1_collumn_gospit);
+    gospit_table->setHorizontalHeaderItem(2,name_2_collumn_gospit);
+    gospit_table->setHorizontalHeaderItem(3,name_3_collumn_gospit);
+    gospit_table->setHorizontalHeaderItem(4,name_4_collumn_gospit);
+    gospit_table->setHorizontalHeaderItem(5,name_5_collumn_gospit);
+    //Добавляем итемы на таблицу "Лист нетрудоспособности"
+    list_not_work_table->setHorizontalHeaderItem(1,name_1_collumn_list_not_work);
+    list_not_work_table->setHorizontalHeaderItem(2,name_2_collumn_list_not_work);
+    list_not_work_table->setHorizontalHeaderItem(3,name_3_collumn_list_not_work);
+    //Добавляем итемы на таблицу "инвалидность по псих. заболеваниям"
+    invalid_table->setHorizontalHeaderItem(1,name_1_collumn_invalid);
+    invalid_table->setHorizontalHeaderItem(2,name_2_collumn_invalid);
+    invalid_table->setHorizontalHeaderItem(3,name_3_collumn_invalid);
+    invalid_table->setHorizontalHeaderItem(4,name_4_collumn_invalid);
+    //Добавляем итемы на таблицу "суицид"
+    suicid_table->setHorizontalHeaderItem(1,name_1_collumn_suicid);
+
     //отрисовываем объекты
     ui->mainToolBar->addWidget(add_patient);
     ui->mainToolBar->addWidget(edit_patient);
@@ -258,6 +385,7 @@ void MainWindow::settings_user()
     QSettings *settings = new QSettings("settings_user.ini",QSettings::IniFormat);
     ipdatabase = settings->value("ipdatabase").toString();
     font_size = settings->value("sizefonttexttable").toInt();
+
     
 }
 void MainWindow::added_info_patient()
@@ -363,7 +491,6 @@ void MainWindow::clear_diagnos_table()
         ui->tableWidget_diagnos_patient->removeRow(c);
     }
 }
-
 void MainWindow::find_patients()
 {
     first_start=1;
@@ -537,63 +664,92 @@ void MainWindow::load_all_info()
             sqlquery.append("SELECT \
                             dynamic_view.id, \
                             dynamic_view.on_date, \
-                            dynamic_view.group_disp_view, \
-                            dynamic_view.type_of_help\
-                            FROM \
+                            dynamic_view.group_disp_view\
+                            FROM\
                             test.dynamic_view\
-                            WHERE \
+                            WHERE\
                             dynamic_view.delete_row = '0' AND\
+                            dynamic_view.status = 'false' AND\
                     dynamic_view.medcard_id = ").append(id);
                     query.exec(sqlquery);
                     int last_row = ui->tableWidget_dynamic_view->rowCount();
+
             while (query.next()) {
+
                 QString id_value = query.value(0).toString();
                 QString date_value = query.value(1).toString();
                 QString group_value = query.value(2).toString();
-                QString vid_value = query.value(3).toString();
+
                 QTableWidgetItem * id =new QTableWidgetItem();
                 QTableWidgetItem * date = new QTableWidgetItem();
                 QTableWidgetItem * group = new QTableWidgetItem();
-                QTableWidgetItem * vid = new QTableWidgetItem();
+
                 QFont font_text;
                 font_text.setPointSize(font_size);
-                if(group_value=="1")
+                if(group_value=="0")
                 {
                     group_value="Д";
                 }
+                if(group_value=="1")
+                {
+                    group_value="Д-1";
+                }
                 if(group_value=="2")
                 {
-                    group_value="ЛП";
+                    group_value="Д-2";
                 }
                 if(group_value=="3")
                 {
+                    group_value="Д-3";
+                }
+                if(group_value=="4")
+                {
+                    group_value="Д-4";
+                }
+                if(group_value=="5")
+                {
+                    group_value="Д-5";
+                }
+                if(group_value=="6")
+                {
+                    group_value="Д-6";
+                }
+                if(group_value=="7")
+                {
+                    group_value="Д-7";
+                }
+                if(group_value=="10")
+                {
+                    group_value="ЛП";
+                }
+                if(group_value=="11")
+                {
                     group_value="Нет согласия";
                 }
-                if(vid_value=="0")
+                if(group_value=="8")
                 {
-                    vid_value="";
+                    group_value="АДН";
                 }
-                if(vid_value=="1")
+                if(group_value=="9")
                 {
-                    vid_value="АДН";
+                    group_value="АПЛ";
                 }
-                if(vid_value=="2")
+                if(group_value=="12")
                 {
-                    vid_value="АПЛ";
+                    group_value="K";
                 }
+
                 id->setText(id_value);
                 date->setText(date_value);
                 group->setText(group_value);
-                vid->setText(vid_value);
 
                 date->setFont(font_text);
                 group->setFont(font_text);
-                vid->setFont(font_text);
+
                 ui->tableWidget_dynamic_view->insertRow(last_row);
                 ui->tableWidget_dynamic_view->setItem(last_row,0,id);
                 ui->tableWidget_dynamic_view->setItem(last_row,1,date);
                 ui->tableWidget_dynamic_view->setItem(last_row,2,group);
-                ui->tableWidget_dynamic_view->setItem(last_row,3,vid);
 
             }
             sqlquery.clear();
@@ -664,66 +820,49 @@ void MainWindow::load_all_info()
 
             }
 
-            sqlquery.clear();
-            sqlquery.append("SELECT\
-                            diagnos_patient.id,\
-                            diagnos_patient.medcard_id,\
-                            diagnos.code, \
-                            diagnos.name,\
-                            diagnos_patient.fixing_diagnos_date\
-                          FROM \
-                            test.diagnos_patient, \
-                            test.diagnos\
-                          WHERE \
-                            diagnos_patient.diagnos_id = diagnos.id AND\
-                            diagnos_patient.medcard_id =").append(id);
-            query.exec(sqlquery);
-            int last_row_control = ui->tableWidget_diagnos_patient->rowCount();
+            query.exec("SELECT diagnos_patient.id, diagnos.name, diagnos.code, diagnos_patient.fixing_diagnos_date, staff.fname, staff.name, staff.mname, staff.code FROM test.diagnos_patient, test.diagnos, test.staff WHERE diagnos_patient.diagnos_id = diagnos.id AND diagnos_patient.staff_add_id = staff.id AND diagnos_patient.medcard_id = "+id);
+            int last_row_diagnos = ui->tableWidget_diagnos_patient->rowCount();
 
             while (query.next()) {
                 QString id_value = query.value(0).toString();
+                QString diagnos_name_value = query.value(1).toString();
+                QString diagnos_code_value = query.value(2).toString();
+                QString fixing_diagnos_date_value = query.value(3).toDate().toString("dd.MM.yyyy");
+                QString doctor_fio_value = query.value(4).toString()+"\n"+query.value(5).toString()+"\n"+ query.value(6).toString();
+                QString doctor_code_value = query.value(7).toString();
 
-                QString presence_value = query.value(2).toDate().toString("dd.MM.yyyy");
 
                 QTableWidgetItem * id = new QTableWidgetItem();
-                QTableWidgetItem * assign = new QTableWidgetItem();
-                QTableWidgetItem * who = new QTableWidgetItem();
-                QTableWidgetItem * presence = new QTableWidgetItem();
+                QTableWidgetItem * diagnos_name = new QTableWidgetItem();
+                QTableWidgetItem * diagnos_code = new QTableWidgetItem();
+                QTableWidgetItem * fixing_diagnos_date = new QTableWidgetItem();
+                QTableWidgetItem * doctor_fio = new QTableWidgetItem();
+                QTableWidgetItem * doctor_code = new QTableWidgetItem();
 
-                assign->setText(assign_value);
-                who->setText(who_value);
-                presence->setText(presence_value);
                 id->setText(id_value);
+                diagnos_name->setText(diagnos_name_value);
+                diagnos_code->setText(diagnos_code_value);
+                fixing_diagnos_date->setText(fixing_diagnos_date_value);
+                doctor_fio->setText(doctor_fio_value);
+                doctor_code->setText(doctor_code_value);
 
                 QFont font_text;
                 font_text.setPointSize(font_size);
 
-                assign->setFont(font_text);
-                who->setFont(font_text);
-                presence->setFont(font_text);
-                id->setFont(font_text);
-                if(query.value(2).toString()=="")
-                {
+                diagnos_name->setFont(font_text);
+                diagnos_code->setFont(font_text);
+                fixing_diagnos_date->setFont(font_text);
+                doctor_fio->setFont(font_text);
+                doctor_code->setFont(font_text);
 
-                    if (QDate::fromString(current_date, "MM.dd.yyyy")>query.value(1).toDate())
-                    {
-                        assign->setBackground(Qt::red);
-                        who->setBackground(Qt::red);
-                        presence->setBackground(Qt::red);
-                    }
-                    if (QDate::fromString(current_date, "MM.dd.yyyy")==query.value(1).toDate())
-                    {
-                        assign->setBackground(Qt::cyan);
-                        who->setBackground(Qt::cyan);
-                        presence->setBackground(Qt::cyan);
-                    }
-                }
-                ui->tableWidget_control_pos->insertRow(last_row_control);
+                ui->tableWidget_diagnos_patient->insertRow(last_row_diagnos);
 
-                ui->tableWidget_control_pos->setItem(last_row_control,0,id);
-                ui->tableWidget_control_pos->setItem(last_row_control,1,assign);
-                ui->tableWidget_control_pos->setItem(last_row_control,2,who);
-                ui->tableWidget_control_pos->setItem(last_row_control,3,presence);
+                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,0,id);
+                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,1,diagnos_code);
+                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,2,diagnos_name);
+                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,3,fixing_diagnos_date);
+                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,4,doctor_code);
+                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,5,doctor_fio);
 
     }
 
@@ -734,10 +873,17 @@ void MainWindow::load_all_info()
 }
 void MainWindow::context_menu_dynamic_view(QPoint pos) // Контекстное меню для Таблицы Динамика наблюдения
 {
+
     QMenu *menu = new QMenu;
-    menu->addAction("Добавить", this, SLOT(add_dynamic_view()))->setEnabled(rights_user[4]);
-    menu->addAction("Изменить", this, SLOT(edit_dynamic_view()))->setEnabled(rights_user[5]); // это можно использовать для прав->setEnabled(false);
-    menu->addAction("Удалить", this, SLOT(del_dynamic_view()))->setEnabled(rights_user[6]);
+    if(ui->tableWidget_dynamic_view->rowCount()==0)
+    {
+        menu->addAction("Добавить", this, SLOT(add_dynamic_view()))->setEnabled(rights_user[4]);
+    }
+    else
+    {
+        menu->addAction("Добавить еще", this, SLOT(edit_dynamic_view()))->setEnabled(rights_user[5]); // это можно использовать для прав->setEnabled(false);
+        menu->addAction("Закрыть", this, SLOT(del_dynamic_view()))->setEnabled(rights_user[6]);
+    }
     menu->exec(ui->tableWidget_dynamic_view->mapToGlobal(pos));
 }
 void MainWindow::context_menu_visits_control(QPoint pos) //Контекстное меню для Таблицы Контроль посещений
@@ -848,7 +994,7 @@ void MainWindow::del_visit()
 
         if(ret==16384)
         {
-            qDebug()<<"UPDATE test.visits_control  SET delete_row='1' WHERE id= "+id;
+
             query.exec("UPDATE test.visits_control  SET delete_row='1' WHERE id= "+id);
             load_all_info();
         }
@@ -901,13 +1047,13 @@ void MainWindow::del_dynamic_view()
     {
         int cu_row = ui->tableWidget_dynamic_view->currentRow();
         QString id = ui->tableWidget_dynamic_view->item(cu_row,0)->text();
-        int ret = QMessageBox::warning(this, tr("Удаление динамики наблюдения"),
-                                       tr("Вы точно хотите удалить?"),
+        int ret = QMessageBox::warning(this, tr("Закрытие динамики наблюдения"),
+                                       tr("Вы точно хотите закрыть?"),
                                        QMessageBox::Yes|QMessageBox::No);
 
         if(ret==16384)
         {
-            query.exec("UPDATE test.dynamic_view  SET delete_row='1' WHERE id= "+id);
+            query.exec("UPDATE test.dynamic_view  SET status='1' WHERE id= "+id);
             load_all_info();
         }
 
@@ -915,18 +1061,18 @@ void MainWindow::del_dynamic_view()
     }
     else
     {
-        QMessageBox::warning(this,"Ошибка","Нельзя удалить того чего нет)");
+        QMessageBox::warning(this,"Ошибка","Нельзя закрыть того чего нет)");
     }
 
 }
 void MainWindow::edit_dynamic_view()
 {
     Dialog_add_dynamic_view dialog;
-    int selected_tables = ui->tableWidget_dynamic_view->selectionModel()->selectedRows().count();
+    int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
     if (selected_tables == 1)
     {
-        int cu_row = ui->tableWidget_dynamic_view->currentRow();
-        QString id = ui->tableWidget_dynamic_view->item(cu_row,0)->text();
+        int cu_row = ui->tableWidget->currentRow();
+        QString id = ui->tableWidget->item(cu_row,0)->text();
         dialog.setParam(1,id,staff_id);
         if(dialog.exec())
             {
@@ -942,11 +1088,41 @@ void MainWindow::edit_dynamic_view()
 }
 void MainWindow::add_diagnos_patient()
 {
-
+    Dialog_diagnos_patient dialog;
+    int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget->currentRow();
+        QString id = ui->tableWidget->item(cu_row,0)->text();
+        dialog.setParam(0,id,staff_id);
+        if(dialog.exec())
+        {
+            load_all_info();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this,"Ошибка","Чтобы добавить диагноз нужно сначала выбрать пациента");
+    }
 }
 void MainWindow::edit_diagnos_patient()
 {
-
+    Dialog_diagnos_patient dialog;
+    int selected_tables = ui->tableWidget_diagnos_patient->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_diagnos_patient->currentRow();
+        QString id = ui->tableWidget_diagnos_patient->item(cu_row,0)->text();
+        dialog.setParam(1,id,staff_id);
+        if(dialog.exec())
+        {
+            load_all_info();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this,"Ошибка","Чтобы изменить диагноз нужно сначала выбрать диагноз для изменения");
+    }
 }
 void MainWindow::del_diagnos_patient()
 {

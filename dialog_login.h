@@ -28,6 +28,8 @@ public slots:
     void login_db();
     void quit_app();
     void clear_label_status();
+
+
 };
 
 #endif // DIALOG_LOGIN_H

@@ -22,6 +22,8 @@
 #include "dialog_add_dynamic_view.h"
 #include "dialog_add_visits.h"
 #include "dialog_preview_print.h"
+#include "dialog_diagnos_patient.h"
+
 //threads
 #include "new_changes_thread.h"
 
@@ -52,6 +54,7 @@ private:
 public slots:
     void settings_ui();
     void settings_user();
+
     void added_info_patient();
     void edit_info_patient();
     void del_info_patient();
@@ -81,6 +84,7 @@ public slots:
     void print_medcard();
     void set_status_arhive();
     void changes_new(QString status);
+
 
     //threads
     void thread_new_changes();

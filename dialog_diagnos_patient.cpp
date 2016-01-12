@@ -36,6 +36,7 @@ void Dialog_diagnos_patient::load_allow_date()
         ui->comboBox_diagnos->addItem(diagnos, id_diagnos);
 
     }
+            ui->dateEdit_date_fixing_diagnos->setDate(QDate::currentDate());
     }
 }
 
@@ -47,9 +48,13 @@ void Dialog_diagnos_patient::setParam(int param, QString id, QString staff_id)
     switch (param) {
     case 0:
         //add diagnos
+        Dialog_diagnos_patient::setWindowTitle("Добавление диагноза");
         break;
     case 1:
-        //edit duiagnos
+        //edit diagnos
+        get_data();
+        Dialog_diagnos_patient::setWindowTitle("Изменение диагноза");
+
         break;
     }
 }
@@ -60,22 +65,41 @@ void Dialog_diagnos_patient::get_data()
 
     if(db.open())
     {
-        query.exec("0"); //select
+        query.exec("SELECT                   diagnos_patient.fixing_diagnos_date,\
+                   diagnos_patient.diagnos_id\
+                 FROM \
+                   test.diagnos_patient\
+                 WHERE \
+                   diagnos_patient.id = "+global_id);
+                while(query.next())
+    {
+                QDate fixing_diagnos_date_value = query.value(0).toDate();
+                QString diagnos_id = query.value(1).toString();
+
+                ui->dateEdit_date_fixing_diagnos->setDate(fixing_diagnos_date_value);
+                ui->comboBox_diagnos->setCurrentIndex(ui->comboBox_diagnos->findData(diagnos_id));
+                qDebug()<<diagnos_id;
+    }
     }
 
 }
 void Dialog_diagnos_patient::send_data()
 {
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+
     QString date_fixing_diagnos = ui->dateEdit_date_fixing_diagnos->date().toString("MM.dd.yyyy");
     QString diagnos_id = ui->comboBox_diagnos->currentData().toString();
     switch (global_param) {
     case 0:
         //insert
-
+        query.exec("INSERT INTO test.diagnos_patient(medcard_id, diagnos_id, staff_add_id, fixing_diagnos_date) VALUES ('"+global_id+"', '"+diagnos_id+"', '"+global_staff_id+"', '"+date_fixing_diagnos+"')");
+        Dialog_diagnos_patient::accept();
         break;
     case 1:
         //update
-
+        query.exec("UPDATE test.diagnos_patient SET  diagnos_id='"+diagnos_id+"', staff_add_id='"+global_staff_id+"', fixing_diagnos_date='"+date_fixing_diagnos+"' WHERE id="+global_id);
+        Dialog_diagnos_patient::accept();
         break;
     }
 }

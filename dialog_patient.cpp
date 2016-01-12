@@ -154,7 +154,7 @@ void Dialog_patient::put_all_settings()
             QString id_diagnos = query.value(0).toString();
             QString diagnos = query.value(2).toString();
             diagnos.append(":  :").append(query.value(1).toString());
-            ui->comboBox_diagnosis->addItem(diagnos, id_diagnos);
+            //ui->comboBox_diagnosis->addItem(diagnos, id_diagnos);
 
         }
     }
@@ -231,7 +231,7 @@ void Dialog_patient::get_data_sql(int id)
             ui->lineEdit_number_passport->setText(number_passport);
             ui->dateEdit_date_birthday->setDate(date_birthday);
             ui->lineEdit_telefon->setText(telefon_value);
-            ui->comboBox_diagnosis->setCurrentIndex(ui->comboBox_diagnosis->findData(diagnos_id_value));
+            //ui->comboBox_diagnosis->setCurrentIndex(ui->comboBox_diagnosis->findData(diagnos_id_value));
         }
     }
 
@@ -257,7 +257,7 @@ void Dialog_patient::apply_send_data_sql()
     QString telefon_value = ui->lineEdit_telefon->text();
     QString id_patient;
     QString id_medcard;
-    QString diagnos_id = ui->comboBox_diagnosis->currentData().toString();
+    //QString diagnos_id = ui->comboBox_diagnosis->currentData().toString();
     int control_lineedit=0;
     QPixmap error_pix(":/icon/png/images/Warning.png");
     if(ui->lineEdit_house->text()=="")

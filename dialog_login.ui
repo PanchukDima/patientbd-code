@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>367</width>
-    <height>187</height>
+    <width>233</width>
+    <height>257</height>
    </rect>
   </property>
   <property name="font">
@@ -22,6 +22,9 @@
    <iconset resource="images.qrc">
     <normaloff>:/icon/png/images/NZT.png</normaloff>:/icon/png/images/NZT.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background:rgb(190, 255, 253)</string>
+  </property>
   <property name="inputMethodHints">
    <set>Qt::ImhNone</set>
   </property>
@@ -30,6 +33,14 @@
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>Логин (Имя):</string>
        </property>
@@ -37,16 +48,31 @@
      </item>
      <item row="0" column="1">
       <widget class="QLineEdit" name="lineEdit_login">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Имя пользователя программы&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="whatsThis">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:14px; color:#252525; background-color:#ffffff;&quot;&gt;имя (идентификатор) &lt;/span&gt;&lt;a href=&quot;https://ru.wikipedia.org/wiki/%D0%A3%D1%87%D1%91%D1%82%D0%BD%D0%B0%D1%8F_%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D1%8C&quot;&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:14px; color:#0b0080; background-color:#ffffff;&quot;&gt;учётной записи&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:14px; color:#252525; background-color:#ffffff;&quot;&gt; пользователя в компьютерной системе. Может представлять собой как подлинные фамилию и имя или инициалы пользователя (в системах официального электронного документооборота), так и псевдоним (англ. &lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:14px; font-style:italic; color:#252525; background-color:#ffffff;&quot;&gt;nickname, никнейм&lt;/span&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:14px; color:#252525; background-color:#ffffff;&quot;&gt; &amp;quot;прозвище&amp;quot;) в неформальной Интернет-коммуникации.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid gray;
+border-radius: 5px;
+background:white;</string>
+       </property>
       </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Пароль:</string>
        </property>
@@ -54,8 +80,18 @@
      </item>
      <item row="1" column="1">
       <widget class="QLineEdit" name="lineEdit_password">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ваш пароль от программы&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border: 2px solid gray;
+border-radius: 5px;
+background:white;</string>
        </property>
        <property name="inputMethodHints">
         <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
@@ -69,10 +105,28 @@
    </item>
    <item>
     <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
      <property name="text">
-      <string/>
+      <string>Введите Логин и пароль</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -91,13 +145,23 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_ok">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
-        <string>Ок</string>
+        <string>Вход</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_cancel">
+       <property name="font">
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Отмена</string>
        </property>
