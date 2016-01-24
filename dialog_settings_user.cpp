@@ -13,6 +13,7 @@ Dialog_settings_user::Dialog_settings_user(QWidget *parent) :
     connect(ui->pushButton_ok,SIGNAL(clicked()),SLOT(push_ok()));
     connect(ui->pushButton_set_path_blanks,SIGNAL(clicked(bool)),SLOT(set_updServ_path_blanks_func()));
     connect(ui->pushButton_set_path_local_blanks,SIGNAL(clicked(bool)),SLOT(set_path_blanks_func()));
+    connect(ui->toolButton_path_files_patient,SIGNAL(clicked(bool)),SLOT(set_path_files_patient()));
 }
 
 Dialog_settings_user::~Dialog_settings_user()
@@ -28,12 +29,14 @@ void Dialog_settings_user::load_settings()
     QString version = settings->value("CurrentVersion").toString();
     QString path_UpdServ_blanks = settings->value("path_UpdServ_blanks").toString();
     QString path_blanks = settings->value("path_blanks").toString();
+    QString path_files_patient = settings->value("path_files_patient").toString();
     ui->lineEdit_ip_addr->setText(ip_addr);
     ui->lineEdit_port->setText(port);
     ui->lineEdit_size_font_text_setting->setText(sizefonttable);
     ui->label_CurrentVersion->setText(version);
     ui->lineEdit_path_blanks->setText(path_UpdServ_blanks);
     ui->lineEdit_path_local_blanks->setText(path_blanks);
+    ui->lineEdit_path_files_patient->setText(path_files_patient);
 
 }
 
@@ -45,6 +48,7 @@ void Dialog_settings_user::apply_settings()
     settings->setValue("sizefonttexttable", ui->lineEdit_size_font_text_setting->text());
     settings->setValue("path_UpdServ_blanks" ,ui->lineEdit_path_blanks->text());
     settings->setValue("path_blanks" ,ui->lineEdit_path_local_blanks->text());
+    settings->setValue("path_files_patient", ui->lineEdit_path_files_patient->text());
 }
 void Dialog_settings_user::default_settings()
 {
@@ -66,4 +70,10 @@ void Dialog_settings_user::set_updServ_path_blanks_func()
     QString file_name=ui->lineEdit_path_blanks->text();
     file_name = QFileDialog::getExistingDirectory(this, tr("Путь к сетевым бланкам"), file_name, QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     ui->lineEdit_path_blanks->setText(file_name);
+}
+void Dialog_settings_user::set_path_files_patient()
+{
+    QString file_name=ui->lineEdit_path_files_patient->text();
+    file_name = QFileDialog::getExistingDirectory(this, tr("Путь к файлам пациента"), file_name, QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    ui->lineEdit_path_files_patient->setText(file_name);
 }

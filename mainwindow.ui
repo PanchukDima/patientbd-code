@@ -85,6 +85,12 @@ image: url(:/icon/png/images/sortIndicatorUp.png);
     </item>
     <item>
      <widget class="QTabWidget" name="tabWidget_invalid_psi">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="font">
        <font>
         <pointsize>11</pointsize>
@@ -97,7 +103,7 @@ image: url(:/icon/png/images/sortIndicatorUp.png);
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
       <property name="documentMode">
        <bool>false</bool>
@@ -110,6 +116,9 @@ image: url(:/icon/png/images/sortIndicatorUp.png);
         <string>Диагнозы</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_10">
+        <property name="topMargin">
+         <number>1</number>
+        </property>
         <item>
          <widget class="QTableWidget" name="tableWidget_diagnos_patient">
           <property name="contextMenuPolicy">
@@ -154,7 +163,7 @@ image: url(:/icon/png/images/sortIndicatorUp.png);
              </property>
              <property name="styleSheet">
               <string notr="true">QTableWidget{
-border: 0px solid gray;
+border: 0px right solid gray;
 
 
 }</string>
@@ -223,6 +232,9 @@ border: 0px solid gray;
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
             <widget class="QTableWidget" name="tableWidget_sved_gospital">
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
              </property>
@@ -279,7 +291,7 @@ border: 0px solid gray;
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
-            <widget class="QTableWidget" name="tableWidget_8">
+            <widget class="QTableWidget" name="tableWidget_invalid_psi">
              <property name="editTriggers">
               <set>QAbstractItemView::NoEditTriggers</set>
              </property>
@@ -336,57 +348,89 @@ border: 0px solid gray;
         <string>Дополнительно</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>1</number>
+        </property>
         <item>
-         <widget class="QGroupBox" name="groupBox_3">
-          <property name="title">
-           <string>Суицидальные попытки</string>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
+           <number>1</number>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QTableWidget" name="tableWidget_suicid">
-             <property name="editTriggers">
-              <set>QAbstractItemView::NoEditTriggers</set>
-             </property>
-             <property name="selectionMode">
-              <enum>QAbstractItemView::SingleSelection</enum>
-             </property>
-             <property name="selectionBehavior">
-              <enum>QAbstractItemView::SelectRows</enum>
-             </property>
-             <property name="sortingEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGroupBox" name="groupBox_4">
-          <property name="title">
-           <string>Принудительное лечение</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QTableWidget" name="tableWidget_fuke">
-             <property name="editTriggers">
-              <set>QAbstractItemView::NoEditTriggers</set>
-             </property>
-             <property name="selectionMode">
-              <enum>QAbstractItemView::SingleSelection</enum>
-             </property>
-             <property name="selectionBehavior">
-              <enum>QAbstractItemView::SelectRows</enum>
-             </property>
-             <property name="sortingEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QWidget" name="tab_2">
+           <attribute name="title">
+            <string>Суицид</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QTableWidget" name="tableWidget_suicid">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_3">
+           <attribute name="title">
+            <string>Tab 2</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QTableWidget" name="tableWidget_fuke">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_4">
+           <attribute name="title">
+            <string>Страница</string>
+           </attribute>
+          </widget>
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>История пациента</string>
+       </attribute>
+       <widget class="QPushButton" name="pushButton_add_history_patient">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>20</y>
+          <width>221</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Добавить историю пациента</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

@@ -9,6 +9,8 @@ Dialog_diagnos_patient::Dialog_diagnos_patient(QWidget *parent) :
     load_allow_date();
     connect(ui->pushButton_ok,SIGNAL(clicked(bool)),SLOT(send_data()));
     connect(ui->pushButton_cancel,SIGNAL(clicked(bool)),SLOT(close()));
+    connect(ui->comboBox_code_diagnos,SIGNAL(activated(int)),SLOT(change_code_diagnos(int)));
+    connect(ui->comboBox_diagnos,SIGNAL(activated(int)),SLOT(change_description_diagnos(int)));
 }
 
 Dialog_diagnos_patient::~Dialog_diagnos_patient()
@@ -31,8 +33,9 @@ void Dialog_diagnos_patient::load_allow_date()
     while (query.next())
     {
         QString id_diagnos = query.value(0).toString();
-        QString diagnos = query.value(2).toString();
-        diagnos.append(":  :").append(query.value(1).toString());
+        QString diagnos = query.value(1).toString();
+        QString code_diagnos = query.value(2).toString();
+        ui->comboBox_code_diagnos->addItem(code_diagnos, id_diagnos);
         ui->comboBox_diagnos->addItem(diagnos, id_diagnos);
 
     }
@@ -65,7 +68,7 @@ void Dialog_diagnos_patient::get_data()
 
     if(db.open())
     {
-        query.exec("SELECT                   diagnos_patient.fixing_diagnos_date,\
+        query.exec("SELECT diagnos_patient.fixing_diagnos_date,\
                    diagnos_patient.diagnos_id\
                  FROM \
                    test.diagnos_patient\
@@ -102,4 +105,14 @@ void Dialog_diagnos_patient::send_data()
         Dialog_diagnos_patient::accept();
         break;
     }
+}
+void Dialog_diagnos_patient::change_code_diagnos(int index_code)
+{
+    QString id_diagnos = ui->comboBox_code_diagnos->itemData(index_code).toString();
+    ui->comboBox_diagnos->setCurrentIndex(ui->comboBox_diagnos->findData(id_diagnos));
+}
+void Dialog_diagnos_patient::change_description_diagnos(int index_code)
+{
+    QString id_diagnos = ui->comboBox_diagnos->itemData(index_code).toString();
+    ui->comboBox_code_diagnos->setCurrentIndex(ui->comboBox_code_diagnos->findData(id_diagnos));
 }

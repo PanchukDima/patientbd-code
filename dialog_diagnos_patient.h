@@ -28,6 +28,8 @@ public slots:
     void get_data();
     void send_data();
     void load_allow_date();
+    void change_code_diagnos(int);
+    void change_description_diagnos(int);
 };
 
 

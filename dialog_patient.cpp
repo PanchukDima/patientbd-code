@@ -18,6 +18,28 @@ Dialog_patient::Dialog_patient(QWidget *parent) :
     connect(ui->lineEdit_serial_passport,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_serial_passport()));
     connect(ui->lineEdit_number_passport,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_number_passport()));
     connect(ui->lineEdit_house,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_house()));
+    connect(ui->tableWidget_text_1,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_1()));
+    connect(ui->tableWidget_text_2,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_2()));
+    connect(ui->tableWidget_text_3,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_3()));
+    connect(ui->tableWidget_text_4,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_4()));
+    connect(ui->tableWidget_text_5,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_5()));
+    connect(ui->pushButton_save_1,SIGNAL(clicked(bool)),SLOT(save_text_1()));
+    connect(ui->pushButton_save_2,SIGNAL(clicked(bool)),SLOT(save_text_2()));
+    connect(ui->pushButton_save_3,SIGNAL(clicked(bool)),SLOT(save_text_3()));
+    connect(ui->pushButton_save_4,SIGNAL(clicked(bool)),SLOT(save_text_4()));
+    connect(ui->pushButton_save_5,SIGNAL(clicked(bool)),SLOT(save_text_5()));
+    connect(ui->pushButton_creat_1,SIGNAL(clicked(bool)),SLOT(creat_text_1()));
+    connect(ui->pushButton_creat_2,SIGNAL(clicked(bool)),SLOT(creat_text_2()));
+    connect(ui->pushButton_creat_3,SIGNAL(clicked(bool)),SLOT(creat_text_3()));
+    connect(ui->pushButton_creat_4,SIGNAL(clicked(bool)),SLOT(creat_text_4()));
+    connect(ui->pushButton_creat_5,SIGNAL(clicked(bool)),SLOT(creat_text_5()));
+    connect(ui->pushButton_del_1,SIGNAL(clicked(bool)),SLOT(del_text_1()));
+    connect(ui->pushButton_del_2,SIGNAL(clicked(bool)),SLOT(del_text_2()));
+    connect(ui->pushButton_del_3,SIGNAL(clicked(bool)),SLOT(del_text_3()));
+    connect(ui->pushButton_del_4,SIGNAL(clicked(bool)),SLOT(del_text_4()));
+    connect(ui->pushButton_del_5,SIGNAL(clicked(bool)),SLOT(del_text_5()));
+
+
 
     // ui->dateEdit_date_birthday->setEnabled(false);
     ui->dateEdit_date_end->setEnabled(false);
@@ -126,6 +148,7 @@ void Dialog_patient::put_all_settings()
     QSqlDatabase db = QSqlDatabase::database();
     ui->comboBox_sex->clear();
     ui->comboBox_street->clear();
+    ui->tableWidget_text_1->setColumnCount(2);
     if(db.open())
     {
         QSqlQuery query;
@@ -169,6 +192,7 @@ void Dialog_patient::setParam(int param,int id, QString staff_id)
 {
     global_param = param;
     global_staff_id = staff_id;
+    global_id_str.setNum(id);
     qDebug()<<id;
     switch(param)
     {
@@ -178,6 +202,7 @@ void Dialog_patient::setParam(int param,int id, QString staff_id)
     case 1:
         qDebug()<<"edit patient";
         get_data_sql(id);
+        load_text_table();
         break;
     case 2:
         qDebug()<<"del patient"; //я не знаю где это выполнять может на главном экране?
@@ -233,10 +258,490 @@ void Dialog_patient::get_data_sql(int id)
             ui->lineEdit_telefon->setText(telefon_value);
             //ui->comboBox_diagnosis->setCurrentIndex(ui->comboBox_diagnosis->findData(diagnos_id_value));
         }
+
+
+
+
+
     }
 
 
 }
+void Dialog_patient::clear_table_text_1()
+{
+    int c;
+    ui->tableWidget_text_1->clear();
+
+    for (c = ui->tableWidget_text_1->rowCount()-1; c >= 0; c--)
+    {
+        ui->tableWidget_text_1->removeRow(c);
+    }
+}
+void Dialog_patient::clear_table_text_2()
+{
+    int c;
+    ui->tableWidget_text_2->clear();
+
+    for (c = ui->tableWidget_text_2->rowCount()-1; c >= 0; c--)
+    {
+        ui->tableWidget_text_2->removeRow(c);
+    }
+}
+void Dialog_patient::clear_table_text_3()
+{
+    int c;
+    ui->tableWidget_text_3->clear();
+
+    for (c = ui->tableWidget_text_3->rowCount()-1; c >= 0; c--)
+    {
+        ui->tableWidget_text_3->removeRow(c);
+    }
+}
+void Dialog_patient::clear_table_text_4()
+{
+    int c;
+    ui->tableWidget_text_4->clear();
+
+    for (c = ui->tableWidget_text_4->rowCount()-1; c >= 0; c--)
+    {
+        ui->tableWidget_text_4->removeRow(c);
+    }
+}
+void Dialog_patient::clear_table_text_5()
+{
+    int c;
+    ui->tableWidget_text_5->clear();
+    ;
+    for (c = ui->tableWidget_text_5->rowCount()-1; c >= 0; c--)
+    {
+        ui->tableWidget_text_5->removeRow(c);
+    }
+}
+void Dialog_patient::load_text_table()
+{
+
+
+    clear_table_text_1();
+    clear_table_text_2();
+    clear_table_text_3();
+    clear_table_text_4();
+    clear_table_text_5();
+    // наполняем таблицы записями
+    int last_row_table_1 = ui->tableWidget_text_1->rowCount();
+    int last_row_table_2 = ui->tableWidget_text_2->rowCount();
+    int last_row_table_3 = ui->tableWidget_text_3->rowCount();
+    int last_row_table_4 = ui->tableWidget_text_4->rowCount();
+    int last_row_table_5 = ui->tableWidget_text_5->rowCount();
+
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    if(db.open())
+    {
+    query.exec("SELECT id, type, date_creat FROM test.text_info_patients WHERE medcard_id = "+global_id_str);
+    while(query.next())
+    {
+        QString id_value = query.value(0).toString();
+        int type_value = query.value(1).toInt();
+        QString date_value = query.value(2).toDate().toString("dd.MM.yyyy");
+
+        QTableWidgetItem * id = new QTableWidgetItem();
+        QTableWidgetItem * date = new QTableWidgetItem();
+
+        id->setText(id_value);
+        date->setText(date_value);
+
+        switch (type_value) {
+        case 0:
+            ui->tableWidget_text_1->insertRow(last_row_table_1);
+            ui->tableWidget_text_1->setItem(last_row_table_1,0,id);
+            ui->tableWidget_text_1->setItem(last_row_table_1,1,date);
+            break;
+        case 1:
+            ui->tableWidget_text_2->insertRow(last_row_table_2);
+            ui->tableWidget_text_2->setItem(last_row_table_2,0,id);
+            ui->tableWidget_text_2->setItem(last_row_table_2,1,date);
+            break;
+        case 2:
+            ui->tableWidget_text_3->insertRow(last_row_table_3);
+            ui->tableWidget_text_3->setItem(last_row_table_3,0,id);
+            ui->tableWidget_text_3->setItem(last_row_table_3,1,date);
+            break;
+        case 3:
+            ui->tableWidget_text_4->insertRow(last_row_table_4);
+            ui->tableWidget_text_4->setItem(last_row_table_4,0,id);
+            ui->tableWidget_text_4->setItem(last_row_table_4,1,date);
+            break;
+        case 4:
+            ui->tableWidget_text_5->insertRow(last_row_table_5);
+            ui->tableWidget_text_5->setItem(last_row_table_5,0,id);
+            ui->tableWidget_text_5->setItem(last_row_table_5,1,date);
+            break;
+        }
+    }
+    }
+}
+
+void Dialog_patient::load_text_table_1()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    ui->textEdit_1->clear();
+    int selected_tables = ui->tableWidget_text_1->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_1->currentRow();
+        QString id = ui->tableWidget_text_1->item(cu_row,0)->text();
+        if(db.open())
+        {
+            query.exec("SELECT text FROM test.text_info_patients WHERE id = "+id);
+            while(query.next())
+            {
+                QString text = query.value(0).toString();
+                ui->textEdit_1->setText(text);
+            }
+        }
+    }
+}
+void Dialog_patient::load_text_table_2()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    ui->textEdit_2->clear();
+    int selected_tables = ui->tableWidget_text_2->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_2->currentRow();
+        QString id = ui->tableWidget_text_2->item(cu_row,0)->text();
+        if(db.open())
+        {
+            query.exec("SELECT text FROM test.text_info_patients WHERE id = "+id);
+            while(query.next())
+            {
+                QString text = query.value(0).toString();
+                ui->textEdit_2->setText(text);
+            }
+        }
+    }
+}
+void Dialog_patient::load_text_table_3()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    ui->textEdit_3->clear();
+    int selected_tables = ui->tableWidget_text_3->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_3->currentRow();
+        QString id = ui->tableWidget_text_3->item(cu_row,0)->text();
+        if(db.open())
+        {
+            query.exec("SELECT text FROM test.text_info_patients WHERE id = "+id);
+            while(query.next())
+            {
+                QString text = query.value(0).toString();
+                ui->textEdit_3->setText(text);
+            }
+        }
+    }
+}
+void Dialog_patient::load_text_table_4()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    ui->textEdit_4->clear();
+    int selected_tables = ui->tableWidget_text_4->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_4->currentRow();
+        QString id = ui->tableWidget_text_4->item(cu_row,0)->text();
+        if(db.open())
+        {
+            query.exec("SELECT text FROM test.text_info_patients WHERE id = "+id);
+            while(query.next())
+            {
+                QString text = query.value(0).toString();
+                ui->textEdit_4->setText(text);
+            }
+        }
+    }
+}
+void Dialog_patient::load_text_table_5()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    ui->textEdit_5->clear();
+    int selected_tables = ui->tableWidget_text_5->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_5->currentRow();
+        QString id = ui->tableWidget_text_5->item(cu_row,0)->text();
+        if(db.open())
+        {
+            query.exec("SELECT text FROM test.text_info_patients WHERE id = "+id);
+            while(query.next())
+            {
+                QString text = query.value(0).toString();
+                ui->textEdit_5->setText(text);
+            }
+        }
+    }
+}
+void Dialog_patient::save_text_1()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_1->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_1->currentRow();
+        QString id = ui->tableWidget_text_1->item(cu_row,0)->text();
+        if(db.open())
+        {
+            QString text = ui->textEdit_1->toPlainText();
+            QString date = QDate::currentDate().toString("MM.dd.yyyy");
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', text='"+text+"' , date_creat = '"+date+"' WHERE id="+id);
+        }
+    }
+    else
+    {
+        creat_text_1();
+    }
+}
+void Dialog_patient::save_text_2()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_2->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_2->currentRow();
+        QString id = ui->tableWidget_text_2->item(cu_row,0)->text();
+        if(db.open())
+        {
+            QString text = ui->textEdit_2->toPlainText();
+            QString date = QDate::currentDate().toString("MM.dd.yyyy");
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', text='"+text+"' , date_creat = '"+date+"' WHERE id="+id);
+        }
+    }
+    else
+    {
+        creat_text_2();
+    }
+}
+void Dialog_patient::save_text_3()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_3->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_3->currentRow();
+        QString id = ui->tableWidget_text_3->item(cu_row,0)->text();
+        if(db.open())
+        {
+            QString text = ui->textEdit_3->toPlainText();
+            QString date = QDate::currentDate().toString("MM.dd.yyyy");
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', text='"+text+"' , date_creat = '"+date+"' WHERE id="+id);
+        }
+    }
+    else
+    {
+        creat_text_3();
+    }
+}
+void Dialog_patient::save_text_4()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_4->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_4->currentRow();
+        QString id = ui->tableWidget_text_4->item(cu_row,0)->text();
+        if(db.open())
+        {
+            QString text = ui->textEdit_4->toPlainText();
+            QString date = QDate::currentDate().toString("MM.dd.yyyy");
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', text='"+text+"' , date_creat = '"+date+"' WHERE id="+id);
+        }
+    }
+    else
+    {
+        creat_text_4();
+    }
+}
+void Dialog_patient::save_text_5()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_4->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_4->currentRow();
+        QString id = ui->tableWidget_text_4->item(cu_row,0)->text();
+        if(db.open())
+        {
+            QString text = ui->textEdit_5->toPlainText();
+            QString date = QDate::currentDate().toString("MM.dd.yyyy");
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', text='"+text+"' , date_creat = '"+date+"' WHERE id="+id);
+        }
+    }
+    else
+    {
+        creat_text_5();
+    }
+}
+void Dialog_patient::creat_text_1()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+
+        if(db.open())
+        {
+            QString text = ui->textEdit_1->toPlainText();
+            QString date = QDate::currentDate().toString("MM.dd.yyyy");
+            query.exec("INSERT INTO test.text_info_patients(medcard_id, type, date_creat, staff_add_id, text, delete_row) VALUES ('"+global_id_str+"', '0', '"+date+"', '"+global_staff_id+"', '"+text+"', 'false')");
+            load_text_table();
+        }
+
+}
+void Dialog_patient::creat_text_2()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+
+    if(db.open())
+    {
+        QString text = ui->textEdit_2->toPlainText();
+        QString date = QDate::currentDate().toString("MM.dd.yyyy");
+        query.exec("INSERT INTO test.text_info_patients(medcard_id, type, date_creat, staff_add_id, text, delete_row) VALUES ('"+global_id_str+"', '1', '"+date+"', '"+global_staff_id+"', '"+text+"', 'false')");
+        load_text_table();
+    }
+
+}
+void Dialog_patient::creat_text_3()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+
+    if(db.open())
+    {
+        QString text = ui->textEdit_3->toPlainText();
+        QString date = QDate::currentDate().toString("MM.dd.yyyy");
+        query.exec("INSERT INTO test.text_info_patients(medcard_id, type, date_creat, staff_add_id, text, delete_row) VALUES ('"+global_id_str+"', '2', '"+date+"', '"+global_staff_id+"', '"+text+"', 'false')");
+        load_text_table();
+    }
+
+}
+void Dialog_patient::creat_text_4()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+
+    if(db.open())
+    {
+        QString text = ui->textEdit_4->toPlainText();
+        QString date = QDate::currentDate().toString("MM.dd.yyyy");
+        query.exec("INSERT INTO test.text_info_patients(medcard_id, type, date_creat, staff_add_id, text, delete_row) VALUES ('"+global_id_str+"', '3', '"+date+"', '"+global_staff_id+"', '"+text+"', 'false')");
+        load_text_table();
+    }
+
+}
+void Dialog_patient::creat_text_5()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+
+    if(db.open())
+    {
+        QString text = ui->textEdit_5->toPlainText();
+        QString date = QDate::currentDate().toString("MM.dd.yyyy");
+        query.exec("INSERT INTO test.text_info_patients(medcard_id, type, date_creat, staff_add_id, text, delete_row) VALUES ('"+global_id_str+"', '4', '"+date+"', '"+global_staff_id+"', '"+text+"', 'false')");
+        load_text_table();
+    }
+
+}
+void Dialog_patient::del_text_1()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_1->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_1->currentRow();
+        QString id = ui->tableWidget_text_1->item(cu_row,0)->text();
+        if(db.open())
+        {
+
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', delete_rows='true' WHERE id="+id);
+        }
+    }
+}
+void Dialog_patient::del_text_2()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_2->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_2->currentRow();
+        QString id = ui->tableWidget_text_2->item(cu_row,0)->text();
+        if(db.open())
+        {
+
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', delete_rows='true' WHERE id="+id);
+        }
+    }
+}
+void Dialog_patient::del_text_3()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_3->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_3->currentRow();
+        QString id = ui->tableWidget_text_3->item(cu_row,0)->text();
+        if(db.open())
+        {
+
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', delete_rows='true' WHERE id="+id);
+        }
+    }
+}
+void Dialog_patient::del_text_4()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_4->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_4->currentRow();
+        QString id = ui->tableWidget_text_4->item(cu_row,0)->text();
+        if(db.open())
+        {
+
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', delete_rows='true' WHERE id="+id);
+        }
+    }
+}
+void Dialog_patient::del_text_5()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_text_5->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_text_5->currentRow();
+        QString id = ui->tableWidget_text_5->item(cu_row,0)->text();
+        if(db.open())
+        {
+
+            query.exec("UPDATE test.text_info_patients SET staff_add_id='"+global_staff_id+"', delete_rows='true' WHERE id="+id);
+        }
+    }
+}
+
 void Dialog_patient::apply_send_data_sql()
 {
     QSqlDatabase db = QSqlDatabase::database();

@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = base
 TEMPLATE = app
-CONFIG += CONSOLE
+#CONFIG += CONSOLE
 
 
 SOURCES += main.cpp\
@@ -24,7 +24,10 @@ SOURCES += main.cpp\
     dialog_add_visits.cpp \
     dialog_preview_print.cpp \
     new_changes_thread.cpp \
-    dialog_diagnos_patient.cpp
+    dialog_diagnos_patient.cpp \
+    dialog_hospitalization.cpp \
+    dialog_copy_files_to_server.cpp \
+    dialog_invalids_patient.cpp
 
 HEADERS  += mainwindow.h \
     dialog_patient.h \
@@ -36,7 +39,10 @@ HEADERS  += mainwindow.h \
     dialog_add_visits.h \
     dialog_preview_print.h \
     new_changes_thread.h \
-    dialog_diagnos_patient.h
+    dialog_diagnos_patient.h \
+    dialog_hospitalization.h \
+    dialog_copy_files_to_server.h \
+    dialog_invalids_patient.h
 
 FORMS    += mainwindow.ui \
     dialog_patient.ui \
@@ -47,9 +53,13 @@ FORMS    += mainwindow.ui \
     dialog_add_dynamic_view.ui \
     dialog_add_visits.ui \
     dialog_preview_print.ui \
-    dialog_diagnos_patient.ui
+    dialog_diagnos_patient.ui \
+    dialog_hospitalization.ui \
+    dialog_copy_files_to_server.ui \
+    dialog_invalids_patient.ui
 
 RESOURCES += \
     images.qrc
 LIBS += -L /plugin/sqldrivers
+INCLUDEPATH += C:/ProjectPSI/nonstoklibrary/poppler-0.40.0/qt5/src
 

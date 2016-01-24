@@ -63,9 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     if(first_start!=1)
     {
-    timer=new QTimer(this);
-    connect(timer,SIGNAL(timeout()),this,SLOT(find_patients()));
-    timer->start(500);
+
     thread_new_changes();
     }
 
@@ -76,6 +74,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tableWidget_control_pos,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_visits_control(QPoint)));
     connect(ui->tableWidget,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_main_table(QPoint)));
     connect(ui->tableWidget_diagnos_patient,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_diagnos_table(QPoint)));
+    connect(ui->tableWidget_sved_gospital,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_hospitalization_table(QPoint)));
+    connect(ui->pushButton_add_history_patient,SIGNAL(clicked(bool)),SLOT(added_files_patient()));
+
 
 }
 
@@ -137,7 +138,7 @@ void MainWindow::settings_ui()
     QTableWidget * diagnos_table = ui->tableWidget_diagnos_patient; //Диагнозы пациентов
     QTableWidget * gospit_table = ui->tableWidget_sved_gospital;
     QTableWidget * list_not_work_table = ui->tableWidget_point_time_notwork;
-    QTableWidget * invalid_table = ui->tabWidget_invalid_psi;
+    QTableWidget * invalid_table = ui->tableWidget_invalid_psi;
     QTableWidget * suicid_table = ui->tableWidget_suicid;
 
 
@@ -165,7 +166,7 @@ void MainWindow::settings_ui()
     QTableWidgetItem * name_2_collumn_gospit = new QTableWidgetItem();
     QTableWidgetItem * name_3_collumn_gospit = new QTableWidgetItem();
     QTableWidgetItem * name_4_collumn_gospit = new QTableWidgetItem();
-    QTableWidgetItem * name_5_collumn_gospit = new QTableWidgetItem();
+
     //Итемы таблицы нетрудоспособности
     QTableWidgetItem * name_1_collumn_list_not_work = new QTableWidgetItem();
     QTableWidgetItem * name_2_collumn_list_not_work = new QTableWidgetItem();
@@ -209,7 +210,7 @@ void MainWindow::settings_ui()
     dynamicView->setColumnCount(3);
     controlpos->setColumnCount(4);
     diagnos_table->setColumnCount(6);
-    gospit_table->setColumnCount(6);
+    gospit_table->setColumnCount(5);
     list_not_work_table->setColumnCount(4);
     invalid_table->setColumnCount(5);
     suicid_table->setColumnCount(2);
@@ -254,11 +255,11 @@ void MainWindow::settings_ui()
     name_4_collumn_diagnos_table->setText("Код врача");
     name_5_collumn_diagnos_table->setText("ФИО врача");
     //текст заголовка таблицы госпитализация
-    name_1_collumn_gospit->setText("Цель\nГоспитализации");
+    name_1_collumn_gospit->setText("Инициатор\nгоспитализации");
     name_2_collumn_gospit->setText("Дата\nПоступления");
     name_3_collumn_gospit->setText("Дата выбытия");
-    name_4_collumn_gospit->setText("Код в\nсоответствии\nс V классом\nМКБ-10");
-    name_5_collumn_gospit->setText("Код\nосновного\nзаболевания");
+    name_4_collumn_gospit->setText("Добавил\nИзменил");
+
     //текст заголовка таблицы лист нетрудоспособности
     name_1_collumn_list_not_work->setText("Дата открытия\nбольничного листа");
     name_2_collumn_list_not_work->setText("Дата закрытия\nбольничного листа");
@@ -293,7 +294,7 @@ void MainWindow::settings_ui()
     name_2_collumn_gospit->setFont(font_table_header);
     name_3_collumn_gospit->setFont(font_table_header);
     name_4_collumn_gospit->setFont(font_table_header);
-    name_5_collumn_gospit->setFont(font_table_header);
+
     // Выставляем размер шрифта заголовков таблицы "Лист нетрудоспособности"
     name_1_collumn_list_not_work->setFont(font_table_header);
     name_2_collumn_list_not_work->setFont(font_table_header);
@@ -331,7 +332,7 @@ void MainWindow::settings_ui()
     gospit_table->setHorizontalHeaderItem(2,name_2_collumn_gospit);
     gospit_table->setHorizontalHeaderItem(3,name_3_collumn_gospit);
     gospit_table->setHorizontalHeaderItem(4,name_4_collumn_gospit);
-    gospit_table->setHorizontalHeaderItem(5,name_5_collumn_gospit);
+
     //Добавляем итемы на таблицу "Лист нетрудоспособности"
     list_not_work_table->setHorizontalHeaderItem(1,name_1_collumn_list_not_work);
     list_not_work_table->setHorizontalHeaderItem(2,name_2_collumn_list_not_work);
@@ -491,13 +492,20 @@ void MainWindow::clear_diagnos_table()
         ui->tableWidget_diagnos_patient->removeRow(c);
     }
 }
+void MainWindow::clear_hospitalization_table()
+{
+    int c;
+    ui->tableWidget_sved_gospital->clear();
+    ui->mainToolBar->clear();
+    for (c = ui->tableWidget_sved_gospital->rowCount()-1; c >= 0; c--)
+    {
+        ui->tableWidget_sved_gospital->removeRow(c);
+    }
+}
+
 void MainWindow::find_patients()
 {
-    first_start=1;
-    if(first_start)
-    {
-    timer->stop();
-    }
+
     QSqlDatabase db = QSqlDatabase::database();
     QSettings *settings = new QSettings("settings_user.ini",QSettings::IniFormat);
     int vari=0;
@@ -645,9 +653,12 @@ void MainWindow::gen_report_1()
 }
 void MainWindow::load_all_info()
 {
+    //очистка таблиц от старых данных
     clear_dynamic_view_table();
     clear_visiting_control_table();
     clear_diagnos_table();
+    clear_hospitalization_table();
+
     settings_ui();
     QSqlDatabase db = QSqlDatabase::database();
     int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
@@ -672,7 +683,8 @@ void MainWindow::load_all_info()
                             dynamic_view.status = 'false' AND\
                     dynamic_view.medcard_id = ").append(id);
                     query.exec(sqlquery);
-                    int last_row = ui->tableWidget_dynamic_view->rowCount();
+
+            int last_row = ui->tableWidget_dynamic_view->rowCount();
 
             while (query.next()) {
 
@@ -864,8 +876,76 @@ void MainWindow::load_all_info()
                 ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,4,doctor_code);
                 ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,5,doctor_fio);
 
-    }
+                }
+            query.exec("SELECT\
+                       hospitalization.id,\
+                       hospitalization.who_wrote,\
+                       hospitalization.date_up,\
+                       hospitalization.date_down,\
+                       staff.fname,\
+                       staff.name,\
+                       staff.mname\
+                     FROM \
+                       test.hospitalization,\
+                       test.staff\
+                     WHERE\
+                       hospitalization.staff_add_id = staff.id AND delete_row = '0' AND medcard_id="+id);
+            int last_row_hospitalization = ui->tableWidget_sved_gospital->rowCount();
 
+            while (query.next())
+            {
+                QString id_value = query.value(0).toString();
+                int who_value = query.value(1).toInt();
+                QString who_table_value;
+                QString date_up_value = query.value(2).toDate().toString("dd.MM.yyyy");
+                QString date_down_value = query.value(3).toDate().toString("dd.MM.yyyy");
+                QString staff_fio_value;
+                staff_fio_value.append(query.value(4).toString()).append("\n").append(query.value(5).toString()).append("\n").append(query.value(6).toString());
+
+                switch (who_value) {
+                case 0:
+                    who_table_value = "СП";
+                    break;
+                case 1:
+                    who_table_value = "ПНД";
+                    break;
+                case 2:
+                    who_table_value = "Другое";
+                    break;
+                }
+                QTableWidgetItem * id = new QTableWidgetItem();
+                QTableWidgetItem * who = new QTableWidgetItem();
+                QTableWidgetItem * date_up = new QTableWidgetItem();
+                QTableWidgetItem * date_down = new QTableWidgetItem();
+                QTableWidgetItem * staff_fio = new QTableWidgetItem();
+
+                id->setText(id_value);
+                who->setText(who_table_value);
+                date_up->setText(date_up_value);
+                date_down->setText(date_down_value);
+                staff_fio->setText(staff_fio_value);
+
+                QFont font_text;
+                font_text.setPointSize(font_size);
+
+                id->setFont(font_text);
+                who->setFont(font_text);
+                date_up->setFont(font_text);
+                date_down->setFont(font_text);
+                staff_fio->setFont(font_text);
+
+                ui->tableWidget_sved_gospital->insertRow(last_row_hospitalization);
+
+                ui->tableWidget_sved_gospital->setItem(last_row_hospitalization,0,id);
+                ui->tableWidget_sved_gospital->setItem(last_row_hospitalization,1,who);
+                ui->tableWidget_sved_gospital->setItem(last_row_hospitalization,2,date_up);
+                ui->tableWidget_sved_gospital->setItem(last_row_hospitalization,3,date_down);
+                ui->tableWidget_sved_gospital->setItem(last_row_hospitalization,4,staff_fio);
+             }
+        }
+        else
+        {
+            QMessageBox::warning(this,"Ошибка","Потеряно соединение с базой данных");
         }
 
     }
@@ -938,6 +1018,14 @@ void MainWindow::context_menu_diagnos_table(QPoint pos)
     menu->addAction("Изменить", this, SLOT(edit_diagnos_patient())); // это можно использовать для прав->setEnabled(false);
     menu->addAction("Удалить", this, SLOT(del_diagnos_patient()));
     menu->exec(ui->tableWidget_diagnos_patient->mapToGlobal(pos));
+}
+void MainWindow::context_menu_hospitalization_table(QPoint pos)
+{
+    QMenu *menu = new QMenu;
+    menu->addAction("Добавить", this, SLOT(add_hospitalization()));
+    menu->addAction("Изменить", this, SLOT(edit_hospitalization())); // это можно использовать для прав->setEnabled(false);
+    menu->addAction("Удалить", this, SLOT(del_hospitalization()));
+    menu->exec(ui->tableWidget_sved_gospital->mapToGlobal(pos));
 }
 
 void MainWindow::add_visit()
@@ -1128,6 +1216,69 @@ void MainWindow::del_diagnos_patient()
 {
 
 }
+void MainWindow::add_hospitalization()
+{
+    Dialog_hospitalization dialog;
+    int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget->currentRow();
+        QString id = ui->tableWidget->item(cu_row,0)->text();
+        dialog.setParam(0,id,staff_id);
+        if(dialog.exec())
+        {
+            load_all_info();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this,"Ошибка","Чтобы добавить посещение нужно сначала выбрать пациента");
+    }
+}
+void MainWindow::edit_hospitalization()
+{
+    Dialog_hospitalization dialog;
+    int selected_tables = ui->tableWidget_sved_gospital->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_sved_gospital->currentRow();
+        QString id = ui->tableWidget_sved_gospital->item(cu_row,0)->text();
+        dialog.setParam(1,id,staff_id);
+        if(dialog.exec())
+        {
+            load_all_info();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this,"Ошибка","Чтобы добавить посещение нужно сначала выбрать пациента");
+    }
+}
+void MainWindow::del_hospitalization()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_sved_gospital->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_sved_gospital->currentRow();
+        QString id = ui->tableWidget_sved_gospital->item(cu_row,0)->text();
+        int ret = QMessageBox::warning(this, tr("Удаление госпитализации!"),
+                                       tr("Вы точно хотите удалить?"),
+                                       QMessageBox::Yes|QMessageBox::No);
+
+        if(ret==16384)
+        {
+
+            query.exec("UPDATE test.hospitalization SET delete_row='true' WHERE id= "+id);
+            load_all_info();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this,"Ошибка","Нельзя удалить того чего нет)");
+    }
+}
 
 void MainWindow::print_medcard()
 {
@@ -1146,5 +1297,22 @@ void MainWindow::print_medcard()
 }
 void MainWindow::set_status_arhive()
 {
+
+}
+
+void MainWindow::added_files_patient()
+{
+    Dialog_copy_files_to_server dialog;
+    int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget->currentRow();
+        QString id = ui->tableWidget->item(cu_row,0)->text();
+        dialog.setParam(id,staff_id);
+        if(dialog.exec())
+        {
+            find_patients();
+        }
+    }
 
 }
