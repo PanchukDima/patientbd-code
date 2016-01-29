@@ -956,7 +956,18 @@ void Dialog_patient::apply_send_data_sql()
             case 1: //update
 
                 // что за херня снизу?
-                query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end='"+ds_end+"', job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"' WHERE id ="+id_str);
+
+                if(ds_end=="")
+                {
+                    query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end=NULL, job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"' WHERE id ="+id_str);
+
+                }
+                else
+                {
+                    query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end='"+ds_end+"', job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"' WHERE id ="+id_str);
+                }
+
+
                 while (query.next())
                 {
                     id_patient = query.value(0).toString();

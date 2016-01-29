@@ -256,6 +256,9 @@
          </item>
          <item>
           <widget class="QDateEdit" name="dateEdit_date_end">
+           <property name="wrapping">
+            <bool>false</bool>
+           </property>
            <property name="calendarPopup">
             <bool>true</bool>
            </property>
