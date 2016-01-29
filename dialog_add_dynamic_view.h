@@ -20,6 +20,7 @@ public:
     QString global_id;
     QString global_id_row;
     int global_param;
+    int global_type;
     QString global_staff;
     QString dynamic_type;
     QString help_type;
@@ -39,6 +40,7 @@ public slots:
     void setParam(int,QString,QString);
     void getData();
     void global_block();
+    bool check_data(int);
 
 };
 

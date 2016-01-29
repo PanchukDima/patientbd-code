@@ -5,6 +5,7 @@
 #include <QtSql>
 #include <QMessageBox>
 #include <QIcon>
+#include <QInputDialog>
 namespace Ui {
 class Dialog_patient;
 }
@@ -21,6 +22,7 @@ public:
     int global_id;
     QString global_id_str;
     QString global_staff_id;
+    QString why_remove_str;
 
 
 
@@ -67,6 +69,7 @@ public slots:
     void clear_table_text_3();
     void clear_table_text_4();
     void clear_table_text_5();
+    void change_state_ds_end(bool);
 
 
 };

@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = base
 TEMPLATE = app
-#CONFIG += CONSOLE
+CONFIG += CONSOLE
 
 
 SOURCES += main.cpp\
@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     dialog_diagnos_patient.cpp \
     dialog_hospitalization.cpp \
     dialog_copy_files_to_server.cpp \
-    dialog_invalids_patient.cpp
+    dialog_invalids_patient.cpp \
+    dialog_find_filters.cpp
 
 HEADERS  += mainwindow.h \
     dialog_patient.h \
@@ -42,7 +43,8 @@ HEADERS  += mainwindow.h \
     dialog_diagnos_patient.h \
     dialog_hospitalization.h \
     dialog_copy_files_to_server.h \
-    dialog_invalids_patient.h
+    dialog_invalids_patient.h \
+    dialog_find_filters.h
 
 FORMS    += mainwindow.ui \
     dialog_patient.ui \
@@ -56,7 +58,8 @@ FORMS    += mainwindow.ui \
     dialog_diagnos_patient.ui \
     dialog_hospitalization.ui \
     dialog_copy_files_to_server.ui \
-    dialog_invalids_patient.ui
+    dialog_invalids_patient.ui \
+    dialog_find_filters.ui
 
 RESOURCES += \
     images.qrc

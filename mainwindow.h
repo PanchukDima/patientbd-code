@@ -13,6 +13,7 @@
 #include <QThread>
 #include <QFileInfo>
 #include <QFileSystemWatcher>
+#include <QInputDialog>
 //
 #include "dialog_patient.h"
 #include "dialog_settings_user.h"
@@ -94,6 +95,8 @@ public slots:
     void set_status_arhive();
     void changes_new(QString status);
     void added_files_patient();
+
+
 
 
     //threads

@@ -23,7 +23,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -103,67 +103,6 @@
          </item>
          <item>
           <spacer name="horizontalSpacer_10">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_10">
-         <item>
-          <widget class="QLabel" name="label_26">
-           <property name="text">
-            <string>Паспорт</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_serial_passport">
-           <property name="text">
-            <string>Серия</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_serial_passport">
-           <property name="inputMask">
-            <string>XXXX</string>
-           </property>
-           <property name="cursorPosition">
-            <number>0</number>
-           </property>
-           <property name="cursorMoveStyle">
-            <enum>Qt::VisualMoveStyle</enum>
-           </property>
-           <property name="clearButtonEnabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_28">
-           <property name="text">
-            <string>Номер</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEdit_number_passport">
-           <property name="inputMask">
-            <string>999999</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_9">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -302,6 +241,13 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
+          <widget class="QCheckBox" name="checkBox_ds_end_state">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLabel" name="label_9">
            <property name="text">
             <string>Снят с учета</string>
@@ -346,7 +292,7 @@
           <widget class="QLabel" name="label_12">
            <property name="maximumSize">
             <size>
-             <width>130</width>
+             <width>16777215</width>
              <height>16777215</height>
             </size>
            </property>
@@ -366,7 +312,7 @@
           <widget class="QLabel" name="label_13">
            <property name="maximumSize">
             <size>
-             <width>125</width>
+             <width>16777215</width>
              <height>16777215</height>
             </size>
            </property>
@@ -376,11 +322,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBox_work_post">
-           <property name="editable">
-            <bool>true</bool>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="lineEdit_work_post"/>
          </item>
         </layout>
        </item>
@@ -566,6 +508,67 @@
           </widget>
          </item>
          <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <widget class="QLabel" name="label_26">
+             <property name="text">
+              <string>Паспорт</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_serial_passport">
+             <property name="text">
+              <string>Серия</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_serial_passport">
+             <property name="inputMask">
+              <string>XXXX</string>
+             </property>
+             <property name="cursorPosition">
+              <number>0</number>
+             </property>
+             <property name="cursorMoveStyle">
+              <enum>Qt::VisualMoveStyle</enum>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_28">
+             <property name="text">
+              <string>Номер</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_number_passport">
+             <property name="inputMask">
+              <string>999999</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_9">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
           <widget class="QGroupBox" name="groupBox_2">
            <property name="title">
             <string>Дополнительно</string>
@@ -594,7 +597,7 @@
             <item row="0" column="2">
              <widget class="QLabel" name="label_23">
               <property name="text">
-               <string>условия проживания</string>
+               <string>Условия проживания</string>
               </property>
              </widget>
             </item>
@@ -1076,7 +1079,6 @@
   <tabstop>dateEdit_date_end</tabstop>
   <tabstop>comboBox_direction</tabstop>
   <tabstop>lineEdit_work_or_education</tabstop>
-  <tabstop>comboBox_work_post</tabstop>
   <tabstop>checkBox_custody</tabstop>
   <tabstop>comboBox_street</tabstop>
   <tabstop>pushButton_add_street</tabstop>
