@@ -584,9 +584,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="3">
-             <widget class="QComboBox" name="comboBox_accommodations"/>
-            </item>
             <item row="1" column="1">
              <widget class="QComboBox" name="comboBox_source_funds"/>
             </item>
@@ -594,13 +591,6 @@
              <widget class="QLabel" name="label_24">
               <property name="text">
                <string>Группа льгот на медикаменты</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLabel" name="label_23">
-              <property name="text">
-               <string>Условия проживания</string>
               </property>
              </widget>
             </item>
@@ -1092,7 +1082,6 @@
   <tabstop>comboBox_area_street</tabstop>
   <tabstop>comboBox_marital_status</tabstop>
   <tabstop>comboBox_source_funds</tabstop>
-  <tabstop>comboBox_accommodations</tabstop>
   <tabstop>comboBox_benefit</tabstop>
   <tabstop>comboBox_reason_dont_see</tabstop>
   <tabstop>pushButton_ok</tabstop>

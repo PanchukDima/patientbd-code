@@ -49,12 +49,12 @@ Dialog_patient::Dialog_patient(QWidget *parent) :
     ui->comboBox_area->setEnabled(false);
     ui->comboBox_area_street->setEnabled(false);
     ui->checkBox_custody->setEnabled(false);
-    ui->comboBox_accommodations->setEnabled(false);
+
     //ui->comboBox_diagnosis->setEnabled(false);
     ui->comboBox_direction->setEnabled(false);
     //ui->lineEdit_work_or_education->setEnabled(false);
     //ui->lineEdit_work_post->setEnabled(false);
-    ui->comboBox_marital_status->setEnabled(false);
+    ui->comboBox_marital_status->setEnabled(true);
     ui->comboBox_source_funds->setEnabled(false);
     ui->comboBox_benefit->setEnabled(false);
     ui->comboBox_reason_dont_see->setEnabled(false);
@@ -185,6 +185,14 @@ void Dialog_patient::put_all_settings()
             //ui->comboBox_diagnosis->addItem(diagnos, id_diagnos);
 
         }
+        query.exec("SELECT family_status.id, family_status.description FROM test.family_status;");
+        while (query.next())
+        {
+            QString id_status = query.value(0).toString();
+            QString description = query.value(1).toString();
+            ui->comboBox_marital_status->addItem(description,id_status);
+        }
+
     }
 
 }
@@ -799,6 +807,7 @@ void Dialog_patient::apply_send_data_sql()
     QString why_remove;
     QString job_place_value = ui->lineEdit_work_or_education->text();
     QString job_post_value = ui->lineEdit_work_post->text();
+    QString family_status_value = ui->comboBox_marital_status->currentData().toString();
     if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
     {
     ds_end = ui->dateEdit_date_end->date().toString("MM.dd.yyyy");
@@ -934,7 +943,7 @@ void Dialog_patient::apply_send_data_sql()
                 {
                     id_patient = query.value(0).toString();
                 }
-                query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"') RETURNING id;");
+                query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"') RETURNING id;");
                 while (query.next())
                 {
                     id_medcard = query.value(0).toString();
@@ -959,12 +968,12 @@ void Dialog_patient::apply_send_data_sql()
 
                 if(ds_end=="")
                 {
-                    query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end=NULL, job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"' WHERE id ="+id_str);
+                    query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end=NULL, job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"', family_status='"+family_status_value+"' WHERE id ="+id_str);
 
                 }
                 else
                 {
-                    query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end='"+ds_end+"', job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"' WHERE id ="+id_str);
+                    query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end='"+ds_end+"', job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"', family_status='"+family_status_value+" WHERE id ="+id_str);
                 }
 
 
