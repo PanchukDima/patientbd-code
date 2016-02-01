@@ -52,10 +52,12 @@ void Dialog_add_visits::getData()
             switch (global_param) {
             case 0:
                 query.exec("INSERT INTO test.visits_control(date_assigned, medcard_id, staff_add_id, delete_row) VALUES ('"+date+"', '"+global_id+"', '"+global_staff+"', '0')");
+                query.exec("INSERT INTO test.logs(staff_add_id, date_add, text) VALUES ('"+global_staff+"', '"+QDate::currentDate().toString("MM.dd.yyyy")+"', 'Добавлено посещение медкарта № "+global_id+"')");
                 Dialog_add_visits::accept();
                 break;
             case 1:
                 query.exec("UPDATE test.visits_control  SET date_assigned='"+date+"'  WHERE id= "+global_id);
+                query.exec("INSERT INTO test.logs(staff_add_id, date_add, text) VALUES ('"+global_staff+"', '"+QDate::currentDate().toString("MM.dd.yyyy")+"', 'Изменено посещение медкарта № "+global_id+"')");
                 Dialog_add_visits::accept();
                 break;
             }
