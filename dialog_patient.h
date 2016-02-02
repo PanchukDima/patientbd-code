@@ -70,6 +70,10 @@ public slots:
     void clear_table_text_4();
     void clear_table_text_5();
     void change_state_ds_end(bool);
+    QString const validate_date(QString);
+    void point_add_birtday(QString);
+    void point_add_ds_start(QString);
+    void point_add_ds_stop(QString);
 
 
 };

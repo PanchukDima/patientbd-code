@@ -39,34 +39,97 @@ Dialog_patient::Dialog_patient(QWidget *parent) :
     connect(ui->pushButton_del_4,SIGNAL(clicked(bool)),SLOT(del_text_4()));
     connect(ui->pushButton_del_5,SIGNAL(clicked(bool)),SLOT(del_text_5()));
     connect(ui->checkBox_ds_end_state,SIGNAL(toggled(bool)),SLOT(change_state_ds_end(bool)));
+    connect(ui->lineEdit_date_start,SIGNAL(textChanged(QString)),SLOT(point_add_ds_start(QString)));
+    connect(ui->lineEdit_date_birtday,SIGNAL(textChanged(QString)),SLOT(point_add_birtday(QString)));
+    connect(ui->lineEdit_date_end,SIGNAL(textChanged(QString)),SLOT(point_add_ds_stop(QString)));
 
 
 
 
-    // ui->dateEdit_date_birthday->setEnabled(false);
-    //ui->dateEdit_date_end->setEnabled(false);
     ui->dateEdit_date_install_dianosis->setEnabled(false);
-    //ui->dateEdit_date_start->setEnabled(false);
     ui->comboBox_area->setEnabled(false);
     ui->comboBox_area_street->setEnabled(false);
-    //ui->checkBox_custody->setEnabled(false);
-
-    //ui->comboBox_diagnosis->setEnabled(false);
     ui->comboBox_direction->setEnabled(false);
-    //ui->lineEdit_work_or_education->setEnabled(false);
-    //ui->lineEdit_work_post->setEnabled(false);
     ui->comboBox_marital_status->setEnabled(true);
-    //ui->comboBox_source_funds->setEnabled(false);
     ui->comboBox_benefit->setEnabled(false);
-
-    //ui->pushButton_add_street->setEnabled(true);
-    //ui->lineEdit_telefon->setEnabled(false);
 }
 
 Dialog_patient::~Dialog_patient()
 {
     delete ui;
 }
+
+QString const Dialog_patient::validate_date(QString date)
+{
+    QStringList day_list = date.split(".");
+    QString day;
+    QString month;
+    QString year;
+    QDate date_valid;
+    QString date_valid_string;
+    if(day_list.count()==3)
+    {
+        day = day_list[0];
+        month = day_list[1];
+        year = day_list[2];
+        if(date_valid.setDate(year.toInt(),month.toInt(),day.toInt()))
+        {
+            date_valid_string = date_valid.toString("MM.dd.yyyy");
+            return date_valid_string;
+        }
+        else
+        {
+            QMessageBox::information(this,"Не правильная дата","Не правильная дата");
+            return "exit";
+        }
+    }
+    else
+    {
+        QMessageBox::information(this,"Не правильный формат даты","Не правильный формат даты");
+        return "exit";
+
+    }
+}
+
+void Dialog_patient::point_add_birtday(QString text)
+{
+    switch (text.count()) {
+    case 2:
+        ui->lineEdit_date_birtday->setText(text+".");
+        break;
+    case 5:
+        ui->lineEdit_date_birtday->setText(text+".");
+        break;
+
+    }
+}
+
+void Dialog_patient::point_add_ds_start(QString text)
+{
+    switch (text.count()) {
+    case 2:
+        ui->lineEdit_date_start->setText(text+".");
+        break;
+    case 5:
+        ui->lineEdit_date_start->setText(text+".");
+        break;
+
+    }
+}
+void Dialog_patient::point_add_ds_stop(QString text)
+{
+    switch (text.count()) {
+    case 2:
+        ui->lineEdit_date_end->setText(text+".");
+        break;
+    case 5:
+        ui->lineEdit_date_end->setText(text+".");
+        break;
+
+    }
+}
+
+
 void Dialog_patient::set_default_color_lineedit_fname()
 {
     QPixmap ok_icon(":/icon/png/images/ok.png");
@@ -163,12 +226,12 @@ void Dialog_patient::put_all_settings()
         }
         ui->comboBox_sex->addItem("Ж","false");
         ui->comboBox_sex->addItem("М","true");
-        ui->dateEdit_date_start->setDate(QDate::currentDate());
-        ui->dateEdit_date_end->setDate(QDate::currentDate());
-        ui->dateEdit_date_end->hide();
+        ui->lineEdit_date_start->setText(QDate::currentDate().toString("dd.MM.yyyy"));
+        ui->lineEdit_date_end->setText(QDate::currentDate().toString("dd.MM.yyyy"));
+        ui->lineEdit_date_end->hide();
         ui->comboBox_why_close->hide();
         ui->checkBox_ds_end_state->isChecked();
-        Dialog_patient::setStyleSheet("font-size: 8 pt;");
+
         query.exec("SELECT \
                    diagnos.id,\
                    diagnos.name,\
@@ -216,12 +279,12 @@ void Dialog_patient::change_state_ds_end(bool state)
 {
     if(state)
     {
-        ui->dateEdit_date_end->show();
+        ui->lineEdit_date_end->show();
         ui->comboBox_why_close->show();
     }
     else
     {
-        ui->dateEdit_date_end->hide();
+        ui->lineEdit_date_end->hide();
         ui->comboBox_why_close->hide();
     }
 }
@@ -272,11 +335,11 @@ void Dialog_patient::get_data_sql(int id)
             QString flat = query.value(7).toString();
             QString serial_passport = query.value(8).toString();
             QString number_passport = query.value(9).toString();
-            QDate date_birthday = query.value(10).toDate();
+            QString date_birthday = query.value(10).toDate().toString("dd.MM.yyyy");
             QString telefon_value = query.value(11).toString();
             //QString diagnos_id_value = query.value(12).toString();
-            QDate ds_start_value = query.value(13).toDate();
-            QDate ds_end_value = query.value(14).toDate();
+            QString ds_start_value = query.value(13).toDate().toString("dd.MM.yyyy");
+            QString ds_end_value = query.value(14).toDate().toString("dd.MM.yyyy");
             QString job_place_value = query.value(15).toString();
             QString post_value = query.value(16).toString();
             QString why_close_value = query.value(17).toString();
@@ -303,10 +366,10 @@ void Dialog_patient::get_data_sql(int id)
             ui->lineEdit_room->setText(flat);
             ui->lineEdit_serial_passport->setText(serial_passport);
             ui->lineEdit_number_passport->setText(number_passport);
-            ui->dateEdit_date_birthday->setDate(date_birthday);
+            ui->lineEdit_date_birtday->setText(date_birthday);
             ui->lineEdit_telefon->setText(telefon_value);
-            ui->dateEdit_date_start->setDate(ds_start_value);
-            ui->dateEdit_date_end->setDate(ds_end_value);
+            ui->lineEdit_date_start->setText(ds_start_value);
+            ui->lineEdit_date_end->setText(ds_end_value);
             ui->lineEdit_work_or_education->setText(job_place_value);
             ui->lineEdit_work_post->setText(post_value);
             ui->comboBox_why_close->setCurrentIndex(ui->comboBox_why_close->findData(why_close_value));
@@ -819,11 +882,35 @@ void Dialog_patient::apply_send_data_sql()
     QString building = ui->lineEdit_korpuse->text();
     QString flat = ui->lineEdit_room->text();
     QString street_id = ui->comboBox_street->currentData().toString();
-    QString date_birthday = ui->dateEdit_date_birthday->date().toString("MM.dd.yyyy");
+
+    QString date_birthday;
+
+    QString date_birthday_test = validate_date(ui->lineEdit_date_birtday->text());
+    if(date_birthday_test=="exit")
+    {
+        return;
+    }
+    else
+    {
+        date_birthday=date_birthday_test;
+    }
+
+    QString ds_start;
+    QString ds_start_test = validate_date(ui->lineEdit_date_start->text());
+
+    if(ds_start_test=="exit")
+    {
+        return;
+    }
+    else
+    {
+        ds_start=ds_start_test;
+    }
+
     QString telefon_value = ui->lineEdit_telefon->text();
     QString id_patient;
     QString id_medcard;
-    QString ds_start = ui->dateEdit_date_start->date().toString("MM.dd.yyyy");
+
     QString ds_end;
     QString why_remove;
     QString job_place_value = ui->lineEdit_work_or_education->text();
@@ -833,7 +920,15 @@ void Dialog_patient::apply_send_data_sql()
     QString tutor_value;
     if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
     {
-        ds_end = ui->dateEdit_date_end->date().toString("MM.dd.yyyy");
+        QString ds_end_test = validate_date(ui->lineEdit_date_end->text());
+        if(ds_end_test=="exit")
+        {
+            return;
+        }
+        else
+        {
+            ds_end=ds_end_test;
+        }
         why_remove = ui->comboBox_why_close->currentData().toString();
 
     }

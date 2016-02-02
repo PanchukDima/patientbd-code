@@ -149,19 +149,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDateEdit" name="dateEdit_date_birthday">
-           <property name="displayFormat">
-            <string>dd.MM.yyyy</string>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-           <property name="date">
-            <date>
-             <year>1990</year>
-             <month>1</month>
-             <day>1</day>
-            </date>
+          <widget class="QLineEdit" name="lineEdit_date_birtday">
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -190,27 +183,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDateEdit" name="dateEdit_date_start">
-           <property name="inputMethodHints">
-            <set>Qt::ImhPreferNumbers</set>
-           </property>
-           <property name="wrapping">
-            <bool>true</bool>
-           </property>
-           <property name="correctionMode">
-            <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
-           </property>
-           <property name="keyboardTracking">
-            <bool>true</bool>
-           </property>
-           <property name="showGroupSeparator" stdset="0">
-            <bool>false</bool>
-           </property>
-           <property name="currentSection">
-            <enum>QDateTimeEdit::DaySection</enum>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
+          <widget class="QLineEdit" name="lineEdit_date_start">
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -277,12 +255,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QDateEdit" name="dateEdit_date_end">
-           <property name="wrapping">
-            <bool>false</bool>
-           </property>
-           <property name="calendarPopup">
-            <bool>true</bool>
+          <widget class="QLineEdit" name="lineEdit_date_end">
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -1103,11 +1081,8 @@
   <tabstop>lineEdit_serial_passport</tabstop>
   <tabstop>lineEdit_number_passport</tabstop>
   <tabstop>comboBox_sex</tabstop>
-  <tabstop>dateEdit_date_birthday</tabstop>
-  <tabstop>dateEdit_date_start</tabstop>
   <tabstop>dateEdit_date_install_dianosis</tabstop>
   <tabstop>comboBox_area</tabstop>
-  <tabstop>dateEdit_date_end</tabstop>
   <tabstop>lineEdit_work_or_education</tabstop>
   <tabstop>checkBox_custody</tabstop>
   <tabstop>comboBox_street</tabstop>
