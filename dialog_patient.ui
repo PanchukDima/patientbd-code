@@ -43,6 +43,9 @@
            <property name="text">
             <string>Фамилия</string>
            </property>
+           <property name="buddy">
+            <cstring>lineEdit_fname</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -72,6 +75,9 @@
            <property name="text">
             <string>Имя</string>
            </property>
+           <property name="buddy">
+            <cstring>lineEdit_name</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -88,6 +94,9 @@
           <widget class="QLabel" name="label_3">
            <property name="text">
             <string>Отчество</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEdit_oname</cstring>
            </property>
           </widget>
          </item>
@@ -129,6 +138,9 @@
            <property name="text">
             <string>Пол</string>
            </property>
+           <property name="buddy">
+            <cstring>comboBox_sex</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -145,6 +157,9 @@
           <widget class="QLabel" name="label_5">
            <property name="text">
             <string>Дата рождения</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEdit_date_birtday</cstring>
            </property>
           </widget>
          </item>
@@ -180,6 +195,9 @@
            <property name="text">
             <string>Взят на учет</string>
            </property>
+           <property name="buddy">
+            <cstring>lineEdit_date_start</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -197,6 +215,9 @@
            <property name="text">
             <string>Дата установления диагноза</string>
            </property>
+           <property name="buddy">
+            <cstring>dateEdit_date_install_dianosis</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -211,13 +232,16 @@
            <property name="text">
             <string>Участок</string>
            </property>
+           <property name="buddy">
+            <cstring>comboBox_area</cstring>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QComboBox" name="comboBox_area"/>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="checkBox_pt">
            <property name="text">
             <string>ПТ</string>
            </property>
@@ -252,6 +276,9 @@
            <property name="text">
             <string>Снят с учета</string>
            </property>
+           <property name="buddy">
+            <cstring>lineEdit_date_end</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -268,6 +295,9 @@
           <widget class="QLabel" name="label_11">
            <property name="text">
             <string>Причина снятия</string>
+           </property>
+           <property name="buddy">
+            <cstring>comboBox_why_close</cstring>
            </property>
           </widget>
          </item>
@@ -295,6 +325,9 @@
           <widget class="QLabel" name="label_10">
            <property name="text">
             <string>Направлен</string>
+           </property>
+           <property name="buddy">
+            <cstring>comboBox_direction</cstring>
            </property>
           </widget>
          </item>
@@ -329,6 +362,9 @@
            <property name="text">
             <string>Место работы или учебы</string>
            </property>
+           <property name="buddy">
+            <cstring>lineEdit_work_or_education</cstring>
+           </property>
           </widget>
          </item>
          <item>
@@ -348,6 +384,9 @@
            </property>
            <property name="text">
             <string>Занимаемая должность</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEdit_work_post</cstring>
            </property>
           </widget>
          </item>
@@ -379,6 +418,9 @@
               <property name="alignment">
                <set>Qt::AlignCenter</set>
               </property>
+              <property name="buddy">
+               <cstring>lineEdit_house</cstring>
+              </property>
              </widget>
             </item>
             <item row="2" column="1">
@@ -407,6 +449,9 @@
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
+              </property>
+              <property name="buddy">
+               <cstring>lineEdit_telefon</cstring>
               </property>
              </widget>
             </item>
@@ -442,12 +487,18 @@
               <property name="alignment">
                <set>Qt::AlignCenter</set>
               </property>
+              <property name="buddy">
+               <cstring>lineEdit_korpuse</cstring>
+              </property>
              </widget>
             </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_20">
               <property name="text">
                <string>Район</string>
+              </property>
+              <property name="buddy">
+               <cstring>comboBox_area_street</cstring>
               </property>
              </widget>
             </item>
@@ -472,6 +523,9 @@
               <property name="alignment">
                <set>Qt::AlignCenter</set>
               </property>
+              <property name="buddy">
+               <cstring>comboBox_street</cstring>
+              </property>
              </widget>
             </item>
             <item row="0" column="6">
@@ -481,6 +535,9 @@
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
+              </property>
+              <property name="buddy">
+               <cstring>lineEdit_room</cstring>
               </property>
              </widget>
             </item>
@@ -493,6 +550,9 @@
               </property>
               <property name="text">
                <string>Проживает</string>
+              </property>
+              <property name="buddy">
+               <cstring>comboBox_street</cstring>
               </property>
              </widget>
             </item>
@@ -551,6 +611,9 @@
              <property name="text">
               <string>Серия</string>
              </property>
+             <property name="buddy">
+              <cstring>lineEdit_serial_passport</cstring>
+             </property>
             </widget>
            </item>
            <item>
@@ -573,6 +636,9 @@
             <widget class="QLabel" name="label_28">
              <property name="text">
               <string>Номер</string>
+             </property>
+             <property name="buddy">
+              <cstring>lineEdit_number_passport</cstring>
              </property>
             </widget>
            </item>
@@ -609,6 +675,9 @@
               <property name="text">
                <string>Семейное положение</string>
               </property>
+              <property name="buddy">
+               <cstring>comboBox_marital_status</cstring>
+              </property>
              </widget>
             </item>
             <item row="1" column="1">
@@ -619,10 +688,10 @@
               <property name="text">
                <string>Группа льгот на медикаменты</string>
               </property>
+              <property name="buddy">
+               <cstring>lineEdit_group_lgot</cstring>
+              </property>
              </widget>
-            </item>
-            <item row="1" column="3">
-             <widget class="QComboBox" name="comboBox_benefit"/>
             </item>
             <item row="0" column="1">
              <widget class="QComboBox" name="comboBox_marital_status"/>
@@ -632,6 +701,9 @@
               <property name="text">
                <string>Источники средств 
  существования</string>
+              </property>
+              <property name="buddy">
+               <cstring>comboBox_source_funds</cstring>
               </property>
              </widget>
             </item>
@@ -647,6 +719,9 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="1" column="3">
+             <widget class="QLineEdit" name="lineEdit_group_lgot"/>
             </item>
            </layout>
           </widget>
@@ -1078,12 +1153,18 @@
   <tabstop>lineEdit_fname</tabstop>
   <tabstop>lineEdit_name</tabstop>
   <tabstop>lineEdit_oname</tabstop>
-  <tabstop>lineEdit_serial_passport</tabstop>
-  <tabstop>lineEdit_number_passport</tabstop>
   <tabstop>comboBox_sex</tabstop>
+  <tabstop>lineEdit_date_birtday</tabstop>
+  <tabstop>lineEdit_date_start</tabstop>
   <tabstop>dateEdit_date_install_dianosis</tabstop>
   <tabstop>comboBox_area</tabstop>
+  <tabstop>checkBox_pt</tabstop>
+  <tabstop>checkBox_ds_end_state</tabstop>
+  <tabstop>lineEdit_date_end</tabstop>
+  <tabstop>comboBox_why_close</tabstop>
+  <tabstop>comboBox_direction</tabstop>
   <tabstop>lineEdit_work_or_education</tabstop>
+  <tabstop>lineEdit_work_post</tabstop>
   <tabstop>checkBox_custody</tabstop>
   <tabstop>comboBox_street</tabstop>
   <tabstop>pushButton_add_street</tabstop>
@@ -1092,12 +1173,40 @@
   <tabstop>lineEdit_room</tabstop>
   <tabstop>lineEdit_telefon</tabstop>
   <tabstop>comboBox_area_street</tabstop>
+  <tabstop>lineEdit_serial_passport</tabstop>
+  <tabstop>lineEdit_number_passport</tabstop>
   <tabstop>comboBox_marital_status</tabstop>
   <tabstop>comboBox_source_funds</tabstop>
-  <tabstop>comboBox_benefit</tabstop>
+  <tabstop>lineEdit_group_lgot</tabstop>
   <tabstop>pushButton_ok</tabstop>
   <tabstop>pushButton_apply</tabstop>
   <tabstop>pushButton_cancel</tabstop>
+  <tabstop>tableWidget_text_1</tabstop>
+  <tabstop>pushButton_save_1</tabstop>
+  <tabstop>pushButton_creat_1</tabstop>
+  <tabstop>pushButton_del_1</tabstop>
+  <tabstop>textEdit_1</tabstop>
+  <tabstop>tableWidget_text_2</tabstop>
+  <tabstop>pushButton_save_2</tabstop>
+  <tabstop>pushButton_creat_2</tabstop>
+  <tabstop>pushButton_del_2</tabstop>
+  <tabstop>textEdit_2</tabstop>
+  <tabstop>tableWidget_text_3</tabstop>
+  <tabstop>pushButton_save_3</tabstop>
+  <tabstop>pushButton_creat_3</tabstop>
+  <tabstop>pushButton_del_3</tabstop>
+  <tabstop>textEdit_3</tabstop>
+  <tabstop>tableWidget_text_4</tabstop>
+  <tabstop>pushButton_save_4</tabstop>
+  <tabstop>pushButton_creat_4</tabstop>
+  <tabstop>pushButton_del_4</tabstop>
+  <tabstop>textEdit_4</tabstop>
+  <tabstop>tableWidget_text_5</tabstop>
+  <tabstop>pushButton_save_5</tabstop>
+  <tabstop>pushButton_creat_5</tabstop>
+  <tabstop>pushButton_del_5</tabstop>
+  <tabstop>textEdit_5</tabstop>
+  <tabstop>tabWidget_4</tabstop>
  </tabstops>
  <resources/>
  <connections/>

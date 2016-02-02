@@ -47,11 +47,11 @@ Dialog_patient::Dialog_patient(QWidget *parent) :
 
 
     ui->dateEdit_date_install_dianosis->setEnabled(false);
-    ui->comboBox_area->setEnabled(false);
+
     ui->comboBox_area_street->setEnabled(false);
     ui->comboBox_direction->setEnabled(false);
     ui->comboBox_marital_status->setEnabled(true);
-    ui->comboBox_benefit->setEnabled(false);
+
 }
 
 Dialog_patient::~Dialog_patient()
@@ -267,6 +267,12 @@ void Dialog_patient::put_all_settings()
             QString description = query.value(1).toString();
             ui->comboBox_source_funds->addItem(description,id_status);
         }
+        query.exec("SELECT id, name FROM test.area");
+        while (query.next()) {
+            QString id_status = query.value(0).toString();
+            QString description = query.value(1).toString();
+            ui->comboBox_area->addItem(description,id_status);
+        }
 
     }
 
@@ -322,7 +328,7 @@ void Dialog_patient::get_data_sql(int id)
         QString id_str;
         id_str.setNum(id);
 
-        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday, address_patient.telefon, diagnos_patient.diagnos_id, medcard.ds_start, medcard.ds_end, medcard.job_place, medcard.post, medcard.why_removed, medcard.family_status, medcard.livelihood, medcard.tutor  FROM test.address_patient, test.patient, test.medcard, test.diagnos_patient WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = diagnos_patient.medcard_id AND medcard.id = "+id_str);
+        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday, address_patient.telefon, diagnos_patient.diagnos_id, medcard.ds_start, medcard.ds_end, medcard.job_place, medcard.post, medcard.why_removed, medcard.family_status, medcard.livelihood, medcard.tutor, medcard.pt, medcard.group_lgot_preparat, medcard.area_id  FROM test.address_patient, test.patient, test.medcard, test.diagnos_patient WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = diagnos_patient.medcard_id AND medcard.id = "+id_str);
         while (query.next())
         {
             QString street_value = query.value(0).toString();
@@ -346,6 +352,10 @@ void Dialog_patient::get_data_sql(int id)
             QString family_status_value = query.value(18).toString();
             QString livelihood_value = query.value(19).toString();
             bool tutor_value = query.value(20).toBool();
+            bool pt_value = query.value(21).toBool();
+            QString group_lgot_preparat_value = query.value(22).toString();
+            QString area_id_value = query.value(23).toString();
+
 
             if(query.value(14).toString()=="")
             {
@@ -355,7 +365,7 @@ void Dialog_patient::get_data_sql(int id)
             {
                 ui->checkBox_ds_end_state->setCheckState(Qt::Checked);
             }
-            ui->checkBox_custody->setChecked(tutor_value);
+
             ui->comboBox_street->setCurrentIndex(ui->comboBox_street->findData(street_value));
             ui->lineEdit_korpuse->setText(building_value);
             ui->lineEdit_house->setText(house_value);
@@ -375,14 +385,13 @@ void Dialog_patient::get_data_sql(int id)
             ui->comboBox_why_close->setCurrentIndex(ui->comboBox_why_close->findData(why_close_value));
             ui->comboBox_marital_status->setCurrentIndex(ui->comboBox_marital_status->findData(family_status_value));
             ui->comboBox_source_funds->setCurrentIndex(ui->comboBox_source_funds->findData(livelihood_value));
+            ui->checkBox_custody->setChecked(tutor_value);
+            ui->checkBox_pt->setChecked(pt_value);
+            ui->lineEdit_group_lgot->setText(group_lgot_preparat_value);
+            ui->comboBox_area->setCurrentIndex(ui->comboBox_area->findData(area_id_value));
             //ui->comboBox_diagnosis->setCurrentIndex(ui->comboBox_diagnosis->findData(diagnos_id_value));
         }
-
-
-
-
-
-    }
+ }
 
 
 }
@@ -917,7 +926,10 @@ void Dialog_patient::apply_send_data_sql()
     QString job_post_value = ui->lineEdit_work_post->text();
     QString family_status_value = ui->comboBox_marital_status->currentData().toString();
     QString livelihood_value = ui->comboBox_source_funds->currentData().toString();
+    QString area_value = ui->comboBox_area->currentData().toString();
     QString tutor_value;
+    QString pt_value;
+    QString group_lgot_value = ui->lineEdit_group_lgot->text();
     if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
     {
         QString ds_end_test = validate_date(ui->lineEdit_date_end->text());
@@ -937,6 +949,7 @@ void Dialog_patient::apply_send_data_sql()
         ds_end = "";
         why_remove="-1";
     }
+
     if(ui->checkBox_custody->checkState()==Qt::Checked)
     {
         tutor_value = "1";
@@ -946,7 +959,15 @@ void Dialog_patient::apply_send_data_sql()
     {
         tutor_value = "0";
     }
+    if(ui->checkBox_pt->checkState()==Qt::Checked)
+    {
+        pt_value = "1";
 
+    }
+    else if(ui->checkBox_pt->checkState()==Qt::Unchecked)
+    {
+        pt_value = "0";
+    }
     //QString diagnos_id = ui->comboBox_diagnosis->currentData().toString();
     int control_lineedit=0;
     QPixmap error_pix(":/icon/png/images/Warning.png");
@@ -1054,7 +1075,7 @@ void Dialog_patient::apply_send_data_sql()
                 {
                     id_patient = query.value(0).toString();
                 }
-                query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"') RETURNING id;");
+                query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor, pt, group_lgot_preparat, area_id) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"') RETURNING id;");
                 while (query.next())
                 {
                     id_medcard = query.value(0).toString();
@@ -1077,15 +1098,16 @@ void Dialog_patient::apply_send_data_sql()
 
                 // что за херня снизу?
 
-                if(ds_end=="")
+                if(ui->checkBox_ds_end_state->checkState()==Qt::Unchecked)
                 {
 
-                    query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end=NULL, job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"', family_status='"+family_status_value+"', livelihood='"+livelihood_value+"', tutor='"+tutor_value+"' WHERE id ="+id_str);
+                    query.exec("UPDATE test.medcard SET area_id = '"+area_value+"', sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end=NULL, job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"', family_status='"+family_status_value+"', livelihood='"+livelihood_value+"', tutor='"+tutor_value+"', pt='"+pt_value+"', group_lgot_preparat='"+group_lgot_value+"' WHERE id ="+id_str);
 
                 }
-                else
+                else if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
                 {
-                    query.exec("UPDATE test.medcard SET sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end='"+ds_end+"', job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"', family_status='"+family_status_value+"', livelihood='"+livelihood_value+"', tutor='"+tutor_value+"' WHERE id ="+id_str);
+
+                    query.exec("UPDATE test.medcard SET area_id = '"+area_value+"', sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end='"+ds_end+"', job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"', family_status='"+family_status_value+"', livelihood='"+livelihood_value+"', tutor='"+tutor_value+"', pt='"+pt_value+"', group_lgot_preparat='"+group_lgot_value+"'  WHERE id ="+id_str);
                 }
 
 
@@ -1102,7 +1124,7 @@ void Dialog_patient::apply_send_data_sql()
                     }
                 }
                 query.exec("UPDATE test.patient SET fname ='"+fname_value+"', name ='"+name_value+"', mname = '"+oname_value+"',serial_passport = "+serial_passport+", number_passport = "+number_passport+" WHERE id = "+id_patient);
-                query.exec("UPDATE test.address_patient SET street_id ='"+street_id+"', home = '"+home+"', building = '"+building+"', flat = '"+flat+"' WHERE medcard_id = "+id_str);
+                query.exec("UPDATE test.address_patient SET street_id ='"+street_id+"', home = '"+home+"', building = '"+building+"', flat = '"+flat+"', telefon='"+telefon_value+"' WHERE medcard_id = "+id_str);
                 query.exec("INSERT INTO test.logs(staff_add_id, date_add, text) VALUES ('"+global_staff_id+"', '"+QDate::currentDate().toString("MM.dd.yyyy")+"', 'Обновлена медкарта"+id_str+"')");
                 Dialog_patient::accept();
                 break;
