@@ -211,23 +211,6 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>Дата установления диагноза</string>
-           </property>
-           <property name="buddy">
-            <cstring>dateEdit_date_install_dianosis</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDateEdit" name="dateEdit_date_install_dianosis">
-           <property name="calendarPopup">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLabel" name="label_8">
            <property name="text">
             <string>Участок</string>
@@ -1208,7 +1191,6 @@
   <tabstop>comboBox_sex</tabstop>
   <tabstop>lineEdit_date_birtday</tabstop>
   <tabstop>lineEdit_date_start</tabstop>
-  <tabstop>dateEdit_date_install_dianosis</tabstop>
   <tabstop>comboBox_area</tabstop>
   <tabstop>checkBox_pt</tabstop>
   <tabstop>checkBox_ds_end_state</tabstop>
