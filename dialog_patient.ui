@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>916</width>
-    <height>743</height>
+    <width>937</width>
+    <height>749</height>
    </rect>
   </property>
   <property name="font">
@@ -29,7 +29,7 @@
       <attribute name="title">
        <string>Общие сведения</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
@@ -403,330 +403,382 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Адрес</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="3">
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>Дом</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_house</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_area_street"/>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="lineEdit_house"/>
+          </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="pushButton_add_street">
+            <property name="maximumSize">
+             <size>
+              <width>20</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>+</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="7">
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>Телефон</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_telefon</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="5">
+           <widget class="QLineEdit" name="lineEdit_korpuse"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBox_street">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="insertPolicy">
+             <enum>QComboBox::NoInsert</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>Корпус</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_korpuse</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>Район</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_area_street</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="7">
+           <widget class="QLineEdit" name="lineEdit_telefon"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_15">
+            <property name="font">
+             <font>
+              <weight>50</weight>
+              <bold>false</bold>
+              <kerning>true</kerning>
+             </font>
+            </property>
+            <property name="inputMethodHints">
+             <set>Qt::ImhNone</set>
+            </property>
+            <property name="text">
+             <string>Улица</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_street</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Квартира</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_room</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_14">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Проживает</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_street</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="6">
+           <widget class="QLineEdit" name="lineEdit_room"/>
+          </item>
+          <item row="1" column="8">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLabel" name="label_house_status">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+         <zorder>comboBox_area_street</zorder>
+         <zorder>comboBox_street</zorder>
+         <zorder>label_16</zorder>
+         <zorder>lineEdit_house</zorder>
+         <zorder>pushButton_add_street</zorder>
+         <zorder>label_19</zorder>
+         <zorder>lineEdit_korpuse</zorder>
+         <zorder>label_17</zorder>
+         <zorder>label_20</zorder>
+         <zorder>lineEdit_telefon</zorder>
+         <zorder>label_15</zorder>
+         <zorder>label_18</zorder>
+         <zorder>label_14</zorder>
+         <zorder>lineEdit_room</zorder>
+         <zorder>label_house_status</zorder>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
-          <widget class="QGroupBox" name="groupBox">
-           <property name="title">
-            <string>Адрес</string>
+          <widget class="QLabel" name="label_26">
+           <property name="text">
+            <string>Паспорт</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="3">
-             <widget class="QLabel" name="label_16">
-              <property name="text">
-               <string>Дом</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>lineEdit_house</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QComboBox" name="comboBox_area_street"/>
-            </item>
-            <item row="1" column="3">
-             <widget class="QLineEdit" name="lineEdit_house"/>
-            </item>
-            <item row="1" column="2">
-             <widget class="QPushButton" name="pushButton_add_street">
-              <property name="maximumSize">
-               <size>
-                <width>20</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>+</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="7">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>Телефон</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>lineEdit_telefon</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="5">
-             <widget class="QLineEdit" name="lineEdit_korpuse"/>
-            </item>
-            <item row="1" column="1">
-             <widget class="QComboBox" name="comboBox_street">
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="editable">
-               <bool>true</bool>
-              </property>
-              <property name="insertPolicy">
-               <enum>QComboBox::NoInsert</enum>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="5">
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>Корпус</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>lineEdit_korpuse</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_20">
-              <property name="text">
-               <string>Район</string>
-              </property>
-              <property name="buddy">
-               <cstring>comboBox_area_street</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="7">
-             <widget class="QLineEdit" name="lineEdit_telefon"/>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="label_15">
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <bold>false</bold>
-                <kerning>true</kerning>
-               </font>
-              </property>
-              <property name="inputMethodHints">
-               <set>Qt::ImhNone</set>
-              </property>
-              <property name="text">
-               <string>Улица</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>comboBox_street</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="6">
-             <widget class="QLabel" name="label_18">
-              <property name="text">
-               <string>Квартира</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="buddy">
-               <cstring>lineEdit_room</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_14">
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Проживает</string>
-              </property>
-              <property name="buddy">
-               <cstring>comboBox_street</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="6">
-             <widget class="QLineEdit" name="lineEdit_room"/>
-            </item>
-            <item row="1" column="8">
-             <spacer name="horizontalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="4">
-             <widget class="QLabel" name="label_house_status">
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-           </layout>
-           <zorder>comboBox_area_street</zorder>
-           <zorder>comboBox_street</zorder>
-           <zorder>label_16</zorder>
-           <zorder>lineEdit_house</zorder>
-           <zorder>pushButton_add_street</zorder>
-           <zorder>label_19</zorder>
-           <zorder>lineEdit_korpuse</zorder>
-           <zorder>label_17</zorder>
-           <zorder>label_20</zorder>
-           <zorder>lineEdit_telefon</zorder>
-           <zorder>label_15</zorder>
-           <zorder>label_18</zorder>
-           <zorder>label_14</zorder>
-           <zorder>lineEdit_room</zorder>
-           <zorder>label_house_status</zorder>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_10">
-           <item>
-            <widget class="QLabel" name="label_26">
-             <property name="text">
-              <string>Паспорт</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_serial_passport">
-             <property name="text">
-              <string>Серия</string>
-             </property>
-             <property name="buddy">
-              <cstring>lineEdit_serial_passport</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_serial_passport">
-             <property name="inputMask">
-              <string>XXXX</string>
-             </property>
-             <property name="cursorPosition">
-              <number>0</number>
-             </property>
-             <property name="cursorMoveStyle">
-              <enum>Qt::VisualMoveStyle</enum>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_28">
-             <property name="text">
-              <string>Номер</string>
-             </property>
-             <property name="buddy">
-              <cstring>lineEdit_number_passport</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="lineEdit_number_passport">
-             <property name="inputMask">
-              <string>999999</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_9">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
+          <widget class="QLabel" name="label_serial_passport">
+           <property name="text">
+            <string>Серия</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEdit_serial_passport</cstring>
+           </property>
+          </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="title">
-            <string>Дополнительно</string>
+          <widget class="QLineEdit" name="lineEdit_serial_passport">
+           <property name="inputMask">
+            <string>XXXX</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_21">
-              <property name="text">
-               <string>Семейное положение</string>
-              </property>
-              <property name="buddy">
-               <cstring>comboBox_marital_status</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QComboBox" name="comboBox_source_funds"/>
-            </item>
-            <item row="1" column="2">
-             <widget class="QLabel" name="label_24">
-              <property name="text">
-               <string>Группа льгот на медикаменты</string>
-              </property>
-              <property name="buddy">
-               <cstring>lineEdit_group_lgot</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="comboBox_marital_status"/>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_22">
-              <property name="text">
-               <string>Источники средств 
- существования</string>
-              </property>
-              <property name="buddy">
-               <cstring>comboBox_source_funds</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="4">
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="3">
-             <widget class="QLineEdit" name="lineEdit_group_lgot"/>
-            </item>
-           </layout>
+           <property name="cursorPosition">
+            <number>0</number>
+           </property>
+           <property name="cursorMoveStyle">
+            <enum>Qt::VisualMoveStyle</enum>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
           </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_28">
+           <property name="text">
+            <string>Номер</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEdit_number_passport</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_number_passport">
+           <property name="inputMask">
+            <string>999999</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_16">
+         <item>
+          <widget class="QLabel" name="label_23">
+           <property name="minimumSize">
+            <size>
+             <width>57</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>57</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>СНИЛС</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_25">
+           <property name="text">
+            <string>Серия</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_snils_serial"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_27">
+           <property name="text">
+            <string>Номер</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_snils_number"/>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_16">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Дополнительно</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>Семейное положение</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_marital_status</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="comboBox_source_funds"/>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="label_24">
+            <property name="text">
+             <string>Группа льгот на медикаменты</string>
+            </property>
+            <property name="buddy">
+             <cstring>lineEdit_group_lgot</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox_marital_status"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Источники средств 
+ существования</string>
+            </property>
+            <property name="buddy">
+             <cstring>comboBox_source_funds</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="lineEdit_group_lgot"/>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -1175,14 +1227,14 @@
   <tabstop>comboBox_area_street</tabstop>
   <tabstop>lineEdit_serial_passport</tabstop>
   <tabstop>lineEdit_number_passport</tabstop>
+  <tabstop>lineEdit_snils_serial</tabstop>
+  <tabstop>lineEdit_snils_number</tabstop>
   <tabstop>comboBox_marital_status</tabstop>
   <tabstop>comboBox_source_funds</tabstop>
   <tabstop>lineEdit_group_lgot</tabstop>
   <tabstop>pushButton_ok</tabstop>
   <tabstop>pushButton_apply</tabstop>
   <tabstop>pushButton_cancel</tabstop>
-  <tabstop>tableWidget_text_1</tabstop>
-  <tabstop>pushButton_save_1</tabstop>
   <tabstop>pushButton_creat_1</tabstop>
   <tabstop>pushButton_del_1</tabstop>
   <tabstop>textEdit_1</tabstop>
@@ -1207,6 +1259,8 @@
   <tabstop>pushButton_del_5</tabstop>
   <tabstop>textEdit_5</tabstop>
   <tabstop>tabWidget_4</tabstop>
+  <tabstop>pushButton_save_1</tabstop>
+  <tabstop>tableWidget_text_1</tabstop>
  </tabstops>
  <resources/>
  <connections/>
