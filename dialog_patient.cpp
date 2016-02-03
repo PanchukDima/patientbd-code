@@ -334,7 +334,7 @@ void Dialog_patient::get_data_sql(int id)
         QString id_str;
         id_str.setNum(id);
 
-        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday, address_patient.telefon, diagnos_patient.diagnos_id, medcard.ds_start, medcard.ds_end, medcard.job_place, medcard.post, medcard.why_removed, medcard.family_status, medcard.livelihood, medcard.tutor, medcard.pt, medcard.group_lgot_preparat, medcard.area_id, medcard.serial_snils, medcard.number_snils, medcard.district_id, medcard.id_direct  FROM test.address_patient, test.patient, test.medcard, test.diagnos_patient WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = diagnos_patient.medcard_id AND medcard.id = "+id_str);
+        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday, address_patient.telefon, medcard.ds_start, medcard.ds_end, medcard.job_place, medcard.post, medcard.why_removed, medcard.family_status, medcard.livelihood, medcard.tutor, medcard.pt, medcard.group_lgot_preparat, medcard.area_id, medcard.serial_snils, medcard.number_snils, medcard.district_id, medcard.id_direct  FROM test.address_patient, test.patient, test.medcard WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = "+id_str);
         while (query.next())
         {
             QString street_value = query.value(0).toString();
@@ -1088,12 +1088,21 @@ void Dialog_patient::apply_send_data_sql()
         {
             switch (global_param) {
             case 0: //insert
+                qDebug()<<"INSERT INTO test.patient(fname, name, mname, serial_passport, number_passport, status, staff_add_id) VALUES ('"+fname_value+"', '"+name_value+"', '"+oname_value+"', '"+serial_passport+"', '"+number_passport+"',0, '"+global_staff_id+"') RETURNING id;";
                 query.exec("INSERT INTO test.patient(fname, name, mname, serial_passport, number_passport, status, staff_add_id) VALUES ('"+fname_value+"', '"+name_value+"', '"+oname_value+"', '"+serial_passport+"', '"+number_passport+"',0, '"+global_staff_id+"') RETURNING id;");
                 while (query.next())
                 {
                     id_patient = query.value(0).toString();
                 }
-                query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor, pt, group_lgot_preparat, area_id, serial_snils, number_snils.district_id , id_direct) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', '"+snils_serial_value+"', '"+snils_number_value+"', "+district_value+" , "+direct_value+" ) RETURNING id;");
+                qDebug()<<"INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor, pt, group_lgot_preparat, area_id, serial_snils, number_snils.district_id , id_direct) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', '"+snils_serial_value+"', '"+snils_number_value+"', "+district_value+" , "+direct_value+" ) RETURNING id;";
+                if(ui->checkBox_ds_end_state->checkState()==Qt::Unchecked)
+                {
+                    query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor, pt, group_lgot_preparat, area_id, serial_snils, number_snils, district_id , id_direct) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"',NULL, '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', '"+snils_serial_value+"', '"+snils_number_value+"', "+district_value+" , "+direct_value+" ) RETURNING id;");
+                }
+                else
+                {
+                    query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor, pt, group_lgot_preparat, area_id, serial_snils, number_snils, district_id , id_direct) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', '"+snils_serial_value+"', '"+snils_number_value+"', "+district_value+" , "+direct_value+" ) RETURNING id;");
+                }
                 while (query.next())
                 {
                     id_medcard = query.value(0).toString();
