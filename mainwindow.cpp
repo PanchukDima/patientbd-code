@@ -76,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tableWidget_diagnos_patient,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_diagnos_table(QPoint)));
     connect(ui->tableWidget_sved_gospital,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_hospitalization_table(QPoint)));
     connect(ui->pushButton_add_history_patient,SIGNAL(clicked(bool)),SLOT(added_files_patient()));
+    connect(ui->tableWidget_invalid_psi,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_invalid_table(QPoint)));
 
 
 }
@@ -174,16 +175,17 @@ void MainWindow::settings_ui()
     QTableWidgetItem * name_1_collumn_list_not_work = new QTableWidgetItem();
     QTableWidgetItem * name_2_collumn_list_not_work = new QTableWidgetItem();
     QTableWidgetItem * name_3_collumn_list_not_work = new QTableWidgetItem();
-    //Итемы таблицы нетрудоспособности
+    //Итемы таблицы инвалидности
     QTableWidgetItem * name_1_collumn_invalid = new QTableWidgetItem();
     QTableWidgetItem * name_2_collumn_invalid = new QTableWidgetItem();
     QTableWidgetItem * name_3_collumn_invalid = new QTableWidgetItem();
     QTableWidgetItem * name_4_collumn_invalid = new QTableWidgetItem();
+    QTableWidgetItem * name_5_collumn_invalid = new QTableWidgetItem();
     //Итемы таблицы суицид
     QTableWidgetItem * name_1_collumn_suicid = new QTableWidgetItem();
 
     //Настраиваем объекты
-    str_find_patient->setMaximumWidth(100);
+    str_find_patient->setMaximumWidth(250);
     str_find_patient->setToolTip("Для поиска по карте \nвведите только номер,\n фамилия и имя должны быть разделены\n одним пробелом");
     valid_info->setText("<-Введите номер карты или Фамилию");
 
@@ -217,7 +219,7 @@ void MainWindow::settings_ui()
     diagnos_table->setColumnCount(6);
     gospit_table->setColumnCount(5);
     list_not_work_table->setColumnCount(4);
-    invalid_table->setColumnCount(5);
+    invalid_table->setColumnCount(6);
     suicid_table->setColumnCount(2);
     //Скрытие столбцов
     patientTable->hideColumn(0);
@@ -274,8 +276,9 @@ void MainWindow::settings_ui()
     //текст заголовка таблицы инвалидность по псих. заболеваниям
     name_1_collumn_invalid->setText("Дата\nустановления\nили\nпересмотра");
     name_2_collumn_invalid->setText("Группа\nинвалидности");
-    name_3_collumn_invalid->setText("Срок очередного\nпереосвидетельствования");
-    name_4_collumn_invalid->setText("Для работающих\n- место работы");
+    name_3_collumn_invalid->setText("Дата очередного\nпереосвидетельствования");
+    name_4_collumn_invalid->setText("Признан\nтрудоспособным");
+    name_5_collumn_invalid->setText("Получена\n в другом учреждении");
     //текст заголовка таблицы суицид
     name_1_collumn_suicid->setText("Дата совершения");
 
@@ -351,6 +354,7 @@ void MainWindow::settings_ui()
     invalid_table->setHorizontalHeaderItem(2,name_2_collumn_invalid);
     invalid_table->setHorizontalHeaderItem(3,name_3_collumn_invalid);
     invalid_table->setHorizontalHeaderItem(4,name_4_collumn_invalid);
+    invalid_table->setHorizontalHeaderItem(5,name_5_collumn_invalid);
     //Добавляем итемы на таблицу "суицид"
     suicid_table->setHorizontalHeaderItem(1,name_1_collumn_suicid);
 
@@ -407,7 +411,7 @@ void MainWindow::added_info_patient()
 
     if(dialog.exec())
     {
-        find_patients();
+        //find_patients();
     }
 }
 void MainWindow::edit_info_patient()
@@ -511,6 +515,16 @@ void MainWindow::clear_hospitalization_table()
     for (c = ui->tableWidget_sved_gospital->rowCount()-1; c >= 0; c--)
     {
         ui->tableWidget_sved_gospital->removeRow(c);
+    }
+}
+void MainWindow::clear_invalid_table()
+{
+    int c;
+    ui->tableWidget_invalid_psi->clear();
+    ui->mainToolBar->clear();
+    for (c = ui->tableWidget_invalid_psi->rowCount()-1; c >= 0; c--)
+    {
+        ui->tableWidget_invalid_psi->removeRow(c);
     }
 }
 
@@ -674,6 +688,7 @@ void MainWindow::load_all_info()
     clear_visiting_control_table();
     clear_diagnos_table();
     clear_hospitalization_table();
+    clear_invalid_table();
 
     settings_ui();
     str_find_patient->setText(save_find_string);
@@ -988,6 +1003,86 @@ void MainWindow::load_all_info()
                 ui->tableWidget_sved_gospital->setItem(last_row_hospitalization,3,date_down);
                 ui->tableWidget_sved_gospital->setItem(last_row_hospitalization,4,staff_fio);
              }
+            int last_row_invalid = ui->tableWidget_invalid_psi->rowCount();
+            query.exec("SELECT id, group_inv, priznan_trudosp, from_other, date_peresmotra, srok_ocherednogo_pereosvidet, bs FROM test.invalid_patient WHERE medcard_id="+id);
+            while(query.next())
+            {
+                QString id_value = query.value(0).toString();
+                QString group_inv_value;
+                QString work_yes_value;
+                QString from_other_value;
+                QString pereosved_value;
+                QString date_preview_value = query.value(4).toDate().toString("dd.MM.yyyy");
+                switch (query.value(1).toInt()) {
+                case 0:
+                    group_inv_value="I";
+                    break;
+                case 1:
+                    group_inv_value="II";
+                    break;
+                case 2:
+                    group_inv_value="III";
+                    break;
+                }
+
+                if(query.value(2).toBool())
+                {
+                  work_yes_value ="Да";
+                }
+                else
+                {
+                    work_yes_value ="Нет";
+                }
+                if(query.value(3).toBool())
+                {
+                    from_other_value = "Да";
+                }
+                else
+                {
+                    from_other_value = "Нет";
+                }
+                if(query.value(6).toBool())
+                {
+                    pereosved_value = "Бессрочно";
+                }
+                else
+                {
+                    pereosved_value = query.value(5).toDate().toString("dd.MM.yyyy");
+                }
+                QTableWidgetItem * id = new QTableWidgetItem();
+                QTableWidgetItem * group_inv = new QTableWidgetItem();
+                QTableWidgetItem * work_yes = new QTableWidgetItem();
+                QTableWidgetItem * from_other = new QTableWidgetItem();
+                QTableWidgetItem * pereosved = new QTableWidgetItem();
+                QTableWidgetItem * date_preview = new QTableWidgetItem();
+
+                id->setText(id_value);
+                group_inv->setText(group_inv_value);
+                work_yes->setText(work_yes_value);
+                from_other->setText(from_other_value);
+                pereosved->setText(pereosved_value);
+                date_preview->setText(date_preview_value);
+
+                QFont font_text;
+                font_text.setPointSize(font_size);
+
+                id->setFont(font_text);
+                group_inv->setFont(font_text);
+                work_yes->setFont(font_text);
+                from_other->setFont(font_text);
+                pereosved->setFont(font_text);
+                date_preview->setFont(font_text);
+
+                ui->tableWidget_invalid_psi->insertRow(last_row_invalid);
+
+                ui->tableWidget_invalid_psi->setItem(last_row_invalid,0,id);
+                ui->tableWidget_invalid_psi->setItem(last_row_invalid,1,date_preview);
+                ui->tableWidget_invalid_psi->setItem(last_row_invalid,2,group_inv);
+                ui->tableWidget_invalid_psi->setItem(last_row_invalid,3,pereosved);
+                ui->tableWidget_invalid_psi->setItem(last_row_invalid,4,work_yes);
+                ui->tableWidget_invalid_psi->setItem(last_row_invalid,5,from_other);
+
+            }
         }
         else
         {
@@ -1065,6 +1160,14 @@ void MainWindow::context_menu_hospitalization_table(QPoint pos)
     menu->addAction("Изменить", this, SLOT(edit_hospitalization())); // это можно использовать для прав->setEnabled(false);
     menu->addAction("Удалить", this, SLOT(del_hospitalization()));
     menu->exec(ui->tableWidget_sved_gospital->mapToGlobal(pos));
+}
+void MainWindow::context_menu_invalid_table(QPoint pos)
+{
+    QMenu *menu = new QMenu;
+    menu->addAction("Добавить", this, SLOT(add_invalid()));
+    //menu->addAction("Изменить", this, SLOT(edit_hospitalization())); // это можно использовать для прав->setEnabled(false);
+    menu->addAction("Снять", this, SLOT(del_invalid()));
+    menu->exec(ui->tableWidget_invalid_psi->mapToGlobal(pos));
 }
 
 void MainWindow::add_visit()
@@ -1338,6 +1441,29 @@ void MainWindow::del_hospitalization()
     {
         QMessageBox::warning(this,"Ошибка","Нельзя удалить того чего нет)");
     }
+}
+void MainWindow::add_invalid()
+{
+    Dialog_invalids_patient dialog;
+    int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget->currentRow();
+        QString id = ui->tableWidget->item(cu_row,0)->text();
+        dialog.setParam(0,id,staff_id);
+        if(dialog.exec())
+        {
+            load_all_info();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this,"Ошибка","Чтобы добавить инвалидность нужно сначала выбрать пациента");
+    }
+}
+void MainWindow::del_invalid()
+{
+
 }
 
 void MainWindow::print_medcard()

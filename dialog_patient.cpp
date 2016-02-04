@@ -94,10 +94,22 @@ void Dialog_patient::point_add_birtday(QString text)
 {
     switch (text.count()) {
     case 2:
+        if(text.lastIndexOf(".")!=1)
+        {
         ui->lineEdit_date_birtday->setText(text+".");
+        }
         break;
     case 5:
-        ui->lineEdit_date_birtday->setText(text+".");
+
+        if(text.lastIndexOf(".")!=4)
+        {
+            ui->lineEdit_date_birtday->setText(text+".");
+        }
+            break;
+    case 11:
+        text.replace(10,1,"");
+        qDebug()<<text;
+        ui->lineEdit_date_birtday->setText(text);
         break;
 
     }
@@ -107,10 +119,22 @@ void Dialog_patient::point_add_ds_start(QString text)
 {
     switch (text.count()) {
     case 2:
+        if(text.lastIndexOf(".")!=1)
+        {
         ui->lineEdit_date_start->setText(text+".");
+        }
         break;
     case 5:
-        ui->lineEdit_date_start->setText(text+".");
+
+        if(text.lastIndexOf(".")!=4)
+        {
+            ui->lineEdit_date_start->setText(text+".");
+        }
+            break;
+    case 11:
+        text.replace(10,1,"");
+        qDebug()<<text;
+        ui->lineEdit_date_start->setText(text);
         break;
 
     }
@@ -119,10 +143,22 @@ void Dialog_patient::point_add_ds_stop(QString text)
 {
     switch (text.count()) {
     case 2:
+        if(text.lastIndexOf(".")!=1)
+        {
         ui->lineEdit_date_end->setText(text+".");
+        }
         break;
     case 5:
-        ui->lineEdit_date_end->setText(text+".");
+
+        if(text.lastIndexOf(".")!=4)
+        {
+            ui->lineEdit_date_end->setText(text+".");
+        }
+            break;
+    case 11:
+        text.replace(10,1,"");
+        qDebug()<<text;
+        ui->lineEdit_date_end->setText(text);
         break;
 
     }
@@ -334,7 +370,7 @@ void Dialog_patient::get_data_sql(int id)
         QString id_str;
         id_str.setNum(id);
 
-        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex,address_patient.flat, patient.serial_passport,patient.number_passport,medcard.birthday, address_patient.telefon, medcard.ds_start, medcard.ds_end, medcard.job_place, medcard.post, medcard.why_removed, medcard.family_status, medcard.livelihood, medcard.tutor, medcard.pt, medcard.group_lgot_preparat, medcard.area_id, medcard.serial_snils, medcard.number_snils, medcard.district_id, medcard.id_direct  FROM test.address_patient, test.patient, test.medcard WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = "+id_str);
+        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex, address_patient.flat, patient.serial_passport, patient.number_passport, medcard.birthday, address_patient.telefon, medcard.ds_start, medcard.ds_end, medcard.job_place, medcard.post, medcard.why_removed, medcard.family_status, medcard.livelihood, medcard.tutor, medcard.pt, medcard.group_lgot_preparat, medcard.area_id, medcard.serial_snils, medcard.number_snils, medcard.district_id, medcard.id_direct  FROM test.address_patient, test.patient, test.medcard WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = "+id_str);
         while (query.next())
         {
             QString street_value = query.value(0).toString();
@@ -349,23 +385,21 @@ void Dialog_patient::get_data_sql(int id)
             QString number_passport = query.value(9).toString();
             QString date_birthday = query.value(10).toDate().toString("dd.MM.yyyy");
             QString telefon_value = query.value(11).toString();
-            //QString diagnos_id_value = query.value(12).toString();
-            QString ds_start_value = query.value(13).toDate().toString("dd.MM.yyyy");
-            QString ds_end_value = query.value(14).toDate().toString("dd.MM.yyyy");
-            QString job_place_value = query.value(15).toString();
-            QString post_value = query.value(16).toString();
-            QString why_close_value = query.value(17).toString();
-            QString family_status_value = query.value(18).toString();
-            QString livelihood_value = query.value(19).toString();
-            bool tutor_value = query.value(20).toBool();
-            bool pt_value = query.value(21).toBool();
-            QString group_lgot_preparat_value = query.value(22).toString();
-            QString area_id_value = query.value(23).toString();
-            QString snils_serial_value = query.value(24).toString();
-            QString snils_number_value = query.value(25).toString();
-            QString district_value = query.value(26).toString();
-            QString direct_value = query.value(27).toString();
-
+            QString ds_start_value = query.value(12).toDate().toString("dd.MM.yyyy");
+            QString ds_end_value = query.value(13).toDate().toString("dd.MM.yyyy");
+            QString job_place_value = query.value(14).toString();
+            QString post_value = query.value(15).toString();
+            QString why_close_value = query.value(16).toString();
+            QString family_status_value = query.value(17).toString();
+            QString livelihood_value = query.value(18).toString();
+            bool tutor_value = query.value(19).toBool();
+            bool pt_value = query.value(20).toBool();
+            QString group_lgot_preparat_value = query.value(21).toString();
+            QString area_id_value = query.value(22).toString();
+            QString snils_serial_value = query.value(23).toString();
+            QString snils_number_value = query.value(24).toString();
+            QString district_value = query.value(25).toString();
+            QString direct_value = query.value(26).toString();
 
             if(query.value(14).toString()=="")
             {
@@ -401,6 +435,7 @@ void Dialog_patient::get_data_sql(int id)
             ui->comboBox_area->setCurrentIndex(ui->comboBox_area->findData(area_id_value));
             ui->lineEdit_snils_number->setText(snils_number_value);
             ui->lineEdit_snils_serial->setText(snils_serial_value);
+
             ui->comboBox_area_street->setCurrentIndex(ui->comboBox_area_street->findData(district_value));
             ui->comboBox_direction->setCurrentIndex(ui->comboBox_direction->findData(direct_value));
 

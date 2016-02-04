@@ -269,6 +269,18 @@ void Dialog_add_dynamic_view::send_data()
             Dialog_add_dynamic_view::close();
         }
     }
+    if(ui->radioButton_lp->isChecked())
+    {
+        if(check_data(3))
+        {
+            QMessageBox::warning(this, tr("Ошибка"), "Уже открыта ЛП", QMessageBox::Ok);
+            Dialog_add_dynamic_view::close();
+        }
+        else
+        {
+            query.exec("INSERT INTO test.dynamic_view( medcard_id, on_date, delete_row, staff_add_id, group_disp_view, status) VALUES ( '"+global_id+"', '"+date_apl+"', 'false', '"+global_staff+"', '10', 'false');");
+        }
+    }
 
 Dialog_add_dynamic_view::accept();
 

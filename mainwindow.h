@@ -26,6 +26,7 @@
 #include "dialog_diagnos_patient.h"
 #include "dialog_hospitalization.h"
 #include "dialog_copy_files_to_server.h"
+#include "dialog_invalids_patient.h"
 
 //NoNStokLibrary
 
@@ -70,6 +71,7 @@ public slots:
     void clear_visiting_control_table();
     void clear_diagnos_table();
     void clear_hospitalization_table();
+    void clear_invalid_table();
     void find_patients();
     void load_all_info();
     void context_menu_dynamic_view(QPoint);
@@ -77,6 +79,7 @@ public slots:
     void context_menu_main_table(QPoint);
     void context_menu_diagnos_table(QPoint);
     void context_menu_hospitalization_table(QPoint);
+    void context_menu_invalid_table(QPoint);
     void add_dynamic_view();
     void del_dynamic_view();
     void edit_dynamic_view();
@@ -90,6 +93,8 @@ public slots:
     void add_hospitalization();
     void edit_hospitalization();
     void del_hospitalization();
+    void add_invalid();
+    void del_invalid();
     void gen_report_1();
     void print_medcard();
     void set_status_arhive();
