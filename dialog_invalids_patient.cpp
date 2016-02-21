@@ -33,13 +33,13 @@ void Dialog_invalids_patient::check_state_changes(int state)
 {
     if(state)
     {
-        ui->label_3->hide();
-        ui->lineEdit_date_view->hide();
+        ui->label_4->hide();
+        ui->lineEdit_pereosved->hide();
     }
     else
     {
-        ui->label_3->show();
-        ui->lineEdit_date_view->show();
+        ui->label_4->show();
+        ui->lineEdit_pereosved->show();
     }
 }
 
@@ -55,13 +55,13 @@ void Dialog_invalids_patient::send_data()
     QString from_other_value;
     QString work_yes_value;
     QString date_review_value;
-    QString date_review_value_test;
+    QString date_review_value_test = validate_date(ui->lineEdit_date_view->text());
     QString date_pereosved_value;
     QString date_pereosved_value_test = validate_date(ui->lineEdit_pereosved->text());
 
     if(ui->checkBox_alltime->checkState()==Qt::Unchecked)
     {
-        date_review_value_test = validate_date(ui->lineEdit_date_view->text());
+        date_review_value_test = validate_date(ui->lineEdit_pereosved->text());
     }
     if(date_pereosved_value_test=="exit")
     {
@@ -104,11 +104,11 @@ void Dialog_invalids_patient::send_data()
     {
         if(ui->checkBox_alltime->checkState()==Qt::Checked)
         {
-        query.exec("INSERT INTO test.invalid_patient(medcard_id, staff_add_id, group_inv, priznan_trudosp, from_other, date_peresmotra, srok_ocherednogo_pereosvidet, bs) VALUES ('"+global_id+"', '"+global_staff_id+"', '"+group_invalid_value+"', '"+work_yes_value+"', '"+from_other_value+"', '"+date_review_value+"', NULL, true);");
+        query.exec("INSERT INTO test.invalid_patient(medcard_id, staff_add_id, group_inv, priznan_trudosp, from_other, date_peresmotra, srok_ocherednogo_pereosvidet, bs, delete_row) VALUES ('"+global_id+"', '"+global_staff_id+"', '"+group_invalid_value+"', '"+work_yes_value+"', '"+from_other_value+"', '"+date_review_value+"', NULL, true, false);");
         }
         else if (ui->checkBox_alltime->checkState()==Qt::Unchecked)
         {
-            query.exec("INSERT INTO test.invalid_patient(medcard_id, staff_add_id, group_inv, priznan_trudosp, from_other, date_peresmotra, srok_ocherednogo_pereosvidet, bs) VALUES ('"+global_id+"', '"+global_staff_id+"', '"+group_invalid_value+"', '"+work_yes_value+"', '"+from_other_value+"', '"+date_review_value+"', '"+date_pereosved_value+"', false);");
+            query.exec("INSERT INTO test.invalid_patient(medcard_id, staff_add_id, group_inv, priznan_trudosp, from_other, date_peresmotra, srok_ocherednogo_pereosvidet, bs, delete_row) VALUES ('"+global_id+"', '"+global_staff_id+"', '"+group_invalid_value+"', '"+work_yes_value+"', '"+from_other_value+"', '"+date_review_value+"', '"+date_pereosved_value+"', false, false);");
         }
         Dialog_invalids_patient::accept();
     }

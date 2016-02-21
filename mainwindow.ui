@@ -103,7 +103,7 @@ image: url(:/icon/png/images/sortIndicatorUp.png);
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <property name="documentMode">
        <bool>false</bool>
@@ -310,7 +310,31 @@ border: 0px solid gray;
           <property name="title">
            <string>Инвалидность по психическому заболеванию</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_8">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QPushButton" name="pushButton_add_invalid">
+               <property name="text">
+                <string>Добавить</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
            <item>
             <widget class="QTableWidget" name="tableWidget_invalid_psi">
              <property name="contextMenuPolicy">
@@ -381,7 +405,7 @@ border: 0px solid gray;
         <item>
          <widget class="QTabWidget" name="tabWidget">
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_2">
            <attribute name="title">

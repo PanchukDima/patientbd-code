@@ -14,6 +14,9 @@
 #include <QFileInfo>
 #include <QFileSystemWatcher>
 #include <QInputDialog>
+#include <QHostAddress>
+#include <QNetworkInterface>
+#include <QCloseEvent>
 //
 #include "dialog_patient.h"
 #include "dialog_settings_user.h"
@@ -54,6 +57,9 @@ public:
     QString staff_id;
     int first_start;
     QTimer *timer;
+    QString session_id;
+protected:
+      virtual void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MainWindow *ui;

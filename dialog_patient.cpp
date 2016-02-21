@@ -12,17 +12,20 @@ Dialog_patient::Dialog_patient(QWidget *parent) :
     connect(ui->pushButton_ok,SIGNAL(clicked()),SLOT(apply_send_data_sql()));
     connect(ui->pushButton_cancel,SIGNAL(clicked()),SLOT(button_cancel()));
     connect(ui->pushButton_add_street,SIGNAL(clicked()),SLOT(add_street()));
+
     connect(ui->lineEdit_fname,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_fname()));
     connect(ui->lineEdit_name,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_name()));
-    connect(ui->lineEdit_oname,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_mname()));
+    //connect(ui->lineEdit_oname,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_mname()));
     connect(ui->lineEdit_serial_passport,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_serial_passport()));
     connect(ui->lineEdit_number_passport,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_number_passport()));
-    connect(ui->lineEdit_house,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_house()));
+    //connect(ui->lineEdit_house,SIGNAL(textEdited(QString)),SLOT(set_default_color_lineedit_house()));
+
     connect(ui->tableWidget_text_1,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_1()));
     connect(ui->tableWidget_text_2,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_2()));
     connect(ui->tableWidget_text_3,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_3()));
     connect(ui->tableWidget_text_4,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_4()));
     connect(ui->tableWidget_text_5,SIGNAL(itemSelectionChanged()),SLOT(load_text_table_5()));
+
     connect(ui->pushButton_save_1,SIGNAL(clicked(bool)),SLOT(save_text_1()));
     connect(ui->pushButton_save_2,SIGNAL(clicked(bool)),SLOT(save_text_2()));
     connect(ui->pushButton_save_3,SIGNAL(clicked(bool)),SLOT(save_text_3()));
@@ -42,7 +45,10 @@ Dialog_patient::Dialog_patient(QWidget *parent) :
     connect(ui->lineEdit_date_start,SIGNAL(textChanged(QString)),SLOT(point_add_ds_start(QString)));
     connect(ui->lineEdit_date_birtday,SIGNAL(textChanged(QString)),SLOT(point_add_birtday(QString)));
     connect(ui->lineEdit_date_end,SIGNAL(textChanged(QString)),SLOT(point_add_ds_stop(QString)));
-
+    connect(ui->pushButton_add_history,SIGNAL(clicked(bool)),SLOT(add_histry()));
+    connect(ui->comboBox_area,SIGNAL(currentIndexChanged(int)),SLOT(set_default_color_combox_area()));
+    connect(ui->comboBox_area_street,SIGNAL(currentIndexChanged(int)),SLOT(set_default_color_combox_area_street()));
+    connect(ui->comboBox_sex,SIGNAL(currentIndexChanged(int)),SLOT(set_default_color_combox_sex()));
 
 
 
@@ -57,6 +63,7 @@ Dialog_patient::~Dialog_patient()
 {
     delete ui;
 }
+
 
 QString const Dialog_patient::validate_date(QString date)
 {
@@ -89,9 +96,38 @@ QString const Dialog_patient::validate_date(QString date)
 
     }
 }
+void Dialog_patient::keyPressEvent(QKeyEvent *e)
+{
+
+    if(e->key()==Qt::Key_Return)
+        {
+
+            Dialog_patient DP;
+            this->focusNextChild();
+        }
+    if(e->key()==Qt::Key_Enter)
+        {
+
+            Dialog_patient DP;
+            this->focusNextChild();
+        }
+}
 
 void Dialog_patient::point_add_birtday(QString text)
 {
+
+
+        if(!global_param)
+        {
+    //        QFont font_lineedit;
+    //        font_lineedit.setPointSize(11);
+    //        ui->lineEdit_house->setFont(font_lineedit);
+            ui->lineEdit_date_birtday->setStyleSheet("");
+    //        ui->label_house_status->setPixmap(ok_icon.scaled(24,24,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    //        ui->lineEdit_house->setFrame(true);
+        }
+
+
     switch (text.count()) {
     case 2:
         if(text.lastIndexOf(".")!=1)
@@ -224,18 +260,54 @@ void Dialog_patient::set_default_color_lineedit_number_passport()
         ui->lineEdit_number_passport->setFrame(true);
     }
 }
-void Dialog_patient::set_default_color_lineedit_house()
+//void Dialog_patient::set_default_color_lineedit_house()
+//{
+//    QPixmap ok_icon(":/icon/png/images/ok.png");
+//    if(!global_param)
+//    {
+
+//        QFont font_lineedit;
+//        font_lineedit.setPointSize(11);
+//        ui->lineEdit_house->setFont(font_lineedit);
+//        ui->lineEdit_house->setStyleSheet("border: 2px solid green");
+//        ui->label_house_status->setPixmap(ok_icon.scaled(24,24,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+//        ui->lineEdit_house->setFrame(true);
+//    }
+//}
+void Dialog_patient::set_default_color_combox_area()
 {
-    QPixmap ok_icon(":/icon/png/images/ok.png");
     if(!global_param)
     {
-
-        QFont font_lineedit;
-        font_lineedit.setPointSize(11);
-        ui->lineEdit_house->setFont(font_lineedit);
-        ui->lineEdit_house->setStyleSheet("border: 2px solid green");
-        ui->label_house_status->setPixmap(ok_icon.scaled(24,24,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-        ui->lineEdit_house->setFrame(true);
+//        QFont font_lineedit;
+//        font_lineedit.setPointSize(11);
+//        ui->lineEdit_house->setFont(font_lineedit);
+        ui->comboBox_area->setStyleSheet("");
+//        ui->label_house_status->setPixmap(ok_icon.scaled(24,24,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+//        ui->lineEdit_house->setFrame(true);
+    }
+}
+void Dialog_patient::set_default_color_combox_area_street()
+{
+    if(!global_param)
+    {
+//        QFont font_lineedit;
+//        font_lineedit.setPointSize(11);
+//        ui->lineEdit_house->setFont(font_lineedit);
+        ui->comboBox_area_street->setStyleSheet("");
+//        ui->label_house_status->setPixmap(ok_icon.scaled(24,24,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+//        ui->lineEdit_house->setFrame(true);
+    }
+}
+void Dialog_patient::set_default_color_combox_sex()
+{
+    if(!global_param)
+    {
+//        QFont font_lineedit;
+//        font_lineedit.setPointSize(11);
+//        ui->lineEdit_house->setFont(font_lineedit);
+        ui->comboBox_sex->setStyleSheet("");
+//        ui->label_house_status->setPixmap(ok_icon.scaled(24,24,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+//        ui->lineEdit_house->setFrame(true);
     }
 }
 
@@ -263,6 +335,10 @@ void Dialog_patient::put_all_settings()
         ui->comboBox_sex->addItem("М","true");
         ui->comboBox_area_street->addItem("Выборгский район", "1");
         ui->comboBox_area_street->addItem("Калининский район", "2");
+        ui->comboBox_invalid->addItem("",3);
+        ui->comboBox_invalid->addItem("I",0);
+        ui->comboBox_invalid->addItem("II",1);
+        ui->comboBox_invalid->addItem("III",2);
         ui->lineEdit_date_start->setText(QDate::currentDate().toString("dd.MM.yyyy"));
         ui->lineEdit_date_end->setText(QDate::currentDate().toString("dd.MM.yyyy"));
         ui->lineEdit_date_end->hide();
@@ -283,13 +359,7 @@ void Dialog_patient::put_all_settings()
             //ui->comboBox_diagnosis->addItem(diagnos, id_diagnos);
 
         }
-        query.exec("SELECT family_status.id, family_status.description FROM test.family_status;");
-        while (query.next())
-        {
-            QString id_status = query.value(0).toString();
-            QString description = query.value(1).toString();
-            ui->comboBox_marital_status->addItem(description,id_status);
-        }
+
         query.exec("SELECT why_removed.id, why_removed.description FROM test.why_removed;");
         while (query.next())
         {
@@ -297,13 +367,7 @@ void Dialog_patient::put_all_settings()
             QString description = query.value(1).toString();
             ui->comboBox_why_close->addItem(description,id_status);
         }
-        query.exec("SELECT livelihood.id, livelihood.description FROM test.livelihood;");
-        while(query.next())
-        {
-            QString id_status = query.value(0).toString();
-            QString description = query.value(1).toString();
-            ui->comboBox_source_funds->addItem(description,id_status);
-        }
+
         query.exec("SELECT id, name FROM test.area");
         while (query.next()) {
             QString id_status = query.value(0).toString();
@@ -323,16 +387,24 @@ void Dialog_patient::check_data()
 {
 
 }
-void Dialog_patient::change_state_ds_end(bool state)
+void Dialog_patient::change_state_ds_end(bool state) //событие на изменение галкой состояния
 {
     if(state)
     {
         ui->lineEdit_date_end->show();
+        ui->lineEdit_date_start->hide();
+        ui->label_10->hide();
+        ui->label_11->show();
+        ui->comboBox_direction->hide();
         ui->comboBox_why_close->show();
     }
     else
     {
         ui->lineEdit_date_end->hide();
+        ui->lineEdit_date_start->show();
+        ui->label_10->show();
+        ui->label_11->hide();
+        ui->comboBox_direction->show();
         ui->comboBox_why_close->hide();
     }
 }
@@ -347,6 +419,16 @@ void Dialog_patient::setParam(int param,int id, QString staff_id)
     {
     case 0:
         qDebug()<<"added patient";
+        ui->tableView->hide();
+        ui->pushButton_add_history->hide();
+        ui->comboBox_area->setStyleSheet("border: 3px solid orange");
+        ui->comboBox_area_street->setStyleSheet("border: 3px solid orange");
+        ui->lineEdit_date_birtday->setStyleSheet("border: 3px solid orange");
+        ui->lineEdit_name->setStyleSheet("border: 3px solid orange");
+        ui->lineEdit_fname->setStyleSheet("border: 3px solid orange");
+        ui->lineEdit_number_passport->setStyleSheet("border: 3px solid orange");
+        ui->lineEdit_serial_passport->setStyleSheet("border: 3px solid orange");
+        ui->comboBox_sex->setStyleSheet("border: 3px solid orange");
         break;
     case 1:
         qDebug()<<"edit patient";
@@ -369,8 +451,8 @@ void Dialog_patient::get_data_sql(int id)
         QSqlQuery query;
         QString id_str;
         id_str.setNum(id);
-
-        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex, address_patient.flat, patient.serial_passport, patient.number_passport, medcard.birthday, address_patient.telefon, medcard.ds_start, medcard.ds_end, medcard.job_place, medcard.post, medcard.why_removed, medcard.family_status, medcard.livelihood, medcard.tutor, medcard.pt, medcard.group_lgot_preparat, medcard.area_id, medcard.serial_snils, medcard.number_snils, medcard.district_id, medcard.id_direct  FROM test.address_patient, test.patient, test.medcard WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id = "+id_str);
+        qDebug()<<"operation select";
+        query.exec("SELECT address_patient.street_id, address_patient.building, address_patient.home, patient.fname, patient.name, patient.mname, medcard.sex, address_patient.flat, patient.serial_passport, patient.number_passport, medcard.birthday, address_patient.telefon, medcard.job_place, medcard.tutor, medcard.pt, medcard.group_lgot_preparat, medcard.area_id, medcard.serial_snils, medcard.district_id, medcard.group_inv_obsh, medcard.polis_serial, medcard.polis_number  FROM test.address_patient, test.patient, test.medcard  WHERE medcard.patient_id = patient.id AND medcard.id = address_patient.medcard_id AND medcard.id ="+id_str);
         while (query.next())
         {
             QString street_value = query.value(0).toString();
@@ -385,31 +467,26 @@ void Dialog_patient::get_data_sql(int id)
             QString number_passport = query.value(9).toString();
             QString date_birthday = query.value(10).toDate().toString("dd.MM.yyyy");
             QString telefon_value = query.value(11).toString();
-            QString ds_start_value = query.value(12).toDate().toString("dd.MM.yyyy");
-            QString ds_end_value = query.value(13).toDate().toString("dd.MM.yyyy");
-            QString job_place_value = query.value(14).toString();
-            QString post_value = query.value(15).toString();
-            QString why_close_value = query.value(16).toString();
-            QString family_status_value = query.value(17).toString();
-            QString livelihood_value = query.value(18).toString();
-            bool tutor_value = query.value(19).toBool();
-            bool pt_value = query.value(20).toBool();
-            QString group_lgot_preparat_value = query.value(21).toString();
-            QString area_id_value = query.value(22).toString();
-            QString snils_serial_value = query.value(23).toString();
-            QString snils_number_value = query.value(24).toString();
-            QString district_value = query.value(25).toString();
-            QString direct_value = query.value(26).toString();
+            QString job_place_value = query.value(12).toString();
+            bool tutor_value = query.value(13).toBool();
+            bool pt_value = query.value(14).toBool();
+            QString group_lgot_preparat_value = query.value(15).toString();
+            QString area_id_value = query.value(16).toString();
+            QString snils_serial_value = query.value(17).toString();
+            QString district_value = query.value(18).toString();
+            QString invalid = query.value(19).toString();
+            QString polis_serial_value = query.value(20).toString();
+            QString polis_number_value = query.value(21).toString();
 
-            if(query.value(14).toString()=="")
-            {
-                ui->checkBox_ds_end_state->setCheckState(Qt::Unchecked);
-            }
-            else
-            {
-                ui->checkBox_ds_end_state->setCheckState(Qt::Checked);
-            }
-
+//            if(query.value(13).toString()=="")
+//            {
+//                ui->checkBox_ds_end_state->setCheckState(Qt::Unchecked);
+//            }
+//            else
+//            {
+//                ui->checkBox_ds_end_state->setCheckState(Qt::Checked);
+//            }
+            qDebug()<<street_value<<"|"<<building_value<<"|"<<house_value<<"|"<<fname_value<<"|"<<name_value<<"|"<<mname_value;
             ui->comboBox_street->setCurrentIndex(ui->comboBox_street->findData(street_value));
             ui->lineEdit_korpuse->setText(building_value);
             ui->lineEdit_house->setText(house_value);
@@ -422,28 +499,48 @@ void Dialog_patient::get_data_sql(int id)
             ui->lineEdit_number_passport->setText(number_passport);
             ui->lineEdit_date_birtday->setText(date_birthday);
             ui->lineEdit_telefon->setText(telefon_value);
-            ui->lineEdit_date_start->setText(ds_start_value);
-            ui->lineEdit_date_end->setText(ds_end_value);
             ui->lineEdit_work_or_education->setText(job_place_value);
-            ui->lineEdit_work_post->setText(post_value);
-            ui->comboBox_why_close->setCurrentIndex(ui->comboBox_why_close->findData(why_close_value));
-            ui->comboBox_marital_status->setCurrentIndex(ui->comboBox_marital_status->findData(family_status_value));
-            ui->comboBox_source_funds->setCurrentIndex(ui->comboBox_source_funds->findData(livelihood_value));
             ui->checkBox_custody->setChecked(tutor_value);
             ui->checkBox_pt->setChecked(pt_value);
             ui->lineEdit_group_lgot->setText(group_lgot_preparat_value);
             ui->comboBox_area->setCurrentIndex(ui->comboBox_area->findData(area_id_value));
-            ui->lineEdit_snils_number->setText(snils_number_value);
-            ui->lineEdit_snils_serial->setText(snils_serial_value);
-
+            ui->lineEdit_polis_number->setText(polis_number_value);
+            ui->lineEdit_polis_serial->setText(polis_serial_value);
+            ui->comboBox_invalid->setCurrentIndex(ui->comboBox_invalid->findData(invalid));
             ui->comboBox_area_street->setCurrentIndex(ui->comboBox_area_street->findData(district_value));
-            ui->comboBox_direction->setCurrentIndex(ui->comboBox_direction->findData(direct_value));
+            //ui->comboBox_direction->setCurrentIndex(ui->comboBox_direction->findData(direct_value));
+            ui->lineEdit_snils->setText(snils_serial_value);
 
         }
+        query.clear();
+        table_uchet_history();
  }
 
 
 }
+void Dialog_patient::table_uchet_history()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlRelationalTableModel * model = new QSqlRelationalTableModel();
+    model->setTable("test.uchet");
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    model->setRelation(4, QSqlRelation("test.why_removed", "id", "description"));
+    model->setRelation(6, QSqlRelation("test.direct", "id", "description"));
+    model->setFilter("uchet.medcard_id = "+global_id_str );
+    model->sort(0,Qt::SortOrder());
+    model->setHeaderData(2, Qt::Horizontal, tr("Дата\nпостановки\nна учет"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Дата\nснятия\nс учета"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Причина\nснятия"));
+    model->setHeaderData(6, Qt::Horizontal, tr("Направлен"));
+
+    model->select();
+    ui->tableView->setModel(model);
+    ui->tableView->hideColumn(0);
+    ui->tableView->hideColumn(1);
+    ui->tableView->hideColumn(5);
+    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+}
+
 void Dialog_patient::clear_table_text_1()
 {
     int c;
@@ -953,36 +1050,28 @@ void Dialog_patient::apply_send_data_sql()
         date_birthday=date_birthday_test;
     }
 
-    QString ds_start;
-    QString ds_start_test = validate_date(ui->lineEdit_date_start->text());
 
-    if(ds_start_test=="exit")
-    {
-        return;
-    }
-    else
-    {
-        ds_start=ds_start_test;
-    }
 
     QString telefon_value = ui->lineEdit_telefon->text();
     QString id_patient;
     QString id_medcard;
-
-    QString ds_end;
-    QString why_remove;
     QString job_place_value = ui->lineEdit_work_or_education->text();
-    QString job_post_value = ui->lineEdit_work_post->text();
-    QString family_status_value = ui->comboBox_marital_status->currentData().toString();
-    QString livelihood_value = ui->comboBox_source_funds->currentData().toString();
     QString area_value = ui->comboBox_area->currentData().toString();
     QString tutor_value;
     QString pt_value;
     QString group_lgot_value = ui->lineEdit_group_lgot->text();
-    QString snils_serial_value = ui->lineEdit_snils_serial->text();
-    QString snils_number_value = ui->lineEdit_snils_number->text();
+    QString polis_serial_value = ui->lineEdit_polis_serial->text();
+    QString polis_number_value = ui->lineEdit_polis_number->text();
+    QString snils_serial_value = ui->lineEdit_snils->text();
     QString district_value = ui->comboBox_area_street->currentData().toString();
     QString direct_value = ui->comboBox_direction->currentData().toString();
+    QString group_inv_value = ui->comboBox_invalid->currentData().toString();
+
+    QString ds_end;
+    QString ds_start;
+    QString ds_start_test = validate_date(ui->lineEdit_date_start->text());
+    QString why_remove;
+
     if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
     {
         QString ds_end_test = validate_date(ui->lineEdit_date_end->text());
@@ -1003,6 +1092,16 @@ void Dialog_patient::apply_send_data_sql()
         why_remove="-1";
     }
 
+
+    if(ds_start_test=="exit")
+    {
+        return;
+    }
+    else
+    {
+        ds_start=ds_start_test;
+    }
+
     if(ui->checkBox_custody->checkState()==Qt::Checked)
     {
         tutor_value = "1";
@@ -1021,24 +1120,24 @@ void Dialog_patient::apply_send_data_sql()
     {
         pt_value = "0";
     }
-    //QString diagnos_id = ui->comboBox_diagnosis->currentData().toString();
+
     int control_lineedit=0;
     QPixmap error_pix(":/icon/png/images/Warning.png");
-    if(ui->lineEdit_house->text()=="")
-    {
-        QFont font_lineedit;
-        font_lineedit.setPointSize(11);
-        ui->lineEdit_house->setFont(font_lineedit);
-        ui->lineEdit_house->setStyleSheet("border: 2px solid red");
-        control_lineedit=1;
-    }
-    else
-    {
-        QPalette p = ui->lineEdit_house->palette();
-        p.setColor(QPalette::Base, Qt::white);
-        ui->lineEdit_house->setPalette(p);
-        ui->lineEdit_house->setFrame(true);
-    }
+//    if(ui->lineEdit_house->text()=="")
+//    {
+//        QFont font_lineedit;
+//        font_lineedit.setPointSize(11);
+//        ui->lineEdit_house->setFont(font_lineedit);
+//        ui->lineEdit_house->setStyleSheet("border: 2px solid red");
+//        control_lineedit=1;
+//    }
+//    else
+//    {
+//        QPalette p = ui->lineEdit_house->palette();
+//        p.setColor(QPalette::Base, Qt::white);
+//        ui->lineEdit_house->setPalette(p);
+//        ui->lineEdit_house->setFrame(true);
+//    }
     if(ui->lineEdit_fname->text()=="")
     {
         QFont font_lineedit;
@@ -1071,22 +1170,22 @@ void Dialog_patient::apply_send_data_sql()
         ui->lineEdit_name->setPalette(p);
         ui->lineEdit_name->setFrame(true);
     }
-    if(ui->lineEdit_oname->text()=="")
-    {
-        QFont font_lineedit;
-        font_lineedit.setPointSize(11);
-        ui->lineEdit_oname->setFont(font_lineedit);
-        ui->lineEdit_oname->setStyleSheet("border: 2px solid red");
-        ui->label_mname_icon->setPixmap(error_pix.scaled(24,24,Qt::KeepAspectRatio,Qt::SmoothTransformation));
-        control_lineedit=1;
-    }
-    else
-    {
-        QPalette p = ui->lineEdit_oname->palette();
-        p.setColor(QPalette::Base, Qt::white);
-        ui->lineEdit_oname->setPalette(p);
-        ui->lineEdit_oname->setFrame(true);
-    }
+//    if(ui->lineEdit_oname->text()=="")
+//    {
+//        QFont font_lineedit;
+//        font_lineedit.setPointSize(11);
+//        ui->lineEdit_oname->setFont(font_lineedit);
+//        ui->lineEdit_oname->setStyleSheet("border: 2px solid red");
+//        ui->label_mname_icon->setPixmap(error_pix.scaled(24,24,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+//        control_lineedit=1;
+//    }
+//    else
+//    {
+//        QPalette p = ui->lineEdit_oname->palette();
+//        p.setColor(QPalette::Base, Qt::white);
+//        ui->lineEdit_oname->setPalette(p);
+//        ui->lineEdit_oname->setFrame(true);
+//    }
     if(ui->lineEdit_serial_passport->text()=="")
     {
         QFont font_lineedit;
@@ -1123,25 +1222,28 @@ void Dialog_patient::apply_send_data_sql()
         {
             switch (global_param) {
             case 0: //insert
-                qDebug()<<"INSERT INTO test.patient(fname, name, mname, serial_passport, number_passport, status, staff_add_id) VALUES ('"+fname_value+"', '"+name_value+"', '"+oname_value+"', '"+serial_passport+"', '"+number_passport+"',0, '"+global_staff_id+"') RETURNING id;";
+
                 query.exec("INSERT INTO test.patient(fname, name, mname, serial_passport, number_passport, status, staff_add_id) VALUES ('"+fname_value+"', '"+name_value+"', '"+oname_value+"', '"+serial_passport+"', '"+number_passport+"',0, '"+global_staff_id+"') RETURNING id;");
                 while (query.next())
                 {
                     id_patient = query.value(0).toString();
                 }
-                qDebug()<<"INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor, pt, group_lgot_preparat, area_id, serial_snils, number_snils.district_id , id_direct) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', '"+snils_serial_value+"', '"+snils_number_value+"', "+district_value+" , "+direct_value+" ) RETURNING id;";
-                if(ui->checkBox_ds_end_state->checkState()==Qt::Unchecked)
-                {
-                    query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor, pt, group_lgot_preparat, area_id, serial_snils, number_snils, district_id , id_direct) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"',NULL, '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', '"+snils_serial_value+"', '"+snils_number_value+"', "+district_value+" , "+direct_value+" ) RETURNING id;");
-                }
-                else
-                {
-                    query.exec("INSERT INTO test.medcard(patient_id,sex,staff_add_id, birthday, ds_start, ds_end, job_place,why_removed, post, family_status, livelihood, tutor, pt, group_lgot_preparat, area_id, serial_snils, number_snils, district_id , id_direct) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"','"+ds_start+"','"+ds_end+"', '"+job_place_value+"', '"+why_remove+"', '"+job_post_value+"', '"+family_status_value+"','"+livelihood_value+"', '"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', '"+snils_serial_value+"', '"+snils_number_value+"', "+district_value+" , "+direct_value+" ) RETURNING id;");
-                }
+                qDebug()<<"INSERT INTO test.medcard(patient_id, sex, staff_add_id, birthday, job_place, tutor, pt, group_lgot_preparat, area_id,  district_id , group_inv_obsh, polis_serial, polis_number, serial_snils ) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"', '"+job_place_value+"','"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', "+district_value+" , '"+group_inv_value+"', '"+polis_serial_value+"', '"+polis_number_value+"', '"+snils_serial_value+"'  ) RETURNING id;";
+                query.exec("INSERT INTO test.medcard(patient_id, sex, staff_add_id, birthday, job_place, tutor, pt, group_lgot_preparat, area_id,  district_id , group_inv_obsh, polis_serial, polis_number, serial_snils ) VALUES ('"+id_patient+"','"+sex_value+"', '"+global_staff_id+"', '"+date_birthday+"', '"+job_place_value+"','"+tutor_value+"', '"+pt_value+"', '"+group_lgot_value+"', '"+area_value+"', "+district_value+" , '"+group_inv_value+"', '"+polis_serial_value+"', '"+polis_number_value+"', '"+snils_serial_value+"'  ) RETURNING id;");
                 while (query.next())
                 {
                     id_medcard = query.value(0).toString();
+                }
 
+                if(ui->checkBox_ds_end_state->checkState()==Qt::Unchecked)
+                {
+
+                    query.exec("INSERT INTO test.uchet(staff_add_id, on_uchet, off_uchet, why_removed_id, medcard_id, direct) VALUES ('"+global_staff_id+"', '"+ds_start+"', NULL, '"+why_remove+"', '"+id_medcard+"','"+direct_value+"');");
+                }
+                else if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
+                {
+
+                    query.exec("INSERT INTO test.uchet(staff_add_id, on_uchet, off_uchet, why_removed_id, medcard_id,direct) VALUES ('"+global_staff_id+"', NULL, '"+ds_end+"', '"+why_remove+"', '"+id_medcard+"',NULL);");
                 }
 
                 query.exec("INSERT INTO test.address_patient(medcard_id, street_id, home, building, flat, staff_add_id, telefon) VALUES ('"+id_medcard+"', '"+street_id+"', '"+home+"', '"+building+"', '"+flat+"', '"+global_staff_id+"', '"+telefon_value+"');");
@@ -1160,17 +1262,15 @@ void Dialog_patient::apply_send_data_sql()
 
                 // что за херня снизу?
 
-                if(ui->checkBox_ds_end_state->checkState()==Qt::Unchecked)
-                {
+                query.exec("UPDATE test.medcard SET area_id = '"+area_value+"', sex = "+sex_value+", birthday='"+date_birthday+"', job_place='"+job_place_value+"', tutor='"+tutor_value+"', pt='"+pt_value+"', group_lgot_preparat='"+group_lgot_value+"', serial_snils='"+snils_serial_value+"', polis_number='"+polis_number_value+"', polis_serial = '"+polis_serial_value+"', district_id="+district_value+", group_inv_obsh='"+group_inv_value+"' WHERE id ="+id_str);
+//                if(ui->checkBox_ds_end_state->checkState()==Qt::Unchecked)
+//                {
 
-                    query.exec("UPDATE test.medcard SET area_id = '"+area_value+"', sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end=NULL, job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"', family_status='"+family_status_value+"', livelihood='"+livelihood_value+"', tutor='"+tutor_value+"', pt='"+pt_value+"', group_lgot_preparat='"+group_lgot_value+"', serial_snils='"+snils_serial_value+"', number_snils='"+snils_number_value+"', district_id="+district_value+", id_direct="+direct_value+" WHERE id ="+id_str);
+//                }
+//                else if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
+//                {
 
-                }
-                else if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
-                {
-
-                    query.exec("UPDATE test.medcard SET area_id = '"+area_value+"', sex = "+sex_value+", birthday='"+date_birthday+"',ds_start='"+ds_start+"',ds_end='"+ds_end+"', job_place='"+job_place_value+"', why_removed='"+why_remove+"', post='"+job_post_value+"', family_status='"+family_status_value+"', livelihood='"+livelihood_value+"', tutor='"+tutor_value+"', pt='"+pt_value+"', group_lgot_preparat='"+group_lgot_value+"', serial_snils='"+snils_serial_value+"', number_snils='"+snils_number_value+"', district_id="+district_value+", id_direct="+direct_value+" WHERE id ="+id_str);
-                }
+//                }
 
 
                 while (query.next())
@@ -1218,4 +1318,48 @@ void Dialog_patient::add_street()
         QMessageBox::information(this,"Добавление улицы","Добавлена улица :'"+add_street_text+"'");
     }
     put_all_settings();
+}
+void Dialog_patient::add_histry() // кнопка добавить историю
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    QString ds_end;
+    QString ds_start;
+    QString ds_start_test = validate_date(ui->lineEdit_date_start->text());
+    QString why_remove;
+    QString direct_value = ui->comboBox_direction->currentData().toString();
+    if(ds_start_test=="exit")
+    {
+        return;
+    }
+    else
+    {
+        ds_start=ds_start_test;
+    }
+
+    if(ui->checkBox_ds_end_state->checkState()==Qt::Checked)
+    {
+        QString ds_end_test = validate_date(ui->lineEdit_date_end->text());
+        if(ds_end_test=="exit")
+        {
+            return;
+        }
+        else
+        {
+            ds_end=ds_end_test;
+            why_remove = ui->comboBox_why_close->currentData().toString();
+            query.exec("INSERT INTO test.uchet(staff_add_id, on_uchet, off_uchet, why_removed_id, medcard_id, direct) VALUES ('"+global_staff_id+"', NULL, '"+ds_end+"', '"+why_remove+"', '"+global_id_str+"', '-1');");
+
+        }
+
+
+    }
+    else if(ui->checkBox_ds_end_state->checkState()==Qt::Unchecked)
+    {
+        ds_end = "";
+        why_remove="-1";
+        query.exec("INSERT INTO test.uchet(staff_add_id, on_uchet, off_uchet, why_removed_id, medcard_id, direct) VALUES ('"+global_staff_id+"', '"+ds_start+"', NULL, '-1', '"+global_id_str+"', '"+direct_value+"');");
+
+    }
+    table_uchet_history();
 }

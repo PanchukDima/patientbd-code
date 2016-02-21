@@ -48,7 +48,14 @@ MainWindow::MainWindow(QWidget *parent) :
                     rights_user.append(query.value(9).toBool());
                     rights_user.append(query.value(10).toBool());
 
-        }
+            }
+                    QList<QHostAddress> myIpAddresses = QNetworkInterface::allAddresses();
+
+                    query.exec("INSERT INTO test.session(ip_adres, date_time_start, staff, state) VALUES ( '"+myIpAddresses[0].toString()+"', '"+QDateTime::currentDateTime().toString("MM.dd.yyyy HH:mm:ss")+"', '"+staff_id+"', 1) RETURNING id");
+                    while (query.next())
+                            {
+                            session_id = query.value(0).toString();
+                            }
         }
         settings_user();
         settings_ui();
@@ -77,6 +84,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tableWidget_sved_gospital,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_hospitalization_table(QPoint)));
     connect(ui->pushButton_add_history_patient,SIGNAL(clicked(bool)),SLOT(added_files_patient()));
     connect(ui->tableWidget_invalid_psi,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_invalid_table(QPoint)));
+    connect(ui->pushButton_add_invalid,SIGNAL(clicked(bool)),SLOT(add_invalid()));
+    ui->progressBar->hide();
+
 
 
 }
@@ -85,13 +95,20 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    query.exec("UPDATE test.session SET date_time_stop='"+QDateTime::currentDateTime().toString("MM.dd.yyyy HH:mm:ss")+"', state=0 WHERE id="+session_id);
+    event->accept();
+}
 void MainWindow::thread_new_changes()
 {
     qDebug()<<"thread start";
+
         QThread* thread = new QThread;
         new_changes_thread * changes_new = new new_changes_thread;
+        changes_new->global_session_id = session_id;
         changes_new->moveToThread(thread);
         connect(thread,SIGNAL(started()),changes_new,SLOT(check_new_changes_blanks()));
 
@@ -610,6 +627,7 @@ void MainWindow::find_patients()
             query.exec(sqlquery_count);
             while(query.next())
             {
+                ui->progressBar->show();
                 ui->progressBar->setMaximum(query.value(0).toInt());
             }
             query.exec(sqlquery);
@@ -668,6 +686,7 @@ void MainWindow::find_patients()
                 ui->tableWidget->setItem(last_row,4,number_passport);
 
             }
+            ui->progressBar->hide();
             query.finish();
             query.clear();
 
@@ -1004,7 +1023,7 @@ void MainWindow::load_all_info()
                 ui->tableWidget_sved_gospital->setItem(last_row_hospitalization,4,staff_fio);
              }
             int last_row_invalid = ui->tableWidget_invalid_psi->rowCount();
-            query.exec("SELECT id, group_inv, priznan_trudosp, from_other, date_peresmotra, srok_ocherednogo_pereosvidet, bs FROM test.invalid_patient WHERE medcard_id="+id);
+            query.exec("SELECT id, group_inv, priznan_trudosp, from_other, date_peresmotra, srok_ocherednogo_pereosvidet, bs FROM test.invalid_patient WHERE delete_row = 'false' AND medcard_id="+id);
             while(query.next())
             {
                 QString id_value = query.value(0).toString();
@@ -1463,7 +1482,28 @@ void MainWindow::add_invalid()
 }
 void MainWindow::del_invalid()
 {
+    QSqlDatabase db = QSqlDatabase::database();
+    QSqlQuery query;
+    int selected_tables = ui->tableWidget_invalid_psi->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_invalid_psi->currentRow();
+        QString id = ui->tableWidget_invalid_psi->item(cu_row,0)->text();
+        int ret = QMessageBox::warning(this, tr("Снятие инвалидности!"),
+                                       tr("Вы точно хотите снять ивалидность?"),
+                                       QMessageBox::Yes|QMessageBox::No);
 
+        if(ret==16384)
+        {
+
+            query.exec("UPDATE test.invalid_patient SET delete_row='true' WHERE id= "+id);
+            load_all_info();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this,"Ошибка","Нельзя удалить того чего нет)");
+    }
 }
 
 void MainWindow::print_medcard()

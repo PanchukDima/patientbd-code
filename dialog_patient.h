@@ -6,6 +6,9 @@
 #include <QMessageBox>
 #include <QIcon>
 #include <QInputDialog>
+#include <QSqlRelationalTableModel>
+#include <QKeyEvent>
+
 namespace Ui {
 class Dialog_patient;
 }
@@ -17,6 +20,7 @@ class Dialog_patient : public QDialog
 public:
     explicit Dialog_patient(QWidget *parent = 0);
     ~Dialog_patient();
+
     QSqlDatabase dbsql;
     int global_param;
     int global_id;
@@ -26,8 +30,13 @@ public:
 
 
 
+
 private:
     Ui::Dialog_patient *ui;
+
+protected:
+    void keyPressEvent(QKeyEvent * e);
+
 public slots:
     void setParam(int ,int, QString);
     void get_data_sql(int);
@@ -42,7 +51,10 @@ public slots:
     void set_default_color_lineedit_mname();
     void set_default_color_lineedit_serial_passport();
     void set_default_color_lineedit_number_passport();
-    void set_default_color_lineedit_house();
+    //void set_default_color_lineedit_house();
+    void set_default_color_combox_sex();
+    void set_default_color_combox_area();
+    void set_default_color_combox_area_street();
     void check_data();
     void load_text_table_1();
     void load_text_table_2();
@@ -74,6 +86,10 @@ public slots:
     void point_add_birtday(QString);
     void point_add_ds_start(QString);
     void point_add_ds_stop(QString);
+    void add_histry();
+    void table_uchet_history();
+
+
 
 
 };
