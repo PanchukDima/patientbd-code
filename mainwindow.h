@@ -30,6 +30,7 @@
 #include "dialog_hospitalization.h"
 #include "dialog_copy_files_to_server.h"
 #include "dialog_invalids_patient.h"
+#include "add_invalid_class.h"
 
 //NoNStokLibrary
 
@@ -89,25 +90,33 @@ public slots:
     void add_dynamic_view();
     void del_dynamic_view();
     void edit_dynamic_view();
+
     void add_visit();
     void add_today_visit();
     void edit_visit();
     void del_visit();
+
     void add_diagnos_patient();
+    void add_child_diagnost_patient();
     void edit_diagnos_patient();
     void del_diagnos_patient();
+
     void add_hospitalization();
     void edit_hospitalization();
     void del_hospitalization();
+
     void add_invalid();
     void del_invalid();
+
     void gen_report_1();
     void print_medcard();
     void set_status_arhive();
     void changes_new(QString status);
     void added_files_patient();
 
-
+    void point_add_date_inv_peresm(QString text);
+    void point_add_date_inv_inst(QString text);
+    QString const validate_date(QString);
 
 
     //threads

@@ -23,9 +23,10 @@ void Dialog_add_visits::setParam(int param, QString id,QString staff)
     global_staff=staff;
     switch (param) {
     case 0:
-
+        Dialog_add_visits::setWindowTitle("Добавление посещения");
         break;
     case 1:
+        Dialog_add_visits::setWindowTitle("Изменение посещения");
         loadData();
         break;
     }

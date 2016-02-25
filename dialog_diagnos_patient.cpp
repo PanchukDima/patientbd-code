@@ -57,7 +57,10 @@ void Dialog_diagnos_patient::setParam(int param, QString id, QString staff_id)
         //edit diagnos
         get_data();
         Dialog_diagnos_patient::setWindowTitle("Изменение диагноза");
-
+        break;
+    case 2:
+        //add children diagnos
+        Dialog_diagnos_patient::setWindowTitle("Добавление дополнительного диагноза");
         break;
     }
 }
@@ -102,6 +105,17 @@ void Dialog_diagnos_patient::send_data()
     case 1:
         //update
         query.exec("UPDATE test.diagnos_patient SET  diagnos_id='"+diagnos_id+"', staff_add_id='"+global_staff_id+"', fixing_diagnos_date='"+date_fixing_diagnos+"' WHERE id="+global_id);
+        Dialog_diagnos_patient::accept();
+        break;
+    case 2:
+        QString medcard_id;
+        query.exec("SELECT diagnos_patient.medcard_id FROM test.diagnos_patient WHERE diagnos_patient.id ="+global_id);
+        while(query.next())
+        {
+            medcard_id = query.value(0).toString();
+        }
+        qDebug()<<"INSERT INTO test.diagnos_patient(id_parent, medcard_id, diagnos_id, staff_add_id, fixing_diagnos_date, id_parent) VALUES ('"+medcard_id+"', '"+diagnos_id+"', '"+global_staff_id+"', '"+date_fixing_diagnos+"', '"+global_id+"')";
+        query.exec("INSERT INTO test.diagnos_patient(medcard_id, diagnos_id, staff_add_id, fixing_diagnos_date, id_parent) VALUES ('"+medcard_id+"', '"+diagnos_id+"', '"+global_staff_id+"', '"+date_fixing_diagnos+"', '"+global_id+"')");
         Dialog_diagnos_patient::accept();
         break;
     }

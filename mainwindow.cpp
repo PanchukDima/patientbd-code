@@ -85,6 +85,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_add_history_patient,SIGNAL(clicked(bool)),SLOT(added_files_patient()));
     connect(ui->tableWidget_invalid_psi,SIGNAL(customContextMenuRequested(QPoint)),SLOT(context_menu_invalid_table(QPoint)));
     connect(ui->pushButton_add_invalid,SIGNAL(clicked(bool)),SLOT(add_invalid()));
+    connect(ui->lineEdit_date_inst,SIGNAL(textChanged(QString)),SLOT(point_add_date_inv_inst(QString)));
+    connect(ui->lineEdit_date_pereosved,SIGNAL(textChanged(QString)),SLOT(point_add_date_inv_peresm(QString)));
     ui->progressBar->hide();
 
 
@@ -182,6 +184,7 @@ void MainWindow::settings_ui()
     QTableWidgetItem * name_3_collumn_diagnos_table = new QTableWidgetItem();
     QTableWidgetItem * name_4_collumn_diagnos_table = new QTableWidgetItem();
     QTableWidgetItem * name_5_collumn_diagnos_table = new QTableWidgetItem();
+    QTableWidgetItem * name_6_collumn_diagnos_table = new QTableWidgetItem();
     //Итемы таблицы госпитализация
     QTableWidgetItem * name_1_collumn_gospit = new QTableWidgetItem();
     QTableWidgetItem * name_2_collumn_gospit = new QTableWidgetItem();
@@ -276,11 +279,12 @@ void MainWindow::settings_ui()
     name_2_collumn_control_pos->setText("Назначил:\n");
     name_3_collumn_control_pos->setText("Дата явки:\n");
     //текст заголовка таблицы диагнозы
-    name_1_collumn_diagnos_table->setText("Код по МКБ-10");
-    name_2_collumn_diagnos_table->setText("Наименование\nпо МКБ-10");
-    name_3_collumn_diagnos_table->setText("Дата\nпостановки\nдиагноза");
-    name_4_collumn_diagnos_table->setText("Код врача");
-    name_5_collumn_diagnos_table->setText("ФИО врача");
+    name_1_collumn_diagnos_table->setText("Статус");
+    name_2_collumn_diagnos_table->setText("Код по МКБ-10");
+    name_3_collumn_diagnos_table->setText("Наименование\nпо МКБ-10");
+    name_4_collumn_diagnos_table->setText("Дата\nпостановки\nдиагноза");
+    name_5_collumn_diagnos_table->setText("Код врача");
+    name_6_collumn_diagnos_table->setText("ФИО врача");
     //текст заголовка таблицы госпитализация
     name_1_collumn_gospit->setText("Инициатор\nгоспитализации");
     name_2_collumn_gospit->setText("Дата\nПоступления");
@@ -357,6 +361,7 @@ void MainWindow::settings_ui()
     diagnos_table->setHorizontalHeaderItem(3,name_3_collumn_diagnos_table);
     diagnos_table->setHorizontalHeaderItem(4,name_4_collumn_diagnos_table);
     diagnos_table->setHorizontalHeaderItem(5,name_5_collumn_diagnos_table);
+    diagnos_table->setHorizontalHeaderItem(6,name_6_collumn_diagnos_table);
     //Добавляем итемы на таблицу "Динамика наблюдения"
     gospit_table->setHorizontalHeaderItem(1,name_1_collumn_gospit);
     gospit_table->setHorizontalHeaderItem(2,name_2_collumn_gospit);
@@ -911,8 +916,10 @@ void MainWindow::load_all_info()
 
             }
 
-            query.exec("SELECT diagnos_patient.id, diagnos.name, diagnos.code, diagnos_patient.fixing_diagnos_date, staff.fname, staff.name, staff.mname, staff.code FROM test.diagnos_patient, test.diagnos, test.staff WHERE diagnos_patient.diagnos_id = diagnos.id AND diagnos_patient.staff_add_id = staff.id AND diagnos_patient.medcard_id = "+id);
+            query.exec("SELECT diagnos_patient.id, diagnos.name, diagnos.code, diagnos_patient.fixing_diagnos_date, staff.fname, staff.name, staff.mname, staff.code FROM test.diagnos_patient, test.diagnos, test.staff WHERE diagnos_patient.diagnos_id = diagnos.id AND diagnos_patient.staff_add_id = staff.id AND diagnos_patient.id_parent IS NULL AND diagnos_patient.medcard_id = "+id);
             int last_row_diagnos = ui->tableWidget_diagnos_patient->rowCount();
+            QList <QStringList> all_parent;
+
 
             while (query.next()) {
                 QString id_value = query.value(0).toString();
@@ -922,21 +929,64 @@ void MainWindow::load_all_info()
                 QString doctor_fio_value;
                 doctor_fio_value.append(query.value(4).toString()).append("\n").append(query.value(5).toString()).append("\n").append(query.value(6).toString());
                 QString doctor_code_value = query.value(7).toString();
-                qDebug()<<fixing_diagnos_date_value<<doctor_fio_value;
+                QStringList parent;
+                parent.append(id_value);
+                parent.append(diagnos_name_value);
+                parent.append(diagnos_code_value);
+                parent.append(fixing_diagnos_date_value);
+                parent.append(doctor_fio_value);
+                parent.append(doctor_code_value);
+
+                all_parent.append(parent);
+            }
+            query.exec("SELECT diagnos_patient.id, diagnos_patient.id_parent, diagnos.name, diagnos.code, diagnos_patient.fixing_diagnos_date, staff.fname, staff.name, staff.mname, staff.code FROM test.diagnos_patient, test.diagnos, test.staff WHERE diagnos_patient.diagnos_id = diagnos.id AND diagnos_patient.staff_add_id = staff.id AND diagnos_patient.id_parent IS NOT NULL AND diagnos_patient.medcard_id = "+id);
+            QList <QStringList> all_child;
+
+            while (query.next()) {
+                QString id_value = query.value(0).toString();
+                QString id_parent_value = query.value(1).toString();
+                QString diagnos_name_value = query.value(2).toString();
+                QString diagnos_code_value = query.value(3).toString();
+                QString fixing_diagnos_date_value = query.value(4).toDate().toString("dd.MM.yyyy");
+                QString doctor_fio_value;
+                doctor_fio_value.append(query.value(5).toString()).append("\n").append(query.value(6).toString()).append("\n").append(query.value(7).toString());
+                QString doctor_code_value = query.value(8).toString();
+                QStringList child;
+                child.append(id_value);
+                child.append(id_parent_value);
+                child.append(diagnos_name_value);
+                child.append(diagnos_code_value);
+                child.append(fixing_diagnos_date_value);
+                child.append(doctor_fio_value);
+                child.append(doctor_code_value);
+                all_child.append(child);
+            }
+            qDebug()<<all_parent<<all_child;
+            QString parent_id;
+            int i = 0;
+            int row=0;
+            int j = 0;
+
+            while(i<all_parent.count())
+            {
+                QStringList out = all_parent[i];
+                parent_id = out[0];
 
                 QTableWidgetItem * id = new QTableWidgetItem();
+                QTableWidgetItem * state = new QTableWidgetItem();
                 QTableWidgetItem * diagnos_name = new QTableWidgetItem();
                 QTableWidgetItem * diagnos_code = new QTableWidgetItem();
                 QTableWidgetItem * fixing_diagnos_date = new QTableWidgetItem();
                 QTableWidgetItem * doctor_fio = new QTableWidgetItem();
                 QTableWidgetItem * doctor_code = new QTableWidgetItem();
 
-                id->setText(id_value);
-                diagnos_name->setText(diagnos_name_value);
-                diagnos_code->setText(diagnos_code_value);
-                fixing_diagnos_date->setText(fixing_diagnos_date_value);
-                doctor_fio->setText(doctor_fio_value);
-                doctor_code->setText(doctor_code_value);
+                id->setText(out[0]);
+                state->setText("Основной");
+                diagnos_name->setText(out[1]);
+                diagnos_code->setText(out[2]);
+                fixing_diagnos_date->setText(out[3]);
+                doctor_fio->setText(out[4]);
+                doctor_code->setText(out[5]);
 
                 QFont font_text;
                 font_text.setPointSize(font_size);
@@ -946,17 +996,74 @@ void MainWindow::load_all_info()
                 fixing_diagnos_date->setFont(font_text);
                 doctor_fio->setFont(font_text);
                 doctor_code->setFont(font_text);
+                state->setFont(font_text);
 
-                ui->tableWidget_diagnos_patient->insertRow(last_row_diagnos);
+                ui->tableWidget_diagnos_patient->insertRow(row);
 
-                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,0,id);
-                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,1,diagnos_code);
-                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,2,diagnos_name);
-                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,3,fixing_diagnos_date);
-                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,4,doctor_code);
-                ui->tableWidget_diagnos_patient->setItem(last_row_diagnos,5,doctor_fio);
+                ui->tableWidget_diagnos_patient->setItem(row,0,id);
+                ui->tableWidget_diagnos_patient->setItem(row,1,state);
+                ui->tableWidget_diagnos_patient->setItem(row,2,diagnos_code);
+                ui->tableWidget_diagnos_patient->setItem(row,3,diagnos_name);
+                ui->tableWidget_diagnos_patient->setItem(row,4,fixing_diagnos_date);
+                ui->tableWidget_diagnos_patient->setItem(row,5,doctor_code);
+                ui->tableWidget_diagnos_patient->setItem(row,6,doctor_fio);
+
+
+                row++;
+                i++;
+
+                for(int j=0;j<all_child.count(); j++)
+                {
+                    QStringList out = all_child[j];
+                    qDebug()<<out;
+                    if(parent_id == out[1])
+                    {
+
+                        QTableWidgetItem * id = new QTableWidgetItem();
+                        QTableWidgetItem * state = new QTableWidgetItem();
+                        QTableWidgetItem * diagnos_name = new QTableWidgetItem();
+                        QTableWidgetItem * diagnos_code = new QTableWidgetItem();
+                        QTableWidgetItem * fixing_diagnos_date = new QTableWidgetItem();
+                        QTableWidgetItem * doctor_fio = new QTableWidgetItem();
+                        QTableWidgetItem * doctor_code = new QTableWidgetItem();
+
+                        id->setText(out[0]);
+                        state->setText("");
+                        diagnos_name->setText(out[2]);
+                        diagnos_code->setText(out[3]);
+                        fixing_diagnos_date->setText(out[4]);
+                        doctor_fio->setText(out[5]);
+                        doctor_code->setText(out[6]);
+
+                        QFont font_text;
+                        font_text.setPointSize(font_size);
+
+                        diagnos_name->setFont(font_text);
+                        diagnos_code->setFont(font_text);
+                        fixing_diagnos_date->setFont(font_text);
+                        doctor_fio->setFont(font_text);
+                        doctor_code->setFont(font_text);
+                        state->setFont(font_text);
+
+                        ui->tableWidget_diagnos_patient->insertRow(row);
+
+                        ui->tableWidget_diagnos_patient->setItem(row,0,id);
+                        ui->tableWidget_diagnos_patient->setItem(row,1,state);
+                        ui->tableWidget_diagnos_patient->setItem(row,2,diagnos_code);
+                        ui->tableWidget_diagnos_patient->setItem(row,3,diagnos_name);
+                        ui->tableWidget_diagnos_patient->setItem(row,4,fixing_diagnos_date);
+                        ui->tableWidget_diagnos_patient->setItem(row,5,doctor_code);
+                        ui->tableWidget_diagnos_patient->setItem(row,6,doctor_fio);
+                        row++;
+                    }
+
 
                 }
+
+            }
+
+
+
             query.exec("SELECT\
                        hospitalization.id,\
                        hospitalization.who_wrote,\
@@ -1166,8 +1273,24 @@ void MainWindow::context_menu_main_table(QPoint pos) //Контекстное м
 }
 void MainWindow::context_menu_diagnos_table(QPoint pos)
 {
+    bool status;
+    int selected_tables = ui->tableWidget_diagnos_patient->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_diagnos_patient->currentRow();
+        QString state = ui->tableWidget_diagnos_patient->item(cu_row,1)->text();
+        if(state == "")
+        {
+            status = false;
+        }
+        else
+        {
+            status = true;
+        }
+    }
     QMenu *menu = new QMenu;
     menu->addAction("Добавить", this, SLOT(add_diagnos_patient()));
+    menu->addAction("Добавить дополнительный диагноз", this, SLOT(add_child_diagnost_patient()))->setEnabled(status);
     menu->addAction("Изменить", this, SLOT(edit_diagnos_patient())); // это можно использовать для прав->setEnabled(false);
     menu->addAction("Удалить", this, SLOT(del_diagnos_patient()));
     menu->exec(ui->tableWidget_diagnos_patient->mapToGlobal(pos));
@@ -1183,7 +1306,7 @@ void MainWindow::context_menu_hospitalization_table(QPoint pos)
 void MainWindow::context_menu_invalid_table(QPoint pos)
 {
     QMenu *menu = new QMenu;
-    menu->addAction("Добавить", this, SLOT(add_invalid()));
+    //menu->addAction("Добавить", this, SLOT(add_invalid()));
     //menu->addAction("Изменить", this, SLOT(edit_hospitalization())); // это можно использовать для прав->setEnabled(false);
     menu->addAction("Снять", this, SLOT(del_invalid()));
     menu->exec(ui->tableWidget_invalid_psi->mapToGlobal(pos));
@@ -1375,6 +1498,26 @@ void MainWindow::add_diagnos_patient()
         QMessageBox::warning(this,"Ошибка","Чтобы добавить диагноз нужно сначала выбрать пациента");
     }
 }
+void MainWindow::add_child_diagnost_patient()
+{
+    Dialog_diagnos_patient dialog;
+    int selected_tables = ui->tableWidget_diagnos_patient->selectionModel()->selectedRows().count();
+    if (selected_tables == 1)
+    {
+        int cu_row = ui->tableWidget_diagnos_patient->currentRow();
+        QString id = ui->tableWidget_diagnos_patient->item(cu_row,0)->text();
+        dialog.setParam(2,id,staff_id);
+        if(dialog.exec())
+        {
+            load_all_info();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this,"Ошибка","Чтобы добавить диагноз нужно сначала выбрать пациента");
+    }
+}
+
 void MainWindow::edit_diagnos_patient()
 {
     Dialog_diagnos_patient dialog;
@@ -1463,23 +1606,110 @@ void MainWindow::del_hospitalization()
 }
 void MainWindow::add_invalid()
 {
-    Dialog_invalids_patient dialog;
-    int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
-    if (selected_tables == 1)
+add_invalid_class invalid;
+QString date_inst;
+QString date_pereosved;
+
+
+
+
+invalid.send_data("",staff_id,"","","",true);
+//    Dialog_invalids_patient dialog;
+//    int selected_tables = ui->tableWidget->selectionModel()->selectedRows().count();
+//    if (selected_tables == 1)
+//    {
+//        int cu_row = ui->tableWidget->currentRow();
+//        QString id = ui->tableWidget->item(cu_row,0)->text();
+//        dialog.setParam(0,id,staff_id);
+//        if(dialog.exec())
+//        {
+//            load_all_info();
+//        }
+//    }
+//    else
+//    {
+//        QMessageBox::warning(this,"Ошибка","Чтобы добавить инвалидность нужно сначала выбрать пациента");
+//    }
+}
+QString const MainWindow::validate_date(QString date)
+{
+    QStringList day_list = date.split(".");
+    QString day;
+    QString month;
+    QString year;
+    QDate date_valid;
+    QString date_valid_string;
+    if(day_list.count()==3)
     {
-        int cu_row = ui->tableWidget->currentRow();
-        QString id = ui->tableWidget->item(cu_row,0)->text();
-        dialog.setParam(0,id,staff_id);
-        if(dialog.exec())
+        day = day_list[0];
+        month = day_list[1];
+        year = day_list[2];
+        if(date_valid.setDate(year.toInt(),month.toInt(),day.toInt()))
         {
-            load_all_info();
+            date_valid_string = date_valid.toString("MM.dd.yyyy");
+            return date_valid_string;
+        }
+        else
+        {
+            QMessageBox::information(this,"Не правильная дата","Не правильная дата");
+            return "exit";
         }
     }
     else
     {
-        QMessageBox::warning(this,"Ошибка","Чтобы добавить инвалидность нужно сначала выбрать пациента");
+        QMessageBox::information(this,"Не правильный формат даты","Не правильный формат даты");
+        return "exit";
+
     }
 }
+
+void MainWindow::point_add_date_inv_inst(QString text)
+{
+    switch (text.count()) {
+    case 2:
+        if(text.lastIndexOf(".")!=1)
+        {
+        ui->lineEdit_date_inst->setText(text+".");
+        }
+        break;
+    case 5:
+
+        if(text.lastIndexOf(".")!=4)
+        {
+            ui->lineEdit_date_inst->setText(text+".");
+        }
+            break;
+    case 11:
+        text.replace(10,1,"");
+        ui->lineEdit_date_inst->setText(text);
+        break;
+
+    }
+}
+void MainWindow::point_add_date_inv_peresm(QString text)
+{
+    switch (text.count()) {
+    case 2:
+        if(text.lastIndexOf(".")!=1)
+        {
+        ui->lineEdit_date_pereosved->setText(text+".");
+        }
+        break;
+    case 5:
+
+        if(text.lastIndexOf(".")!=4)
+        {
+            ui->lineEdit_date_pereosved->setText(text+".");
+        }
+            break;
+    case 11:
+        text.replace(10,1,"");
+        ui->lineEdit_date_pereosved->setText(text);
+        break;
+
+    }
+}
+
 void MainWindow::del_invalid()
 {
     QSqlDatabase db = QSqlDatabase::database();

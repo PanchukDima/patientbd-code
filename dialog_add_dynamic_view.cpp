@@ -31,7 +31,7 @@ Dialog_add_dynamic_view::~Dialog_add_dynamic_view()
 }
 void Dialog_add_dynamic_view::setParam(int param, QString id,QString staff)
 {
-
+    Dialog_add_dynamic_view::setWindowTitle("Добавление динамики наблюдения");
     global_param = param;
     global_staff = staff;
     global_id = id;

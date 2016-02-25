@@ -61,8 +61,9 @@ void Dialog_invalids_patient::send_data()
 
     if(ui->checkBox_alltime->checkState()==Qt::Unchecked)
     {
-        date_review_value_test = validate_date(ui->lineEdit_pereosved->text());
+        date_review_value_test = validate_date(ui->lineEdit_date_view->text());
     }
+
     if(date_pereosved_value_test=="exit")
     {
         return;
