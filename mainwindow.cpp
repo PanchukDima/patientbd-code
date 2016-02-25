@@ -121,6 +121,7 @@ void MainWindow::thread_new_changes()
         connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
         thread->start();
+
 }
 
 
